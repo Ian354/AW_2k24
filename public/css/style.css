@@ -2,3 +2,16 @@
     margin: 0px;
     padding: 0px;
 }
+
+#display-flex{
+    display: flex;
+}
+
+#registroSesion{
+    padding: 5px;
+    margin: 5px;
+}
+
+#margin-bottom{
+    margin-bottom: 10px;
+}
