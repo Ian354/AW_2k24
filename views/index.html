@@ -8,18 +8,18 @@
     <title>Eventos UCM</title>
 </head>
 <body>
-     <div class="container border border-black" id="general">
+    <div class="container border border-black" id="general">
         <header class="row justify-content-between boder-bottom navbar">
             <a class="col-1" href="#">
                 <img src="../public/img/escudoUCM.png" alt="Logo de la Universidad Complutense de Madrid" title="Logo UCM" style="width:60%;">
             </a>
             <span class="col-4 align-middle text-center"><h1>Eventos UCM</h1></span>
             <div class="row col-1">
-                <a class="col-6 nav-link" href="#">
+                <a class="col-6 nav-link" href="PerfilUsuario.html">
                     <img src="../public/img/usuario.png" style="width:75%;">
                 </a>
                 <a class="col-6 nav-link" href="#">
-                    <img src="../public/img/ajustes.png" style="width:75%;">
+                    <img src="../public/img/ajustes.png" style="width:75%;" data-bs-toggle="modal" data-bs-target="#botonOpciones">
                 </a>
             </div>
         </header>
@@ -40,6 +40,32 @@
         </div>
     </div>
 
-    
+     <!--------------------------------MODALES--------------------------->
+   
+    <!--Modal de opciones-->
+    <div class="modal fade" id="botonOpciones" tabindex="-1" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
+        <div class="modal-dialog"> <!--Estructura de modal-->
+            <div class="modal-content"><!--Contenido para el header-body-footer del modal-->
+                <div class="modal-header justify-content-between"><!--Header Modal-->
+                    <h5 id="tituloModal">Menú de Accesibilidad</h5>
+                    <button class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"><!--Cuerpo Modal-->
+                    <div class="alert alert-success"></div>
+                </div>
+                <div class="modal-footer"><!--Footer Modal-->
+                    <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
+                        Cerrar
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--------------------------------LIBRERIAS--------------------------->
+
+    <!--Librería con popper incluida, necesaria para los modales-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
