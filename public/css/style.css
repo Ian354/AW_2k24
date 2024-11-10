@@ -4,12 +4,15 @@
 }
 
 #general{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+    margin: 0px;
 
+}
+#general-centered{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 #registroSesion{
     padding: 5px;
     margin: 5px;
