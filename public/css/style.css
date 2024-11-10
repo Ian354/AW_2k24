@@ -3,8 +3,12 @@
     padding: 0px;
 }
 
-#display-flex{
-    display: flex;
+#general{
+    margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 #registroSesion{
@@ -12,6 +16,13 @@
     margin: 5px;
 }
 
+#display-flex-margin-bottom{
+    display: flex;
+    margin-bottom: 10px;
+}
+#display-flex{
+    display: flex;
+}
 #margin-bottom{
     margin-bottom: 10px;
 }
