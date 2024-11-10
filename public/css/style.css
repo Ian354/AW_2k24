@@ -3,9 +3,9 @@
     padding: 0px;
 }
 
+/*Clases para los margenes necesarios*/
 #general{
     margin: 0px;
-
 }
 #general-centered{
     position: absolute;
