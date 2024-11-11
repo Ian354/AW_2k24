@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>Perfil Usuario</title>
+    <title>Mis Eventos Futuros</title>
 </head>
 <body>
     <div class="container border border-black border-bottom" id="general">
@@ -14,30 +14,30 @@
             <a class="col-1 text-center" href="index.html">
                 <img src="../public/img/escudoUCM.png" alt="Logo de la Universidad Complutense de Madrid" title="Logo UCM" style="width:60%;">
             </a>
-           <!--TRIPLE OPCION CENTRAL-->
-           <div class="col-9 row justify-content-center text-center" id="display-flex">
-            <div class="col-4">
-                <a href="PerfilUsuario.html" class="link-dark" style="text-decoration: none;"><b>Información de Perfil</b></a>
-            </div>
-            <div class="nav-item dropdown col-4"><!--Dropdown-->
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <b>Eventos Inscritos</b>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="HistorialEventosInscritos.html">Historial Eventos</a>
-                  <a class="dropdown-item" href="EventosInscritos.html">Eventos Futuros</a>
+            <!--TRIPLE OPCION CENTRAL-->
+            <div class="col-9 row justify-content-center text-center" id="display-flex">
+                <div class="col-4">
+                    <a href="PerfilUsuario.html" class="link-dark" style="text-decoration: none;"><b>Información de Perfil</b></a>
+                </div>
+                <div class="nav-item dropdown col-4"><!--Dropdown-->
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <b>Eventos Inscritos</b>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="HistorialEventosInscritos.html">Historial Eventos</a>
+                      <a class="dropdown-item" href="EventosInscritos.html">Eventos Futuros</a>
+                    </div>
+                </div>
+                <div class="nav-item dropdown col-4"><!--Dropdown Mis eventos-->
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <b>Mis Eventos</b>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="HistorialMisEventos.html">Historial Eventos</a>
+                      <a class="dropdown-item" href="MisEventosFuturos.html">Eventos Futuros</a>
+                    </div>
                 </div>
             </div>
-            <div class="nav-item dropdown col-4"><!--Dropdown Mis eventos-->
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <b>Mis Eventos</b>
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="HistorialMisEventos.html">Historial Eventos</a>
-                  <a class="dropdown-item" href="MisEventosFuturos.html">Eventos Futuros</a>
-                </div>
-            </div>
-        </div>
             <!--OPCIONES Y LINK MOV-->
             <div class="row col-1 text-center">
                 <a class="col-6 nav-link" href="index.html">
@@ -78,4 +78,3 @@
     <!--Librería con popper incluida, necesaria para los modales-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-

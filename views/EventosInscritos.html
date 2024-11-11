@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title>Eventos Inscritos</title>
+    <title>Futuros Eventos</title>
 </head>
 <body>
     <div class="container border border-black border-bottom" id="general">
@@ -19,11 +19,23 @@
                 <div class="col-4">
                     <a href="PerfilUsuario.html" class="link-dark" style="text-decoration: none;"><b>Información de Perfil</b></a>
                 </div>
-                <div class="col-4">
-                    <a href="MisEventos.html" class="link-dark" style="text-decoration: none;"><b>Eventos Inscritos</b></a>
+                <div class="nav-item dropdown col-4"><!--Dropdown-->
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <b>Eventos Inscritos</b>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="HistorialEventosInscritos.html">Historial Eventos</a>
+                      <a class="dropdown-item" href="EventosInscritos.html">Eventos Futuros</a>
+                    </div>
                 </div>
-                <div class="col-4">
-                    <a href="EventosInscritos.html" class="link-dark" style="text-decoration: none;"><b>Mis Eventos</b></a>
+                <div class="nav-item dropdown col-4"><!--Dropdown Mis eventos-->
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <b>Mis Eventos</b>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <a class="dropdown-item" href="HistorialMisEventos.html">Historial Eventos</a>
+                      <a class="dropdown-item" href="MisEventosFuturos.html">Eventos Futuros</a>
+                    </div>
                 </div>
             </div>
             <!--OPCIONES Y LINK MOV-->
