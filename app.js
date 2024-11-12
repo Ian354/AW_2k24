@@ -6,6 +6,12 @@ app.set('view engine', 'ejs'); //Las vistas se manejan con ejs
 
 app.use(express.static('public'));
 
+/* const loginRouter = require('./routes/login'); //router para los logins
+const registerRouter = require('./routes/register'); //router para los registros
+
+app.use('/registro', registerRouter);
+app.use('/login', loginRouter); */
+
 app.get('/registro', (req, res) => {
     res.render('registro'); //acceder al formulario de registro
 })
