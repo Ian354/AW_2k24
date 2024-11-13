@@ -9,8 +9,4 @@ router.get('/historial', (req, res) => {
     res.render('historialMisEventos');
 })
 
-router.get('/futuros', (req, res) => {
-    res.render('misEventosFuturos');
-})
-
 module.exports = router;
