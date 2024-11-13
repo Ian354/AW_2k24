@@ -9,4 +9,3 @@
         **/inscritos**: eventos en los que esta inscrito el usuario  
             **/historial**: muestra el historial de eventos inscritos del usuario  
             **/futuros**: muestra los eventos inscritos que estan en el futuro  
-    
