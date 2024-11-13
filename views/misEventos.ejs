@@ -9,7 +9,7 @@
     <link rel="icon" sizes="192x192" href="/img/icon.png">
 </head>
 <body>
-    <div class="container border border-black border-bottom" id="general">
+    <div class="container border-bottom" id="general">
         <header class="row justify-content-between boder-bottom navbar">
             <!--LOGO-->
             <a class="col-1 text-center" href="/index">
@@ -35,7 +35,7 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" href="/historialMisEventos">Historial Eventos</a>
-                    <a class="dropdown-item" href="/eventosInscritos">Eventos Futuros</a>
+                    <a class="dropdown-item" href="/misEventos">Eventos Futuros</a>
                     </div>
                 </div>
             </div>
@@ -49,6 +49,84 @@
                 </a>
             </div>
         </header>
+        <div class=""><!--container de los eventos-->
+            <div class="row justify-content-between mb-3" id="display-flex-margin-bottom"><!--Fila 1 de 2 eventos-->
+                <div class="col-6 row rounded-3 border border-black border-3">
+                    <div class="col-7 text-center">
+                        <div class="mt-5">
+                            <h1><strong><u>Fútbol</u></strong></h3>
+                        </div>
+                        <div class="">
+                            <h3><b>Lugar: </b>Facultad de informática</h3>
+                        </div>
+                        <div class="">
+                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
+                        </div>
+                        <div class="row justify-content-center mb-3">
+                            <button class="btn btn-dark col-4 mz-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalInfo">Modificar</button>
+                            <button class="btn btn-dark col-4 mx-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalGestionCola">Gestión Cola</button>
+                        </div>
+                    </div>
+                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
+                </div>
+                <div class="col-6 row rounded-3 border border-black border-3">
+                    <div class="col-7 text-center">
+                        <div class="mt-5">
+                            <h1><strong><u>Fútbol</u></strong></h3>
+                        </div>
+                        <div class="">
+                            <h3><b>Lugar: </b>Facultad de informática</h3>
+                        </div>
+                        <div class="">
+                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
+                        </div>
+                        <div class="row justify-content-center mb-3">
+                            <button class="btn btn-dark col-4 mz-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalInfo">Modificar</button>
+                            <button class="btn btn-dark col-4 mx-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalGestionCola">Gestión Cola</button>
+                        </div>
+                    </div>
+                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
+                </div>
+            </div>
+            <div class="row justify-content-between mb-3" id="display-flex-margin-bottom"><!--Fila 1 de 2 eventos-->
+                <div class="col-6 row rounded-3 border border-black border-3">
+                    <div class="col-7 text-center">
+                        <div class="mt-5">
+                            <h1><strong><u>Fútbol</u></strong></h3>
+                        </div>
+                        <div class="">
+                            <h3><b>Lugar: </b>Facultad de informática</h3>
+                        </div>
+                        <div class="">
+                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
+                        </div>
+                        <div class="row justify-content-center mb-3">
+                            <button class="btn btn-dark col-4 mz-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalInfo">Modificar</button>
+                            <button class="btn btn-dark col-4 mx-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalGestionCola">Gestión Cola</button>
+                        </div>
+                    </div>
+                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
+                </div>
+                <div class="col-6 row rounded-3 border border-black border-3">
+                    <div class="col-7 text-center">
+                        <div class="mt-5">
+                            <h1><strong><u>Fútbol</u></strong></h3>
+                        </div>
+                        <div class="">
+                            <h3><b>Lugar: </b>Facultad de informática</h3>
+                        </div>
+                        <div class="">
+                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
+                        </div>
+                        <div class="row justify-content-center mb-3">
+                            <button class="btn btn-dark col-4 mz-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalInfo">Modificar</button>
+                            <button class="btn btn-dark col-4 mx-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalGestionCola">Gestión Cola</button>
+                        </div>
+                    </div>
+                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
+                </div>
+            </div>
+        </div>
     </div>
    
    <!--------------------------------MODALES--------------------------->
@@ -74,6 +152,68 @@
             </div>
         </div>
     </div>
+
+    <!--Modal de Modificar-->
+    <div class="modal fade" id="modalInfo" tabindex="-2" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between">
+                    <h5 id="tituloEvento1">Evento 1</h5>
+                    <button class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"><!--Cuerpo Modal-->
+                    <div class="container border border-black rounded-2" id="general-centered">
+                        <form class="text-center" id="registroSesion">
+                            <div id="margin-bottom">
+                                <b>Titulo</b>
+                                <input type="text" class="form-control" name="titulo" value="Evento 1" required>
+                            </div>
+                            <div id="margin-bottom">
+                                <b>Descripcion</b>
+                                <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3">Descripcion del evento</textarea>
+                            </div>
+                            <div id="margin-bottom">
+                                <b>Fecha</b>
+                                <input type="date" class="form-control" name="facultad" placeholder="01/01/1970" required>
+                            </div>
+                            <div id="margin-bottom">
+                                <b>Hora</b>
+                                <input type="time" class="form-control" name="correo" placeholder="12:15" required>
+                            </div>
+                            <div id="margin-bottom">
+                                <b>Ubicacion</b>
+                                <input type="text" class="form-control" name="contraseña" placeholder="Contraseña" required>
+                            </div>
+                            <div id="margin-bottom">
+                                <b>Capacidad Maxima</b>
+                                <input type="text" class="form-control" name="contraseña" placeholder="Contraseña" required>
+                            </div>
+                            <div id="margin-bottom">
+                                <b>Tipo de evento</b>
+                                <select class="form-control" required>
+                                    <option>Seminario</option>
+                                    <option>Taller</option>
+                                    <option>Conferencia</option>
+                                </select>
+                            </div>
+                            <div>
+                                <input type="submit" value="Editar Evento" class="btn btn-dark mt-3 mb-3 col-12">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer"><!--Footer Modal-->
+                    <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
+                        Cerrar
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal de Gestión de cola-->
+
     <!--------------------------------LIBRERIAS--------------------------->
 
     <!--Librería con popper incluida, necesaria para los modales-->
