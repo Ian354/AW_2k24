@@ -21,31 +21,31 @@ app.get('/login', (req, res) => {
 })
 
 app.get('/eventosInscritos', (req, res) => {
-    res.render('eventosInscritos'); //acceder al formulario de login
+    res.render('eventosInscritos'); //acceder al formulario de eventosInscritos
 })
 
 app.get('/historialEventosInscritos', (req, res) => {
-    res.render('historialEventosInscritos'); //acceder al formulario de login
+    res.render('historialEventosInscritos'); //acceder al formulario de historialEventosInscritos
 })
 
 app.get('/historialMisEventos', (req, res) => {
-    res.render('historialMisEventos'); //acceder al formulario de login
+    res.render('historialMisEventos'); //acceder al formulario de historialMisEventos
 })
 
 app.get('/index', (req, res) => {
-    res.render('index'); //acceder al formulario de login
+    res.render('index'); //acceder al formulario de index
 })
 
 app.get('/misEventos', (req, res) => {
-    res.render('misEventos'); //acceder al formulario de login
+    res.render('misEventos'); //acceder al formulario de misEventos
 })
 
 app.get('/misEventosFuturos', (req, res) => {
-    res.render('misEventosFuturos'); //acceder al formulario de login
+    res.render('misEventosFuturos'); //acceder al formulario de misEventosFuturos
 })
 
 app.get('/perfilUsuario', (req, res) => {
-    res.render('perfilUsuario'); //acceder al formulario de login
+    res.render('perfilUsuario'); //acceder al formulario de perfilUsuario
 })
 
 app.listen(port, () => {
