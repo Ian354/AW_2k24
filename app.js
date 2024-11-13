@@ -20,6 +20,34 @@ app.get('/login', (req, res) => {
     res.render('login'); //acceder al formulario de login
 })
 
+app.get('/eventosInscritos', (req, res) => {
+    res.render('eventosInscritos'); //acceder al formulario de login
+})
+
+app.get('/historialEventosInscritos', (req, res) => {
+    res.render('historialEventosInscritos'); //acceder al formulario de login
+})
+
+app.get('/historialMisEventos', (req, res) => {
+    res.render('historialMisEventos'); //acceder al formulario de login
+})
+
+app.get('/index', (req, res) => {
+    res.render('index'); //acceder al formulario de login
+})
+
+app.get('/misEventos', (req, res) => {
+    res.render('misEventos'); //acceder al formulario de login
+})
+
+app.get('/misEventosFuturos', (req, res) => {
+    res.render('misEventosFuturos'); //acceder al formulario de login
+})
+
+app.get('/perfilUsuario', (req, res) => {
+    res.render('perfilUsuario'); //acceder al formulario de login
+})
+
 app.listen(port, () => {
     console.log(`app is listening at port ${port}`);
 })
