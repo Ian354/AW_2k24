@@ -12,7 +12,12 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
+}
+#general-horizontal{
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
 #registroSesion{
     padding: 5px;
     margin: 5px;
