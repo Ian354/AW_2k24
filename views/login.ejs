@@ -10,7 +10,12 @@
 </head>
 <body>
     <div class="container border border-black rounded-5" id="general-centered">
-        <form action="/login/insert" class="text-center" id="inicioSesion" method="post">
+        <form action="/login" class="text-center" id="inicioSesion" method="post">
+            <% if (typeof error !== 'undefined') { %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
             <div class="mt-2" id="margin-bottom">
                 <b>Correo</b>
                 <% if(typeof correo !== 'undefined') { %>
@@ -22,6 +27,10 @@
             <div id="margin-bottom">
                 <b>Contraseña</b>
                 <input type="password" class="form-control" name="contraseña" placeholder="Contraseña" required>
+            </div>
+            <div class="form-check col-1">
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="recordar">Recuérdame</label>
             </div>
             <div>
                 <button type="submit" class="btn btn-dark mt-3 mb-3 col-12">Iniciar sesión</button>

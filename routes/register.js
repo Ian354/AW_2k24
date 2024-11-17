@@ -23,7 +23,7 @@ router.post("/", validacionCorreo, validacionTelefono, usuarioExiste, (req, res)
 
         console.log(` ${nombre} se ha registrado correctamente.`);
         res.cookie("correo", correo, 86400000);
-        return res.redirect("/");
+        return res.redirect("/login");
     });
 });
 

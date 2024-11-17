@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     res.render('login', { correo: req.cookies.correo }); //acceder al formulario de log in
 })
 
-router.post('/insert', (req, res) => {
+router.post('/', (req, res) => {
     const {correo, contraseña} = req.body;
     const query = "SELECT * FROM Usuarios WHERE correo = ?";
 
@@ -21,16 +21,17 @@ router.post('/insert', (req, res) => {
         if (err) throw err;
 
         if(results.length == 0) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.render('login', { error: `Usuario con correo ${correo} no existe` })
         }
 
         const user = results[0];
 
         if (contraseña !== user.contraseña) {
-            return res.status(401).json({ message: 'Invalid password' });
+            return res.render('login', { error: `Contraseña incorrecta` })
         }
 
         console.log(`usuario ${user.nombre} logeado correctamente`);
+        res.cookie("sesionIniciada", true, 86400000);
         res.redirect('/');
     })
 })
