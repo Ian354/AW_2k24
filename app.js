@@ -1,10 +1,12 @@
 const express = require('express');
 const mysql = require('mysql');
+const cookieParser = require('cookie-parser');
 const port = 3000;
 const app = express(); //app iniciada con express
 
 app.set('view engine', 'ejs'); //Las vistas se manejan con ejs
 app.use(express.urlencoded({ extended : true }))
+app.use(cookieParser());
 
 app.use(express.static('public'));
 
@@ -25,6 +27,8 @@ app.use('/usuario', usuarioRouter);
 
 
 app.get('/', (req, res) => {
+    if(typeof req.cookies.correo === 'undefined')
+        res.redirect('/registro');
     res.render('index'); //acceder al formulario de login
 })
 

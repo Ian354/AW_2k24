@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
     res.render('registro'); //acceder al formulario de registro
 })
 
-router.post("/", validacionCorreo, validacionTelefono, (req, res) => {
+router.post("/", validacionCorreo, validacionTelefono, usuarioExiste, (req, res) => {
     const {nombre, telefono, facultad, correo, contraseña} = req.body;
     if(!telefono) telefono = 0; //si no hay telefono definido se pone a 0
 
@@ -21,7 +21,8 @@ router.post("/", validacionCorreo, validacionTelefono, (req, res) => {
     pool.query(query, [nombre, telefono, facultad, correo, contraseña], (err) => {
         if (err) throw err;
 
-        console.log(` ${nombre}, se ha registrado correctamente.`);
+        console.log(` ${nombre} se ha registrado correctamente.`);
+        res.cookie("correo", correo, 86400000);
         return res.redirect("/");
     });
 });
@@ -57,6 +58,23 @@ function validacionCorreo(req, res, next) {
         });
     }
     next();
+}
+
+function usuarioExiste(req, res, next) {
+    const { correo } = req.body;
+    const query = "SELECT * FROM Usuarios WHERE correo = ?";
+
+    pool.query(query, [correo], (err, results) => {
+        if (err) throw err;
+
+        if (results.length > 0) {
+            return res.render("registro", {
+                error: `Usuario con correo ${correo} ya existe`,
+                formData: req.body
+            });
+        }
+        next();
+    })
 }
 
 module.exports = router;

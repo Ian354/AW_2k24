@@ -10,7 +10,7 @@ const pool= mysql.createPool({
 });
 
 router.get('/', (req, res) => {
-    res.render('login'); //acceder al formulario de log in
+    res.render('login', { correo: req.cookies.correo }); //acceder al formulario de log in
 })
 
 router.post('/insert', (req, res) => {

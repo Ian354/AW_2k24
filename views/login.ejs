@@ -13,7 +13,11 @@
         <form action="/login/insert" class="text-center" id="inicioSesion" method="post">
             <div class="mt-2" id="margin-bottom">
                 <b>Correo</b>
-                <input type="email" class="form-control" name="correo" placeholder="Correo Electrónico" required>
+                <% if(typeof correo !== 'undefined') { %>
+                    <input type="email" class="form-control" name="correo" value= <%= correo %> required>
+                <% } else { %>
+                    <input type="email" class="form-control" name="correo" placeholder="Correo Electrónico" required>
+                <% } %>
             </div>
             <div id="margin-bottom">
                 <b>Contraseña</b>
