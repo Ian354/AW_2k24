@@ -11,7 +11,12 @@
 <body>
     <div class="row justify-content-between">
         <div class="col-6 container border border-black rounded-5" id="general-centered">
-            <form action="/registro/insert" class="text-center" id="registroSesion" method="post">
+            <form action="/registro" class="text-center" id="registroSesion" method="post">
+                <% if (typeof error !== 'undefined') { %>
+                    <div class="alert alert-danger" role="alert">
+                        <%= error %>
+                    </div>
+                <% } %>
                 <div id="margin-bottom">
                     <b>Nombre</b>
                     <input type="text" class="form-control" name="nombre" placeholder="Nombre" required>
@@ -22,7 +27,13 @@
                 </div>
                 <div id="margin-bottom">
                     <b>Facultad</b>
-                    <input type="text" class="form-control" name="facultad" placeholder="Facultad de Estudio" required>
+                    <select type="text" class="form-select" name="facultad" required>
+                        <option selected>Facultad</option>
+                        <option value="informatica">Informática</option>
+                        <option value="biologia">Biología</option>
+                        <option value="fisica">Física</option>
+                        <option value="matematicas">Matemáticas</option>
+                    </select>
                 </div>
                 <div id="margin-bottom">
                     <b>Correo</b>
