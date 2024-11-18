@@ -20,17 +20,12 @@ const pool= mysql.createPool({
 const loginRouter = require('./routes/login'); //router para los logins
 const registerRouter = require('./routes/register'); //router para los registros
 const usuarioRouter = require('./routes/usuario') // router para el perfil de usuario
+const indexRouter = require('./routes/index'); //router para el index
 
 app.use('/registro', registerRouter);
 app.use('/login', loginRouter);
 app.use('/usuario', usuarioRouter);
-
-
-app.get('/', (req, res) => {
-    if(typeof req.cookies.sesionIniciada === 'undefined')
-        res.redirect('/registro');
-    res.render('index'); //acceder al formulario de login
-})
+app.use('/', indexRouter);
 
 app.listen(port, () => {
     console.log(`app is listening at port ${port}`);

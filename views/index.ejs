@@ -29,6 +29,37 @@
 
         <!-- Acordeon de opciones-->
         <div class="accordion mb-3">
+            <% for(let i = 0; i < eventos.length; i++) { %>
+            <% const evento = eventos[i] %>
+                <div class="accordion-item">
+                    <h2 class="accordion-header"> 
+                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                        <%= evento.titulo %>
+                      </button>
+                    </h2>
+                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
+                      <div class="accordion-body"><!--Contenido del la seccion-->
+                          <div class="row justify-content-start">
+                              <div class="row col-1">
+                                  <a class="col-6 nav-link" href="#">
+                                      <img src="/img/masInfo.png" style="width: 75%;" data-bs-toggle="modal" data-bs-target="#modalInfo">
+                                  </a>
+                              </div>
+                          </div>
+                          <div class="row">
+                              <div class="col-6 text-center">
+                                  <div>
+                                      <p><%= evento.descripcion %></p>
+                                  </div>
+                                  <button class="btn btn-dark" id="evento1" data-bs-toggle="modal" data-bs-target="#modalEvento1">Registrarme</button>
+                              </div>
+                              <img class="img-fluid col-6" src="/img/futbol.jpeg">
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+            <% } %>
+
             <div class="accordion-item">
               <h2 class="accordion-header"> 
                 <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
@@ -156,45 +187,43 @@
                     </button>
                 </div>
                 <div class="modal-body"><!--Cuerpo Modal-->
-                    <div class="container border border-black rounded-2" id="general-centered">
-                        <form class="text-center" id="registroSesion">
-                            <div id="margin-bottom">
-                                <b>Titulo</b>
-                                <input type="text" class="form-control" name="titulo" value="Evento 1" required>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Descripcion</b>
-                                <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3">Descripcion del evento</textarea>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Fecha</b>
-                                <input type="date" class="form-control" name="facultad" placeholder="01/01/1970" required>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Hora</b>
-                                <input type="time" class="form-control" name="correo" placeholder="12:15" required>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Ubicacion</b>
-                                <input type="text" class="form-control" name="contraseña" placeholder="Contraseña" required>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Capacidad Maxima</b>
-                                <input type="text" class="form-control" name="contraseña" placeholder="Contraseña" required>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Tipo de evento</b>
-                                <select class="form-control" required>
-                                    <option>Seminario</option>
-                                    <option>Taller</option>
-                                    <option>Conferencia</option>
-                                </select>
-                            </div>
-                            <div>
-                                <input type="submit" value="Editar Evento" class="btn btn-dark mt-3 mb-3 col-12">
-                            </div>
-                        </form>
-                    </div>
+                    <form class="text-center" id="registroSesion">
+                        <div id="margin-bottom">
+                            <b>Titulo</b>
+                            <input type="text" class="form-control" name="titulo" value="Evento 1" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Descripcion</b>
+                            <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3">Descripcion del evento</textarea>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Fecha</b>
+                            <input type="date" class="form-control" name="facultad" placeholder="01/01/1970" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Hora</b>
+                            <input type="time" class="form-control" name="correo" placeholder="12:15" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Ubicacion</b>
+                            <input type="text" class="form-control" name="contraseña" placeholder="Contraseña" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Capacidad Maxima</b>
+                            <input type="text" class="form-control" name="contraseña" placeholder="Contraseña" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Tipo de evento</b>
+                            <select class="form-control" required>
+                                <option>Seminario</option>
+                                <option>Taller</option>
+                                <option>Conferencia</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input type="submit" value="Editar Evento" class="btn btn-dark mt-3 mb-3 col-12">
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer"><!--Footer Modal-->
                     <div class="btn btn-dark" type="button" data-bs-dismiss="modal">

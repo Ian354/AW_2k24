@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 18, 2024 at 04:17 PM
+-- Generation Time: Nov 18, 2024 at 06:44 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,23 @@ SET time_zone = "+00:00";
 --
 -- Database: `AW_24`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Eventos`
+--
+
+CREATE TABLE `Eventos` (
+  `id` int(11) NOT NULL,
+  `organizador` int(11) NOT NULL,
+  `titulo` varchar(100) NOT NULL,
+  `descripcion` text NOT NULL,
+  `fecha` date NOT NULL,
+  `hora` time NOT NULL,
+  `ubicacion` varchar(100) NOT NULL,
+  `capacidad` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -49,6 +66,13 @@ INSERT INTO `Usuarios` (`ID`, `nombre`, `correo`, `telefono`, `facultad`, `contr
 --
 
 --
+-- Indexes for table `Eventos`
+--
+ALTER TABLE `Eventos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_organizador_usuario` (`organizador`);
+
+--
 -- Indexes for table `Usuarios`
 --
 ALTER TABLE `Usuarios`
@@ -59,10 +83,26 @@ ALTER TABLE `Usuarios`
 --
 
 --
+-- AUTO_INCREMENT for table `Eventos`
+--
+ALTER TABLE `Eventos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `Usuarios`
 --
 ALTER TABLE `Usuarios`
   MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Eventos`
+--
+ALTER TABLE `Eventos`
+  ADD CONSTRAINT `fk_organizador_usuario` FOREIGN KEY (`organizador`) REFERENCES `Usuarios` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
