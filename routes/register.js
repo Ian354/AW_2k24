@@ -10,6 +10,7 @@ const pool= mysql.createPool({
 });
 
 router.get('/', (req, res) => {
+    console.log(req.cookies.sesionIniciada);
     res.render('registro'); //acceder al formulario de registro
 })
 

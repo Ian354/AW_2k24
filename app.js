@@ -27,7 +27,7 @@ app.use('/usuario', usuarioRouter);
 
 
 app.get('/', (req, res) => {
-    if(typeof req.cookies.correo === 'undefined')
+    if(typeof req.cookies.sesionIniciada === 'undefined')
         res.redirect('/registro');
     res.render('index'); //acceder al formulario de login
 })
