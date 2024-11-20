@@ -9,18 +9,18 @@ const pool= mysql.createPool({
     database: "AW_24"
 });
 
-router.get('/', (req, res) => {
-    if(typeof req.cookies.sesionIniciada === 'undefined')
+router.get('/', (req, res) => {//Cuando accede al index
+    if(typeof req.cookies.sesionIniciada === 'undefined'){
         res.redirect('/registro');
-
+    }
     const query = `SELECT * FROM Eventos 
     WHERE fecha > CURDATE()
     OR (fecha = CURDATE() AND hora > CURTIME())`;
 
     pool.query(query, (err, results) => {
-        if (err) throw err;
+        if (err) throw err;//mandar error si falla la pagina
 
-        res.render("index", { eventos: results });
+        res.render("index", { eventos: results });//renderiza index y pasale el objeto eventos
     })
 })
 
