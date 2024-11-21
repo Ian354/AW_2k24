@@ -29,67 +29,38 @@
 
         <!-- Acordeon de opciones-->
         <div class="accordion mb-3">
-            <% let i = 0; %>
-            <% for(; i < eventos.length; i++) { %>
+            <% for(let i = 0; i < eventos.length; i++) { %>
             <% const evento = eventos[i] %>
-            <% const modalEvento = "#modalEvento" + i; %>
-                <div class="accordion-item">
-                    <h2 class="accordion-header"> 
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                        <%= evento.titulo %>
-                      </button>
-                    </h2>
-                    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-                      <div class="accordion-body"><!--Contenido del la seccion-->
-                          <div class="row justify-content-start">
-                              <div class="row col-1">
-                                  <a class="col-6 nav-link" href="#">
-                                      <img src="/img/masInfo.png" style="width: 75%;" data-bs-toggle="modal" data-bs-target="#modalInfo">
-                                  </a>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-6 text-center">
-                                  <div>
-                                      <p><%= evento.descripcion %></p>
-                                  </div>
-                                  <button class="btn btn-dark" id="evento1" data-bs-toggle="modal" data-bs-target="modalEvento<%= i %>">Registrarme</button>
-                              </div>
-                              <img class="img-fluid col-6" src="/img/futbol.jpeg">
-                          </div>
-                      </div>
-                    </div>
-                  </div>
-            <% } %>
-
             <div class="accordion-item">
-              <h2 class="accordion-header"> 
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                  Evento 1
-                </button>
-              </h2>
-              <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show">
-                <div class="accordion-body"><!--Contenido del la seccion-->
-                    <div class="row justify-content-start">
-                        <div class="row col-1">
-                            <a class="col-6 nav-link" href="#">
-                                <img src="/img/masInfo.png" style="width: 75%;" data-bs-toggle="modal" data-bs-target="#modalInfo">
-                            </a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-6 text-center">
-                            <div>
-                                <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                <h2 class="accordion-header"> 
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse<%= i %>" aria-expanded="false" aria-controls="panelsStayOpen-collapse<%= i %>">
+                        <%= evento.titulo %>
+                    </button>
+                </h2>
+                <div id="panelsStayOpen-collapse<%= i %>" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                        <!-- Contenido de la sección -->
+                        <div class="row justify-content-start">
+                            <div class="row col-1">
+                                <a class="col-6 nav-link" href="#">
+                                    <img src="/img/masInfo.png" style="width: 75%;" data-bs-toggle="modal" data-bs-target="#modalInfo<%= i %>">
+                                </a>
                             </div>
-                            <button class="btn btn-dark" id="evento1" data-bs-toggle="modal" data-bs-target="#modalEvento1">Registrarme</button>
                         </div>
-                        <img class="img-fluid col-6" src="/img/futbol.jpeg">
+                        <div class="row">
+                            <div class="col-6 text-center">
+                                <div>
+                                    <%= evento.descripcion %>
+                                </div>
+                                <button class="btn btn-dark" id="evento<%= i %>" data-bs-toggle="modal" data-bs-target="#modalEvento<%= i %>">Registrarme</button>
+                            </div>
+                            <img class="img-fluid col-6" src="/img/futbol.jpeg">
+                        </div>
                     </div>
                 </div>
-              </div>
             </div>
-          </div>
+            <% } %>
+        </div>        
     </div>
 
      <!--------------------------------MODALES--------------------------->
@@ -116,71 +87,40 @@
         </div>
     </div>
 
-    <!--Modal de registro-->
-    <div class="modal fade" id="modalEvento1" tabindex="-2" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
+    <% for(let i = 0; i < eventos.length; i++) { %>
+    <% const evento = eventos[i] %>
+     <!--Modal de Modificar-->
+     <div class="modal fade" id="modalInfo<%= i %>" tabindex="-1" role="dialog" aria-labelledby="tituloModal<%= i %>" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header justify-content-between">
-                    <h5 id="tituloEvento">Evento 1</h5>
-                    <button class="close" data-bs-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body"><!--Cuerpo Modal-->
-                    Felicidades! Estas apuntado!
-                </div>
-                <div class="modal-footer"><!--Footer Modal-->
-                    <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
-                        Cerrar
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--Modal de Modificar-->
-    <div class="modal fade" id="modalInfo" tabindex="-2" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header justify-content-between">
-                    <h5 id="tituloEvento1">Evento 1</h5>
-                    <button class="close" data-bs-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 class="modal-title" id="tituloEvento<%= i %>"><%= evento.titulo %></h5>
                 </div>
                 <div class="modal-body"><!--Cuerpo Modal-->
                     <form class="text-center" id="registroSesion">
                         <div id="margin-bottom">
                             <b>Titulo</b>
-                            <input type="text" class="form-control" name="titulo" value="Evento 1" required>
+                            <input type="text" class="form-control" name="titulo" value="<%= evento.titulo %>" required>
                         </div>
                         <div id="margin-bottom">
                             <b>Descripcion</b>
-                            <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3">Descripcion del evento</textarea>
+                            <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3"><%= evento.descripcion %></textarea>
                         </div>
                         <div id="margin-bottom">
                             <b>Fecha</b>
-                            <input type="date" class="form-control" name="facultad" placeholder="01/01/1970" required>
+                            <input type="date" class="form-control" name="facultad" value="<%= evento.fecha %>" required>
                         </div>
                         <div id="margin-bottom">
                             <b>Hora</b>
-                            <input type="time" class="form-control" name="correo" placeholder="12:15" required>
+                            <input type="time" class="form-control" name="correo" value="<%= evento.hora %>" required>
                         </div>
                         <div id="margin-bottom">
                             <b>Ubicacion</b>
-                            <input type="text" class="form-control" name="contraseña" placeholder="Contraseña" required>
+                            <input type="text" class="form-control" name="ubicacion" value="<%= evento.ubicacion %>" required>
                         </div>
                         <div id="margin-bottom">
                             <b>Capacidad Maxima</b>
-                            <input type="text" class="form-control" name="contraseña" placeholder="Contraseña" required>
-                        </div>
-                        <div id="margin-bottom">
-                            <b>Tipo de evento</b>
-                            <select class="form-control" required>
-                                <option>Seminario</option>
-                                <option>Taller</option>
-                                <option>Conferencia</option>
-                            </select>
+                            <input type="text" class="form-control" name="capacidad" placeholder="<%= evento.capacidad %>" required>
                         </div>
                         <div>
                             <input type="submit" value="Editar Evento" class="btn btn-dark mt-3 mb-3 col-12">
@@ -195,6 +135,26 @@
             </div>
         </div>
     </div>
+
+    <!--Modal de registro-->
+    <div class="modal fade" id="modalEvento<%= i %>" tabindex="-1" role="dialog" aria-labelledby="tituloModal<%= i %>" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between">
+                    <h5 class="modal-title" id="tituloEvento<%= i %>"><%= evento.titulo %></h5>
+                </div>
+                <div class="modal-body"><!--Cuerpo Modal-->
+                    Felicidades! Estas apuntado al evento: <%= evento.titulo %>
+                </div>
+                <div class="modal-footer"><!--Footer Modal-->
+                    <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
+                        Cerrar
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
     <!--------------------------------LIBRERIAS--------------------------->
 
     <!--Librería con popper incluida, necesaria para los modales-->

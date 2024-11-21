@@ -24,16 +24,4 @@ router.get('/', (req, res) => {//Cuando accede al index
     })
 })
 
-function getEventos(req, res, next) {
-    const query = `SELECT * FROM Eventos 
-    WHERE fecha > CURDATE()
-    OR (fecha = CURDATE() AND hora > CURTIME())`;
-
-    pool.query(query, (err, results) => {
-        if (err) throw err;
-
-
-    })
-}
-
 module.exports = router;
