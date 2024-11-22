@@ -1,12 +1,24 @@
 const express = require('express');
 const mysql = require('mysql');
 const cookieParser = require('cookie-parser');
+const session = require('express-session'); // Importar express-session
 const port = 3000;
+
 const app = express(); //app iniciada con express
 
 app.set('view engine', 'ejs'); //Las vistas se manejan con ejs
 app.use(express.urlencoded({ extended : true }))
 app.use(cookieParser());
+
+// Configuración de sesiones
+app.use(
+    session({
+        secret: 'aw_2024_alex_ian', // clave segura para las cookies
+        resave: false,
+        saveUninitialized: false,
+        cookie: { secure: false }, // False porque no usamos HTTPS
+    })
+);
 
 app.use(express.static('public'));
 
