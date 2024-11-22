@@ -51,8 +51,8 @@
                 </div>
             </header>
         </div>
-                    <!--Cuerpo del HTML-->
-
+        
+        <!--Cuerpo del HTML-->
                     
         <div class="col-8 justify-content-between border border-black rounded-5 border-3 p-3" id="general-centered">
             <div class="row justify-content-center">
@@ -62,13 +62,14 @@
             </div>
             
             <div class="col-6 container rounded-5 mb-4">
-                <h3><b>Nombre: <%// = user.descripcion %></b></h3>
-                <h3><b>Correo: </b></h3>
-                <h3><b>Teléfono: </b></h3>
-                <h3><b>Facultad: </b></h3>
+               <% const user = users[0]%> 
+                <h3><b>Nombre: </b><%= user.nombre %></h3>
+                <h3><b>Correo: </b><%= user.correo %></h3>
+                <h3><b>Teléfono: </b><%= user.telefono %></h3>
+                <h3><b>Facultad: </b><%= user.facultad %></h3>
             </div>
             <div class="row justify-content-center mb-3 mt-3">
-                <button class="btn btn-dark col-4 mz-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalInfo">Modificar</button>
+                <button class="btn btn-dark col-4 mz-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalModificar">Modificar</button>
             </div>
         </div>
     </div>
@@ -98,7 +99,7 @@
     </div>
 
     <!--Modal de Modificar-->
-    <div class="modal fade" id="modalInfo" tabindex="-2" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
+    <div class="modal fade" id="modalModificar" tabindex="-2" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header justify-content-between">
@@ -108,23 +109,22 @@
                     </button>
                 </div>
                 <div class="modal-body"><!--Cuerpo Modal-->
-                    <form class="text-center" id="registroSesion">
+                    <form class="text-center" id="registroSesion" method="post">
                         <div id="margin-bottom">
                             <b>Titulo</b>
-                            <input type="text" class="form-control" name="nombre" value="Nombre" required>
+                            <input type="text" class="form-control" name="nombre" value="<%= user.nombre %>" required>
                         </div>
                         <div id="margin-bottom">
                             <b>Correo</b>
-                            <input type="text" class="form-control" name="correo" value="Correo" required>
+                            <input type="text" class="form-control" name="correo" value="<%= user.correo%>" required>
                         </div>
                         <div id="margin-bottom">
                             <b>Teléfono</b>
-                            <input type="tel" class="form-control" name="telefono" value="Teléfono" required>
+                            <input type="tel" class="form-control" name="telefono" value="<%= user.telefono %>" required>
                         </div>
                         <div id="margin-bottom">
                             <b>Facultad</b>
-                            <select type="text" class="form-select" name="facultad" required>
-                                <option selected>Facultad</option>
+                            <select type="text" class="form-select" name="facultad" value="<%= user.facultad %>" required>
                                 <option value="informatica">Informática</option>
                                 <option value="biologia">Biología</option>
                                 <option value="fisica">Física</option>

@@ -15,25 +15,43 @@ const misEventosRouter = require('./misEventos'); // router para misEventos
 router.use('/inscritos', eventosInscritosRouter);
 router.use('/eventos', misEventosRouter);
 
-router.get('/', (req, res) => {
-    res.render('perfilUsuario');
-})
 
 // Ruta para mostrar el perfil del usuario
 router.get('/', (req, res) => {
-    // const userId = req. 
-    const query = `SELECT * FROM Eventos 
-    WHERE fecha > CURDATE()
-    OR (fecha = CURDATE() AND hora > CURTIME())`;   
-    pool.query(query,  (err, results) => {
+    const userId = req.session.userId;
+
+    const query = `SELECT * FROM usuarios WHERE id = ?`;
+  
+    pool.query(query, [userId], (err, results) => {
         if (err) {
             throw err;
         }
 
+        if(results.length === 0){
+            return res.status(404).send("Usuario no encontrado, inicia sesion");
+        }
+
         // Renderizar la vista de perfil pasando los datos del usuario
         res.render('perfilUsuario', {
-            user:results
+            users: results
         });
+    });
+});
+
+router.post("/", (req, res) => {
+    const userId = req.session.userId;
+    const {nombre, correo, telefono, facultad} = req.body;
+
+    const query = 
+    `UPDATE usuarios
+    SET nombre = ?, correo = ?, telefono = ?, facultad = ?
+    WHERE id = ?`;    
+    
+    pool.query(query, [nombre, correo, telefono, facultad, userId], (err) => {
+        if (err) throw err;
+
+        console.log(`Usuario con ID ${userId} actualizado correctamente.`);
+        res.redirect('/usuario');
     });
 });
 

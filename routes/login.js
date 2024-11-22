@@ -33,6 +33,11 @@ router.post('/', (req, res) => {
 
         console.log(`usuario ${user.nombre} logeado correctamente`);
 
+        // Guardar el ID del usuario en la sesión
+        req.session.userId = user.ID; 
+        console.log('ID del usuario guardado en la sesión:', req.session.userId);
+
+
         if(recordar === 'on') { //si quiere recordar la contraseña
             res.cookie('recordar', true, 604800000); //cookie que indica que quiere que se le recuerde, se guarda 1 semana
             res.cookie("correo", correo, 604800000); //cookie que guarda el correo del usuario, se guarda 1 semana
