@@ -1,6 +1,7 @@
 const express = require('express');
 const mysql = require('mysql');
 const cookieParser = require('cookie-parser');
+const flash = require('express-flash');
 const session = require('express-session'); // Importar express-session
 const port = 3000;
 
@@ -19,6 +20,7 @@ app.use(
         cookie: { secure: false }, // False porque no usamos HTTPS
     })
 );
+app.use(flash());
 
 app.use(express.static('public'));
 
