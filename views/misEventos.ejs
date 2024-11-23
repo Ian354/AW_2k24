@@ -52,82 +52,57 @@
             </header>
         </div>
         <div class=""><!--container de los eventos-->
-            <div class="row justify-content-between mb-3" id="display-flex-margin-bottom"><!--Fila 1 de 2 eventos-->
+            <% for(let i = 0; i < eventos.length; i++) { %>
+                <% evento = eventos[i] %>
+            <div class="row justify-content-between mb-3" id="display-flex-margin-bottom">
                 <div class="col-6 row rounded-3 border border-black border-3">
                     <div class="col-7 text-center">
                         <div class="mt-2">
-                            <h1><strong><u>Fútbol</u></strong></h3>
+                            <h1><strong><u><%= evento.titulo %></u></strong></h3>
                         </div>
                         <div class="">
-                            <h3><b>Lugar: </b>Facultad de informática</h3>
+                            <h3><b>Lugar: </b><%= evento.ubicacion %></h3>
                         </div>
                         <div class="">
-                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
+                            <h4><strong>Fecha: </strong><%= (evento.fecha).toLocaleDateString('es-ES') %></h4>
+                        </div>
+                        <div class="">
+                            <h4><strong>Hora: </strong><%= evento.hora %></h4>
                         </div>
                         <div class="row justify-content-center mb-3">
-                            <button class="btn btn-dark col-4 mz-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalInfo">Modificar</button>
-                            <button class="btn btn-dark col-4 mx-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalGestionCola">Gestión Cola</button>
+                            <button class="btn btn-dark col-4 mz-2" id="botonModificar<%= i %>" data-bs-toggle="modal" data-bs-target="#modalModificar<%= i %>">Modificar</button>
+                            <button class="btn btn-dark col-4 mx-2" id="botonCola<%= i %>" data-bs-toggle="modal" data-bs-target="#modalCola<%= i %>">Gestión Cola</button>
                         </div>
                     </div>
                     <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
                 </div>
-                <div class="col-6 row rounded-3 border border-black border-3">
-                    <div class="col-7 text-center">
-                        <div class="mt-2">
-                            <h1><strong><u>Fútbol</u></strong></h3>
+                <% i++; %>
+                <% if(i !== eventos.length){ %>
+                    <% evento = eventos[i] %>
+                    <div class="col-6 row rounded-3 border border-black border-3">
+                        <div class="col-7 text-center">
+                            <div class="mt-2">
+                                <h1><strong><u><%= evento.titulo %></u></strong></h3>
+                            </div>
+                            <div class="">
+                                <h3><b>Lugar: </b><%= evento.ubicacion %></h3>
+                            </div>
+                            <div class="">
+                                <h4><strong>Fecha: </strong><%= (evento.fecha).toLocaleDateString('es-ES') %></h4>
+                            </div>
+                            <div class="">
+                                <h4><strong>Hora: </strong><%= evento.hora %></h4>
+                            </div>
+                            <div class="row justify-content-center mb-3">
+                                <button class="btn btn-dark col-4 mz-2" id="botonModificar<%= i %>" data-bs-toggle="modal" data-bs-target="#modalModificar<%= i %>">Modificar</button>
+                                <button class="btn btn-dark col-4 mx-2" id="botonCola<%= i %>" data-bs-toggle="modal" data-bs-target="#modalCola<%= i %>">Gestión Cola</button>
+                            </div>
                         </div>
-                        <div class="">
-                            <h3><b>Lugar: </b>Facultad de informática</h3>
-                        </div>
-                        <div class="">
-                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
-                        </div>
-                        <div class="row justify-content-center mb-3">
-                            <button class="btn btn-dark col-4 mz-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalInfo">Modificar</button>
-                            <button class="btn btn-dark col-4 mx-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalGestionCola">Gestión Cola</button>
-                        </div>
+                        <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
                     </div>
-                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
-                </div>
+                <% } %>
             </div>
-            <div class="row justify-content-between mb-3" id="display-flex-margin-bottom"><!--Fila 1 de 2 eventos-->
-                <div class="col-6 row rounded-3 border border-black border-3">
-                    <div class="col-7 text-center">
-                        <div class="mt-2">
-                            <h1><strong><u>Fútbol</u></strong></h3>
-                        </div>
-                        <div class="">
-                            <h3><b>Lugar: </b>Facultad de informática</h3>
-                        </div>
-                        <div class="">
-                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
-                        </div>
-                        <div class="row justify-content-center mb-3">
-                            <button class="btn btn-dark col-4 mz-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalInfo">Modificar</button>
-                            <button class="btn btn-dark col-4 mx-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalGestionCola">Gestión Cola</button>
-                        </div>
-                    </div>
-                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
-                </div>
-                <div class="col-6 row rounded-3 border border-black border-3">
-                    <div class="col-7 text-center">
-                        <div class="mt-2">
-                            <h1><strong><u>Fútbol</u></strong></h3>
-                        </div>
-                        <div class="">
-                            <h3><b>Lugar: </b>Facultad de informática</h3>
-                        </div>
-                        <div class="">
-                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
-                        </div>
-                        <div class="row justify-content-center mb-3">
-                            <button class="btn btn-dark col-4 mz-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalInfo">Modificar</button>
-                            <button class="btn btn-dark col-4 mx-2" id="evento1" data-bs-toggle="modal" data-bs-target="#modalGestionCola">Gestión Cola</button>
-                        </div>
-                    </div>
-                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
-                </div>
-            </div>
+            <% } %>
         </div>
     </div>
    
@@ -156,11 +131,13 @@
     </div>
 
     <!--Modal de Modificar-->
-    <div class="modal fade" id="modalInfo" tabindex="-2" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
+    <% for(let i = 0; i < eventos.length; i++) { %>
+    <% evento = eventos[i] %>
+    <div class="modal fade" id="modalModificar<%= i %>" tabindex="-1" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header justify-content-between">
-                    <h5 id="tituloEvento1">Evento 1</h5>
+                    <h5 id="tituloEvento<%= i %>">Evento 1</h5>
                     <button class="close" data-bs-dismiss="modal" aria-label="Cerrar">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -169,31 +146,31 @@
                         <form class="text-center" id="registroSesion">
                             <div id="margin-bottom">
                                 <b>Titulo</b>
-                                <input type="text" class="form-control" name="titulo" value="Evento 1" required>
+                                <input type="text" class="form-control" name="titulo" value="<%= evento.titulo %>" required>
                             </div>
                             <div id="margin-bottom">
                                 <b>Descripcion</b>
-                                <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3">Descripcion del evento</textarea>
+                                <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3"><%= evento.descripcion %></textarea>
                             </div>
                             <div id="margin-bottom">
                                 <b>Fecha</b>
-                                <input type="date" class="form-control" name="facultad" placeholder="01/01/1970" required>
+                                <input type="date" class="form-control" name="facultad" value="<%= evento.fecha %>" required>
                             </div>
                             <div id="margin-bottom">
                                 <b>Hora</b>
-                                <input type="time" class="form-control" name="correo" placeholder="12:15" required>
+                                <input type="time" class="form-control" name="correo" value="<%= evento.hora %>" required>
                             </div>
                             <div id="margin-bottom">
                                 <b>Ubicacion</b>
-                                <input type="text" class="form-control" name="contraseña" placeholder="Contraseña" required>
+                                <input type="text" class="form-control" name="ubicacion" value="<%= evento.ubicacion %>" required>
                             </div>
                             <div id="margin-bottom">
                                 <b>Capacidad Maxima</b>
-                                <input type="text" class="form-control" name="contraseña" placeholder="Contraseña" required>
+                                <input type="text" class="form-control" name="capacidad" value="<%= evento.capacidad %>" required>
                             </div>
                             <div id="margin-bottom">
                                 <b>Tipo de evento</b>
-                                <select class="form-control" required>
+                                <select class="form-control" value="Conferencia" required>
                                     <option>Seminario</option>
                                     <option>Taller</option>
                                     <option>Conferencia</option>
@@ -212,6 +189,7 @@
             </div>
         </div>
     </div>
+    <% } %>
     <!--Modal de Gestión de cola-->
 
     <!--------------------------------LIBRERIAS--------------------------->

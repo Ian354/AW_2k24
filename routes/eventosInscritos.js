@@ -62,7 +62,36 @@ router.post('/desapuntar/:event_id', (req, res) => {
 })
 
 router.get('/historial', (req, res) => {
-    res.render('historialEventosInscritos');
+    const user_id = req.session.userId;
+
+    const query = "SELECT evento_id FROM inscripciones WHERE usuario_id = ? AND estado = ?";
+    pool.query(query, [user_id, "apuntado"], async (err, results) => {
+        let eventos = [];
+        const query2 = "SELECT * FROM eventos WHERE id = ? AND (fecha < CURDATE() OR (fecha = CURDATE() AND hora < CURTIME()))";
+
+        // Promise.all para que espere a que se completen todos los queries
+        const promises = results.map(result => {
+            return new Promise((resolve, reject) => {
+                pool.query(query2, [result.evento_id], (err, results2) => {
+                    if (err) return reject(err);
+                    if (results2.length > 0) { // si existe el evento
+                        resolve(results2[0]); 
+                    } else { //si no existe
+                        resolve(null);
+                    }
+                });
+            });
+        });
+
+        // Wait for all promises to resolve
+        const resolvedEvents = await Promise.all(promises);
+        eventos = resolvedEvents.filter(event => event !== null); // Quita de eventos todos aquellos que estan en el pasado
+
+        // Render the view
+        res.render('historialEventosInscritos', {
+            eventos: eventos
+        });
+    });
 })
 
 module.exports = router;

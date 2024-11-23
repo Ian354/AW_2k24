@@ -51,68 +51,48 @@
                 </div>
             </header>
         </div>
-        <div class=""><!--container de los eventos-->
-            <div class="row justify-content-between mb-3" id="display-flex-margin-bottom"><!--Fila 1 de 2 eventos-->
-                <div class="col-6 row rounded-3 border border-black border-3">
-                    <div class="col-7 text-center">
-                        <div class="mt-5">
-                            <h1><strong><u>Fútbol</u></strong></h3>
-                        </div>
-                        <div class="">
-                            <h3><b>Lugar: </b>Facultad de informática</h3>
-                        </div>
-                        <div class="mb-5">
-                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
-                        </div>
+    <% for(let i = 0; i < eventos.length; i++) { %>
+        <% evento = eventos[i] %>
+        <div class="row justify-content-between mb-3" id="display-flex-margin-bottom"><!--Fila 1 de 2 eventos-->
+            <div class="col-6 row rounded-3 border border-black border-3">
+                <div class="col-7 text-center">
+                    <div class="mt-2">
+                        <h1><strong><u><%= evento.titulo %></u></strong></h3>
                     </div>
-                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
-                </div>
-                <div class="col-6 row rounded-3 border border-black border-3">
-                    <div class="col-7 text-center">
-                        <div class="mt-5">
-                            <h1><strong><u>Fútbol</u></strong></h3>
-                        </div>
-                        <div class="">
-                            <h3><b>Lugar: </b>Facultad de informática</h3>
-                        </div>
-                        <div class="mb-5">
-                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
-                        </div>
+                    <div class="">
+                        <h3><b>Lugar: </b><%= evento.ubicacion %></h3>
                     </div>
-                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
+                    <div class="">
+                        <h4><strong>Fecha: </strong><%= (evento.fecha).toLocaleDateString('es-ES') %></h4>
+                    </div>
+                    <div class="">
+                        <h4><strong>Hora: </strong><%= evento.hora %></h4>
+                    </div>
                 </div>
+                <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
             </div>
-            <div class="row justify-content-between mb-3" id="display-flex-margin-bottom"><!--Fila 1 de 2 eventos-->
-                <div class="col-6 row rounded-3 border border-black border-3">
-                    <div class="col-7 text-center">
-                        <div class="mt-5">
-                            <h1><strong><u>Fútbol</u></strong></h3>
-                        </div>
-                        <div class="">
-                            <h3><b>Lugar: </b>Facultad de informática</h3>
-                        </div>
-                        <div class="mb-5">
-                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
-                        </div>
+            <% i++; %>
+            <% if(i !== eventos.length){ %>
+            <div class="col-6 row rounded-3 border border-black border-3">
+                <div class="col-7 text-center">
+                    <div class="mt-2">
+                        <h1><strong><u><%= evento.titulo %></u></strong></h3>
                     </div>
-                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
-                </div>
-                <div class="col-6 row rounded-3 border border-black border-3">
-                    <div class="col-7 text-center">
-                        <div class="mt-5">
-                            <h1><strong><u>Fútbol</u></strong></h3>
-                        </div>
-                        <div class="">
-                            <h3><b>Lugar: </b>Facultad de informática</h3>
-                        </div>
-                        <div class="mb-5">
-                            <h4><strong>Horario: </strong>9:30 - 10:00</h4>
-                        </div>
+                    <div class="">
+                        <h3><b>Lugar: </b><%= evento.ubicacion %></h3>
                     </div>
-                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
+                    <div class="">
+                        <h4><strong>Fecha: </strong><%= (evento.fecha).toLocaleDateString('es-ES') %></h4>
+                    </div>
+                    <div class="">
+                        <h4><strong>Hora: </strong><%= evento.hora %></h4>
+                    </div>
                 </div>
+                <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
             </div>
+        <% } %>
         </div>
+        <% } %>
     </div>
    
    <!--------------------------------MODALES--------------------------->
