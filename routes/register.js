@@ -15,8 +15,9 @@ router.get('/', (req, res) => {
 })
 
 router.post("/", validacionCorreo, validacionTelefono, usuarioExiste, (req, res) => {
-    const {nombre, telefono, facultad, correo, contraseña} = req.body;
-    if(!telefono) telefono = 0; //si no hay telefono definido se pone a 0
+    let {nombre, telefono, facultad, correo, contraseña} = req.body;
+    if(!telefono) {telefono = 0;} //si no hay telefono definido se pone a 0
+    else {telefono = telefono.replace(/\s+/g, "");} //elimina todos los espacios del numero de telefono
 
     const query= `INSERT INTO Usuarios (nombre, telefono, facultad, correo, contraseña, lista_negra) VALUES (?, ?, ?, ?, ?, 0)`;
     pool.query(query, [nombre, telefono, facultad, correo, contraseña], (err) => {
