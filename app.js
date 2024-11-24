@@ -31,6 +31,19 @@ const pool= mysql.createPool({
     database: "AW_24"
 });
 
+const sesionMiddleware = function activarSesion(req, res, next) {
+    if(req.cookies.sesionIniciada === 'true') {
+        pool.query("SELECT id FROM usuarios WHERE correo = ?", [req.cookies.correo], (err, results) => {
+            req.session.userId = results[0].id;
+            next();
+        });
+    }
+    else {
+        next();
+    }
+}
+app.use(sesionMiddleware);
+
 const loginRouter = require('./routes/login'); //router para los logins
 const registerRouter = require('./routes/register'); //router para los registros
 const usuarioRouter = require('./routes/usuario') // router para el perfil de usuario

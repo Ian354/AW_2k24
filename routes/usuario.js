@@ -55,4 +55,13 @@ router.post("/", (req, res) => {
     });
 });
 
+router.post("/cerrar", (req, res) => {
+    const user_id = req.session.userId;
+    req.session.userId = -1;
+    res.clearCookie('correo');
+    res.clearCookie('recordar');
+    res.clearCookie('sesionIniciada');
+    res.redirect('/login');
+})
+
 module.exports = router;

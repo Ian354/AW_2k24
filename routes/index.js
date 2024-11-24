@@ -14,10 +14,10 @@ router.get('/', (req, res) => {//Cuando accede al index
         res.redirect('/login');
     }
 
-    pool.query("SELECT id FROM usuarios WHERE correo = ?", [req.cookies.correo], (err, results) => {
+    /*pool.query("SELECT id FROM usuarios WHERE correo = ?", [req.cookies.correo], (err, results) => {
         const id = results[0].id;
         req.session.userId = id;
-    })
+    })*/
 
     const query = `SELECT * FROM Eventos 
     WHERE fecha > CURDATE()
