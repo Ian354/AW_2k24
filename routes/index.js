@@ -77,17 +77,18 @@ router.post('/apuntar/:evento', async (req, res) => {
 
 router.post("/nuevoEvento", (req, res) => {
     const user_id = req.session.userId;
-    
-    const {titulo, descripcion, fecha, hora, ubicacion, capacidad} = req.body;
+    console.log('User ID en la sesión:', req.session.userId);
 
+    const {titulo, descripcion, fecha, hora, ubicacion, capacidad} = req.body;
+    console.log(req.body);
     const query = 
-    `UPDATE eventos
-    SET nombre = ?, descripcion = ?, fecha = ?, hora = ?, ubicacion = ?, capacidad = ?
-    WHERE id = ?`;     
+    `INSERT INTO eventos
+    (organizador, titulo, descripcion, fecha, hora, ubicacion, capacidad) VALUES (?, ?, ?, ?, ?, ?, ?)`;    
     
     pool.query(query, [user_id, titulo, descripcion, fecha, hora, ubicacion, capacidad], (err) => {
         if (err) throw err;
 
+        //console.log(evento con ID ${eventId} creado correctamente.);
         res.redirect('/');
     });
 });
