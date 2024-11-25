@@ -39,6 +39,14 @@ router.get('/', (req, res) => {
         // Wait for all promises to resolve
         const resolvedEvents = await Promise.all(promises);
         eventos = resolvedEvents.filter(event => event !== null); // Quita de eventos todos aquellos que estan en el pasado
+        //ordenar eventos por fecha
+        eventos.sort((a, b) => {
+            if (a.fecha < b.fecha) return -1;
+            if (a.fecha > b.fecha) return 1;
+            if (a.hora < b.hora) return -1;
+            if (a.hora > b.hora) return 1;
+            return 0;
+        });
 
         // Render the view
         res.render('eventosInscritos', {
@@ -86,6 +94,14 @@ router.get('/historial', (req, res) => {
         // Wait for all promises to resolve
         const resolvedEvents = await Promise.all(promises);
         eventos = resolvedEvents.filter(event => event !== null); // Quita de eventos todos aquellos que estan en el pasado
+        //ordenar eventos por fecha de mas recinte a mas antiguo
+        eventos.sort((a, b) => {
+            if (a.fecha < b.fecha) return 1;
+            if (a.fecha > b.fecha) return -1;
+            if (a.hora < b.hora) return 1;
+            if (a.hora > b.hora) return -1;
+            return 0;
+        });
 
         // Render the view
         res.render('historialEventosInscritos', {

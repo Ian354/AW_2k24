@@ -47,7 +47,13 @@
                         <div class="row">
                             <div class="col-6 text-center">
                                 <div>
-                                    <%= evento.descripcion %>
+                                    <h4><%= evento.descripcion %></h4>
+                                </div>
+                                <div class="">
+                                    <h3><b>Lugar: </b><%= evento.ubicacion %></h3>
+                                </div>
+                                <div class="">
+                                    <h4><strong>Fecha: </strong><%= (evento.fecha).toLocaleDateString('es-ES') %> a las <%= evento.hora %></h4>
                                 </div>
                                 <form action="/apuntar/<%= evento.id %>" method="post">
                                     <button class="btn btn-dark" id="botonEvento<%= i %>">Registrarme</button>

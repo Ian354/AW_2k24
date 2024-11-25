@@ -21,7 +21,8 @@ router.get('/', (req, res) => {//Cuando accede al index
 
     const query = `SELECT * FROM eventos 
     WHERE fecha > CURDATE()
-    OR (fecha = CURDATE() AND hora > CURTIME())`;
+    OR (fecha = CURDATE() AND hora > CURTIME())
+    ORDER BY fecha ASC, hora ASC`;
 
     pool.query(query, (err, results) => {
         if (err) throw err;//mandar error si falla la pagina

@@ -143,7 +143,7 @@
                     </button>
                 </div>
                 <div class="modal-body"><!--Cuerpo Modal-->
-                        <form class="text-center" id="registroSesion">
+                        <form action="/usuario/eventos/modificar/<%= evento.id %>" class="text-center" id="registroSesion" method="post">
                             <div id="margin-bottom">
                                 <b>Titulo</b>
                                 <input type="text" class="form-control" name="titulo" value="<%= evento.titulo %>" required>
@@ -154,11 +154,11 @@
                             </div>
                             <div id="margin-bottom">
                                 <b>Fecha</b>
-                                <input type="date" class="form-control" name="facultad" value="<%= evento.fecha %>" required>
+                                <input type="date" class="form-control" name="fecha" value="<%= evento.fecha %>" required>
                             </div>
                             <div id="margin-bottom">
                                 <b>Hora</b>
-                                <input type="time" class="form-control" name="correo" value="<%= evento.hora %>" required>
+                                <input type="time" class="form-control" name="hora" value="<%= evento.hora %>" required>
                             </div>
                             <div id="margin-bottom">
                                 <b>Ubicacion</b>
@@ -170,7 +170,7 @@
                             </div>
                             <div id="margin-bottom">
                                 <b>Tipo de evento</b>
-                                <select type="text" class="form-control" required>
+                                <select type="text" name="tipo" class="form-control" required>
                                     <option>Seminario</option>
                                     <option>Taller</option>
                                     <option>Conferencia</option>
@@ -179,6 +179,7 @@
                             <div>
                                 <input type="submit" value="Editar Evento" class="btn btn-dark mt-3 mb-3 col-12">
                             </div>
+                        </form>
                     </div>
                     <div class="modal-footer"><!--Footer Modal-->
                         <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
