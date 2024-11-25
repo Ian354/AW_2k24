@@ -17,11 +17,15 @@
                     <img src="/img/escudoUCM.png" alt="Logo de la Universidad Complutense de Madrid" title="Logo UCM" style="width:60%;">
                 </a>
                 <span class="col-4 align-middle text-center"><h1>Eventos UCM</h1></span>
-                <div class="row col-1">
-                    <a class="col-6 nav-link" href="/usuario">
+                <div class="row col-2">
+                    <div class="col-1"></div>
+                    <a class="col-3 nav-link" href="#">
+                        <img src="/img/add.png" style="width:75%;" data-bs-toggle="modal" data-bs-target="#nuevoEvento">
+                    </a>
+                    <a class="col-3 nav-link" href="/usuario">
                         <img src="/img/usuario.png" style="width:75%;">
                     </a>
-                    <a class="col-6 nav-link" href="#">
+                    <a class="col-3 nav-link" href="#">
                         <img src="/img/ajustes.png" style="width:75%;" data-bs-toggle="modal" data-bs-target="#botonOpciones">
                     </a>
                 </div>
@@ -40,14 +44,6 @@
                 </h2>
                 <div id="panelsStayOpen-collapse<%= i %>" class="accordion-collapse collapse">
                     <div class="accordion-body">
-                        <!-- Contenido de la sección -->
-                        <div class="row justify-content-start">
-                            <div class="row col-1">
-                                <a class="col-6 nav-link" href="#">
-                                    <img src="/img/masInfo.png" style="width: 75%;" data-bs-toggle="modal" data-bs-target="#modalInfo<%= i %>">
-                                </a>
-                            </div>
-                        </div>
                         <div class="row">
                             <div class="col-6 text-center">
                                 <div>
@@ -117,6 +113,7 @@
 
     <% for(let i = 0; i < eventos.length; i++) { %>
     <% const evento = eventos[i] %>
+
      <!--Modal de Modificar-->
      <div class="modal fade" id="modalInfo<%= i %>" tabindex="-1" role="dialog" aria-labelledby="tituloModal<%= i %>" aria-hidden="true">
         <div class="modal-dialog">
@@ -125,7 +122,7 @@
                     <h5 class="modal-title" id="tituloEvento<%= i %>"><%= evento.titulo %></h5>
                 </div>
                 <div class="modal-body"><!--Cuerpo Modal-->
-                    <form class="text-center" id="registroSesion">
+                    <form action="modificarEvento" class="text-center" id="registroSesion">
                         <div id="margin-bottom">
                             <b>Titulo</b>
                             <input type="text" class="form-control" name="titulo" value="<%= evento.titulo %>" required>
@@ -164,6 +161,57 @@
         </div>
     </div>
     <% } %>
+
+    <!--------------------------AÑADIR EVENTO----------------------------->
+     <!--Modal de añadir evento-->
+     <div class="modal fade" id="nuevoEvento" tabindex="-2" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header justify-content-between">
+                    <h5 id="tituloEvento1">Nuevo Evento</h5>
+                    <button class="close" data-bs-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body"><!--Cuerpo Modal-->
+                    <form action="/nuevoEvento" class="text-center" id="nuevoEvento" method="post">
+                        <div id="margin-bottom">
+                            <b>Titulo</b>
+                            <input type="text" class="form-control" name="titulo" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Descripción</b>
+                            <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3"></textarea>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Fecha</b>
+                            <input type="date" class="form-control" name="fecha" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Hora</b>
+                            <input type="time" class="form-control" name="hora" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Ubicacion</b>
+                            <input type="text" class="form-control" name="ubicacion" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Capacidad Maxima</b>
+                            <input type="text" class="form-control" name="capacidad" required>
+                        </div>
+                        <div>
+                            <input type="submit" value="Crear Evento" class="btn btn-dark mt-3 col-12">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer"><!--Footer Modal-->
+                    <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
+                        Cerrar
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--------------------------------LIBRERIAS--------------------------->
 
     <!--Librería con popper incluida, necesaria para los modales-->
