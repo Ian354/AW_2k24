@@ -10,7 +10,7 @@ const pool= mysql.createPool({
 });
 
 router.get('/', (req, res) => {//Cuando accede al index
-    if(typeof req.cookies.sesionIniciada === 'undefined'){
+    if(typeof req.cookies.sesionIniciada === 'undefined' || req.cookies.sesionIniciada === 'false'){
         res.redirect('/login');
     }
 
@@ -19,7 +19,7 @@ router.get('/', (req, res) => {//Cuando accede al index
         req.session.userId = id;
     })*/
 
-    const query = `SELECT * FROM Eventos 
+    const query = `SELECT * FROM eventos 
     WHERE fecha > CURDATE()
     OR (fecha = CURDATE() AND hora > CURTIME())`;
 
@@ -49,12 +49,11 @@ router.post('/apuntar/:evento', async (req, res) => {
         const query2 = "SELECT usuario_id FROM inscripciones WHERE evento_id = ?";
         pool.query(query2, [event_id], (err, results2) => {
             inscripciones = results2.length;
-
-            if(inscripciones <= capacidad) {
+            if(inscripciones < capacidad) {
                 estado = "apuntado";
             }
             else { 
-                puesto = inscripciones - capacidad;
+                puesto = inscripciones + 1 - capacidad;
                 estado = "listaEspera_" + puesto;
             }
 
@@ -79,13 +78,13 @@ router.post("/nuevoEvento", (req, res) => {
     const user_id = req.session.userId;
     console.log('User ID en la sesión:', req.session.userId);
 
-    const {titulo, descripcion, fecha, hora, ubicacion, capacidad} = req.body;
+    const {titulo, descripcion, fecha, hora, tipo, ubicacion, capacidad} = req.body;
     console.log(req.body);
     const query = 
     `INSERT INTO eventos
-    (organizador, titulo, descripcion, fecha, hora, ubicacion, capacidad) VALUES (?, ?, ?, ?, ?, ?, ?)`;    
+    (organizador, titulo, descripcion, fecha, hora, tipo, ubicacion, capacidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;    
     
-    pool.query(query, [user_id, titulo, descripcion, fecha, hora, ubicacion, capacidad], (err) => {
+    pool.query(query, [user_id, titulo, descripcion, fecha, hora, tipo, ubicacion, capacidad], (err) => {
         if (err) throw err;
 
         //console.log(evento con ID ${eventId} creado correctamente.);

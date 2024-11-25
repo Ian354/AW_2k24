@@ -32,13 +32,21 @@ const pool= mysql.createPool({
 });
 
 const sesionMiddleware = function activarSesion(req, res, next) {
-    if(req.cookies.sesionIniciada === 'true') {
+    if(typeof req.cookies.sesionIniciada !== 'undefined' && req.cookies.sesionIniciada === 'true') {
         pool.query("SELECT id FROM usuarios WHERE correo = ?", [req.cookies.correo], (err, results) => {
-            req.session.userId = results[0].id;
+            if(results.length > 0 && typeof req.session.userId === 'undefined') {
+                req.session.userId = results[0].id;
+            }
+            else if (results.length === 0) {
+                res.clearCookie('sesionIniciada');
+            }
             next();
         });
     }
     else {
+        res.clearCookie('correo');
+        res.clearCookie('recordar');
+        res.clearCookie('sesionIniciada');
         next();
     }
 }
