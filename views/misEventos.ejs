@@ -74,7 +74,7 @@
                             <button class="btn btn-dark col-4 mx-2" id="botonCola<%= i %>" data-bs-toggle="modal" data-bs-target="#modalCola<%= i %>">Gestión Cola</button>
                         </div>
                     </div>
-                    <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
+                    <img class="img-fluid col-5" src="/img/<%= evento.tipo %>.png" style="width:40%;">
                 </div>
                 <% i++; %>
                 <% if(i !== eventos.length){ %>
@@ -98,7 +98,7 @@
                                 <button class="btn btn-dark col-4 mx-2" id="botonCola<%= i %>" data-bs-toggle="modal" data-bs-target="#modalCola<%= i %>">Gestión Cola</button>
                             </div>
                         </div>
-                        <img class="img-fluid col-5" src="/img/futbol.jpeg" style="width:40%;">
+                        <img class="img-fluid col-5" src="/img/<%= evento.tipo %>.png" style="width:40%;">
                     </div>
                 <% } %>
             </div>
