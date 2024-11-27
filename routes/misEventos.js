@@ -2,6 +2,11 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 
+
+const cola = require('./cola'); // router para cola
+
+router.use('/cola', cola);
+
 const pool= mysql.createPool({
     host: "localhost",
     user: "root",
