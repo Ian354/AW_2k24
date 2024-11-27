@@ -51,7 +51,7 @@ router.post('/apuntar/:evento', async (req, res) => {
         pool.query(query2, [event_id], (err, results2) => {
             inscripciones = results2.length;
             if(inscripciones < capacidad) {
-                estado = "apuntado";
+                estado = "apuntado_" + inscripciones + 1;
             }
             else { 
                 puesto = inscripciones + 1 - capacidad;
@@ -62,7 +62,7 @@ router.post('/apuntar/:evento', async (req, res) => {
             pool.query(insertQuery, [user_id, event_id, estado]);
 
             req.flash('msgEvento', `Apuntado al evento ${results[0].titulo}`)
-            if(estado === "apuntado"){
+            if(estado.includes("apuntado")){
                 console.log(`Usuario ${user_id} apuntado en evento ${event_id}`);
                 req.flash('info', `Enhorabuena! Estás apuntado en el evento!`)
             }
