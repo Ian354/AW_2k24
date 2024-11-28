@@ -13,34 +13,50 @@ const pool= mysql.createPool({
 router.get('/:event_id', (req, res) => {
     const userId = req.session.userId;
     const id = req.params.event_id;
-    const query = `SELECT * FROM inscripciones WHERE evento_id = ?`;
+    const query = `SELECT * FROM inscripciones WHERE evento_id = ? ORDER BY estado ASC`;
   
     pool.query(query, [id], async (err, results) => {
         if (err) {
             throw err;
         }
         console.log(results);
-        const query2 = `SELECT * FROM usuarios WHERE id = ?`;
-        const promises = results.map(result => {
-            return new Promise((resolve, reject) => {
-                pool.query(query2, [result.usuario_id], (err, results2) => {
-                    if (err) return reject(err);
-                    if (results2.length > 0) { // si existe el evento
-                        resolve(results2[0]); 
-                    } else { //si no existe
-                        resolve(null);
-                    }
-                });
+        
+            //Separa en apuntados y no apuntados
+            const inscripcionesApuntados = results.filter(inscripcion => inscripcion.estado.includes('apuntado'));
+            const inscripcionesListaEspera = results.filter(inscripcion => !inscripcion.estado.includes('apuntado'));
+    
+            const query2 = `SELECT * FROM usuarios WHERE id = ?`;
+    
+            const getUserDetails = (inscripciones) => {
+                return Promise.all(inscripciones.map(result => {
+                    return new Promise((resolve, reject) => {
+                        pool.query(query2, [result.usuario_id], (err, results2) => {
+                            if (err) return reject(err);
+                            if (results2.length > 0) { // si existe el evento
+                                resolve({ ...results2[0], estado: result.estado }); 
+                            } else { //si no existe
+                                resolve(null);
+                            }
+                        });
+                    });
+                }));
+            };
+    
+            // Recoge los usuarios apuntados y los de lista de espera
+            const apuntadoPromises = getUserDetails(inscripcionesApuntados);
+            const listaEsperaPromises = getUserDetails(inscripcionesListaEspera);
+    
+            const [resolvedApuntado, resolvedOther] = await Promise.all([apuntadoPromises, listaEsperaPromises]);
+    
+            // elimina todas las entradas vacias
+            const finalinscripcionesApuntados = resolvedApuntado.filter(event => event !== null);
+            const finalinscripcionesListaEspera = resolvedOther.filter(event => event !== null);
+    
+            res.render("cola", {
+                inscripciones: finalinscripcionesApuntados,
+                listaEspera: finalinscripcionesListaEspera,
+                evento: id
             });
-        });
-         // Wait for all promises to resolve
-        const resolvedEvents = await Promise.all(promises);
-        inscripciones = resolvedEvents.filter(event => event !== null); // Quita de eventos todos aquellos que estan en el pasado
-        console.log(inscripciones);
-        res.render("cola", {
-            inscripciones: inscripciones
-        }) 
-
        
     });
 

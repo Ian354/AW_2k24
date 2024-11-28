@@ -51,7 +51,7 @@ router.post('/apuntar/:evento', async (req, res) => {
         pool.query(query2, [event_id], (err, results2) => {
             inscripciones = results2.length;
             if(inscripciones < capacidad) {
-                estado = "apuntado_" + inscripciones + 1;
+                estado = "apuntado_" + (inscripciones + 1);
             }
             else { 
                 puesto = inscripciones + 1 - capacidad;
