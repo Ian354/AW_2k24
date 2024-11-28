@@ -62,8 +62,42 @@ router.post('/eliminar/:event_id/:user_id', (req, res) => {
 
         // Actualiza las inscripciones después de eliminar el usuario
         actualizarInscripciones(req, res);
+
+        res.redirect(`/usuario/eventos/cola/${event_id}`);
     });
 });
+
+router.post('/incorporar/:event_id/:user_id', (req, res) => {
+    const event_id = Number(req.params.event_id);
+    const user_id = Number(req.params.user_id);
+
+    const query = `SELECT capacidad FROM eventos WHERE id = ?`;
+    pool.query(query, [event_id], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Error fetching event capacity");
+        }
+
+        const query2 = `UPDATE inscripciones SET estado = ? WHERE evento_id = ? AND usuario_id = ?`;
+        pool.query(query2, [`apuntado_${(results[0].capacidad + 1)}`, event_id, user_id], (err, results2) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Error updating user status");
+            }
+
+            pool.query("UPDATE eventos SET capacidad = capacidad + 1 WHERE id = ?", [event_id], (err) => {
+                if (err) {
+                    console.error(err);
+                    return res.status(500).send("Error updating event capacity");
+                }
+                // Actualiza las inscripciones después de incorporar al usuario
+                actualizarInscripciones(req, res);
+
+                res.redirect(`/usuario/eventos/cola/${event_id}`);
+            });
+        });
+    });
+})
 
 function actualizarInscripciones(req, res) {
     const event_id = Number(req.params.event_id);
@@ -122,9 +156,6 @@ function actualizarInscripciones(req, res) {
             });
 
             Promise.all(updatePromises)
-                .then(() => {
-                    res.redirect('/usuario/eventos');
-                })
                 .catch(err => {
                     console.error(err);
                     res.status(500).send("Error updating inscripciones");
