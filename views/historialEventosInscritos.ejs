@@ -11,45 +11,7 @@
 <body>
     <div class="container border-bottom" id="general-horizontal">
         <div class="border-bottom mb-3">
-            <header class="row justify-content-between boder-bottom navbar">
-                <!--LOGO-->
-                <a class="col-1 text-center" href="/">
-                    <img src="/img/escudoUCM.png" alt="Logo de la Universidad Complutense de Madrid" title="Logo UCM" style="width:60%;">
-                </a>
-            <!--TRIPLE OPCION CENTRAL-->
-            <div class="col-9 row justify-content-center text-center" id="display-flex">
-                    <div class="col-4">
-                        <a href="/usuario" class="link-dark" style="text-decoration: none;"><b>Información de Perfil</b></a>
-                    </div>
-                    <div class="nav-item dropdown col-4"><!--Dropdown-->
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <b>Eventos Inscritos</b>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/usuario/inscritos/historial">Historial Eventos</a>
-                        <a class="dropdown-item" href="/usuario/inscritos">Eventos Futuros</a>
-                        </div>
-                    </div>
-                    <div class="nav-item dropdown col-4"><!--Dropdown Mis eventos-->
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <b>Mis Eventos</b>
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/usuario/eventos/historial">Historial Eventos</a>
-                        <a class="dropdown-item" href="/usuario/eventos">Eventos Futuros</a>
-                        </div>
-                    </div>
-                </div>
-                <!--OPCIONES Y LINK MOV-->
-                <div class="row col-1 text-center">
-                    <a class="col-6 nav-link" href="/">
-                        <img src="/img/home.png" style="width:75%;">
-                    </a>
-                    <a class="col-6 nav-link" href="#">
-                        <img src="/img/ajustes.png" style="width:75%;" data-bs-toggle="modal" data-bs-target="#botonOpciones">
-                    </a>
-                </div>
-            </header>
+            <%- include('headerUsuario.ejs') %>
         </div>
         <div class=""><!--container de los eventos-->
             <% for(let i = 0; i < eventos.length; i++) { %>

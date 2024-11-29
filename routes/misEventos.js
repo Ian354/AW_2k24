@@ -127,7 +127,7 @@ router.post('/eliminar/:event_id/:user_id', (req, res) => {
     });
 });
 
-router.post('/incorporar/:event_id/:user_id', (req, res) => {
+/*router.post('/incorporar/:event_id/:user_id', (req, res) => {
     const event_id = Number(req.params.event_id);
     const user_id = Number(req.params.user_id);
 
@@ -157,7 +157,7 @@ router.post('/incorporar/:event_id/:user_id', (req, res) => {
             });
         });
     });
-})
+})*/
 
 function actualizarInscripciones(req, res) {
     const event_id = Number(req.params.event_id);
