@@ -34,6 +34,66 @@ router.get('/historial', (req, res) => {
     })
 })
 
+router.get('/historial/:event_id', async (req, res) => {
+    const event_id = Number(req.params.event_id);
+    console.log("Iniciando solicitud para el evento:", event_id);
+
+    // Obtener todas las inscripciones para el evento
+    const query = `SELECT * FROM inscripciones WHERE evento_id = ? AND estado LIKE 'apuntado%' ORDER BY estado ASC`;
+    pool.query(query, [event_id], async (err, results) => {
+        if (err) {
+            console.error("Error al obtener inscripciones:", err);
+            return res.status(500).send("Error al obtener inscripciones");
+        }
+
+        console.log("Resultados de inscripciones:", results);
+
+        if (results.length === 0) {
+            console.log("No hay inscripciones para este evento.");
+            return res.render('participantes', { inscripciones: [] });
+        }
+
+        // Obtener detalles de los usuarios inscritos
+        const query2 = `SELECT * FROM usuarios WHERE id = ?`;
+        const promises = results.map((inscripcion) => {
+            console.log("Procesando inscripción:", inscripcion);
+            return new Promise((resolve, reject) => {
+                pool.query(query2, [inscripcion.usuario_id], (err, userResults) => {
+                    if (err) {
+                        console.error("Error al obtener datos del usuario:", err);
+                        return reject(err);
+                    }
+                    if (userResults.length > 0) {
+                        console.log("Datos del usuario:", userResults[0]);
+                        resolve({
+                            ...inscripcion, // Combina los datos de la inscripción
+                            nombre: userResults[0].nombre, // Agrega el nombre del usuario
+                            facultad: userResults[0].facultad, // Agrega la facultad del usuario
+                        });
+                    } else {
+                        console.log("Usuario no encontrado para inscripción:", inscripcion);
+                        resolve(null); // Si no se encuentra el usuario, devuelve null
+                    }
+                });
+            });
+        });
+
+        try {
+            const inscripciones = (await Promise.all(promises)).filter((inscripcion) => inscripcion !== null);
+            console.log("Inscripciones con datos de usuario:", inscripciones);
+
+            // Renderiza la página con los datos de las inscripciones
+            res.render('participantes', {
+                inscripciones,
+            });
+        } catch (error) {
+            console.error("Error al obtener datos de usuarios:", error);
+            res.status(500).send("Error al obtener datos de usuarios");
+        }
+    });
+});
+
+
 router.post('/modificar/:event_id', (req, res) => {
     const { titulo, descripcion, fecha, hora, ubicacion, capacidad, tipo } = req.body;
     const event_id = Number(req.params.event_id);

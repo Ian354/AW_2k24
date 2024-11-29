@@ -19,7 +19,6 @@ router.get('/:event_id', (req, res) => {
         if (err) {
             throw err;
         }
-        console.log(results);
         
             //Separa en apuntados y no apuntados
             const inscripcionesApuntados = results.filter(inscripcion => inscripcion.estado.includes('apuntado'));
