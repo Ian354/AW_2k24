@@ -46,7 +46,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-8" id="#contenido-notifs">
+                <div class="col-8" id="contenido-notifs">
                     <% for(let i = notificaciones.length - 1; i >= 0; i--) { %>
                     <% let notificacion = notificaciones[i]; %>
                     <div class="notif-content" id="contenido-<%= i %>" style="<%= i === notificaciones.length - 1 ? '' : 'display: none;' %>">
@@ -57,7 +57,7 @@
                                     <button type="button" class="btn text-muted next-notif" data-email-id="<%= i %>"><i class="fa-solid fa-angle-right"></i></button>
                                 </div>
                                 <div class="btn-group me-2" role="group" aria-label="First group">
-                                    <button type="button" class="btn text-muted"><i class="fa-solid fa-trash-can"></i></button>
+                                    <button type="button" class="btn text-muted delete-notif" data-email-id="<%= i %>"><i class="fa-solid fa-trash-can"></i></button>
                                 </div>
                             </div>
     

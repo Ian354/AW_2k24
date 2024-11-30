@@ -38,14 +38,39 @@ router.get('/fetch-notifications', (req, res) => {
             pool.query('UPDATE notificaciones SET mostrado = 1 WHERE id_usuario = ?', [user_id], (err) => {
                 if(err) throw err;
 
+                const notificaciones = results.map((notificacion) => {
+                    const fecha = new Date(notificacion.fecha);
+                    return {
+                        id: notificacion.id,
+                        titulo: notificacion.titulo,
+                        contenido: notificacion.contenido
+                    }
+                });
+
                 res.json({
-                    notifications: results,
+                    notifications: notificaciones,
                     notificationCount: mostrados.length
                 });
             });
         });
     }); 
 })
+
+router.post('/delete-notification', (req, res) => {
+    const pos = req.body.id;
+    const query = "SELECT id FROM notificaciones WHERE id_usuario = ?";
+    pool.query(query, [req.session.userId], (err, results) => {
+        if(err) throw err;
+
+        pool.query('DELETE FROM notificaciones WHERE id = ?', [results[pos].id], (err) => {
+            if(err) throw err;
+
+            res.json({
+                status: 'ok'
+            });
+        });
+    });
+});
 
 
 module.exports = router;
