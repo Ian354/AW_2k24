@@ -56,10 +56,12 @@ const loginRouter = require('./routes/login'); //router para los logins
 const registerRouter = require('./routes/register'); //router para los registros
 const usuarioRouter = require('./routes/usuario') // router para el perfil de usuario
 const indexRouter = require('./routes/index'); //router para el index
+const inboxRouter = require('./routes/inbox'); //router para el buzón de notificaciones
 
 app.use('/registro', registerRouter);
 app.use('/login', loginRouter);
 app.use('/usuario', usuarioRouter);
+app.use('/inbox', inboxRouter);
 app.use('/', indexRouter);
 
 app.listen(port, () => {
