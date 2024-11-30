@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Nov 25, 2024 at 06:48 PM
+-- Generation Time: Nov 30, 2024 at 03:34 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -45,7 +45,7 @@ CREATE TABLE `eventos` (
 
 INSERT INTO `eventos` (`id`, `organizador`, `titulo`, `descripcion`, `fecha`, `hora`, `tipo`, `ubicacion`, `capacidad`) VALUES
 (3, 5, 'Futbol', 'Partido de año nuevo', '2024-12-31', '12:00:00', 'Taller', 'Paraninfo', 3),
-(42, 11, 'Tech Conference 2024', 'Annual technology conference.', '2024-12-05', '10:00:00', 'Conferencia', 'Conference Hall A', 100),
+(42, 11, 'Tech Conference 2024', 'Annual technology conference.', '2024-11-29', '10:00:00', 'Taller', 'Conference Hall A', 100),
 (43, 12, 'Mathematical Wonders', 'Exploration of mathematical discoveries.', '2024-12-10', '14:00:00', 'Seminario', 'Math Building', 50),
 (44, 13, 'Business Algorithms Workshop', 'How algorithms shape industries.', '2024-11-30', '09:00:00', 'Taller', 'Room 203', 30),
 (45, 14, 'Number Theory Seminar', 'Discussion on advanced number theory.', '2024-12-01', '11:00:00', 'Seminario', 'Auditorium', 70),
@@ -63,7 +63,8 @@ INSERT INTO `eventos` (`id`, `organizador`, `titulo`, `descripcion`, `fecha`, `h
 (57, 11, 'Morning Calculus', 'Discussion on integrals and derivatives.', '2024-12-11', '07:00:00', 'Seminario', 'Garden Area', 20),
 (58, 12, 'Robotics Exhibition', 'Showcase of robotic projects.', '2024-12-13', '10:00:00', 'Conferencia', 'Tech Lab', 100),
 (59, 13, 'Algorithmic Thinking', 'Understanding problem-solving approaches.', '2024-12-06', '12:00:00', 'Seminario', 'Room 201', 50),
-(60, 14, 'Volunteer Meetup', 'Engaging math and IT volunteers.', '2024-12-16', '16:30:00', 'Taller', 'Community Center', 30);
+(60, 14, 'Volunteer Meetup', 'Engaging math and IT volunteers.', '2024-12-16', '16:30:00', 'Taller', 'Community Center', 30),
+(61, 5, 'Yoga', 'chillin', '2024-12-01', '12:00:00', 'Conferencia', 'Informática', 10);
 
 -- --------------------------------------------------------
 
@@ -83,12 +84,39 @@ CREATE TABLE `inscripciones` (
 --
 
 INSERT INTO `inscripciones` (`usuario_id`, `evento_id`, `estado`, `fecha`) VALUES
-(5, 3, 'apuntado', '2024-11-25 00:00:00'),
-(6, 3, 'apuntado', '2024-11-25 00:00:00'),
-(7, 3, 'apuntado', '2024-11-25 00:00:00'),
-(8, 3, 'listaEspera_1', '2024-11-25 00:00:00'),
-(11, 3, 'listaEspera_2', '2024-11-25 00:00:00'),
-(11, 53, 'apuntado', '2024-11-25 00:00:00');
+(5, 44, 'apuntado_01', '2024-11-27 00:00:00'),
+(5, 50, 'apuntado_01', '2024-11-27 00:00:00'),
+(5, 53, 'apuntado_01', '2024-11-27 00:00:00'),
+(5, 59, 'apuntado_01', '2024-11-27 00:00:00'),
+(5, 60, 'apuntado_01', '2024-11-27 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notificaciones`
+--
+
+CREATE TABLE `notificaciones` (
+  `id` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `titulo` varchar(255) NOT NULL,
+  `contenido` text NOT NULL,
+  `mostrado` tinyint(1) NOT NULL DEFAULT 0,
+  `hora` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `notificaciones`
+--
+
+INSERT INTO `notificaciones` (`id`, `id_usuario`, `titulo`, `contenido`, `mostrado`, `hora`) VALUES
+(1, 5, 'Evento Eliminado', 'El evento Futbol se ha eliminado y no podrás acudir', 1, '2024-11-30 11:31:46'),
+(2, 5, 'Has sido Desapuntado', 'Has sido desapuntado del Evento Baloncesto por su organizador', 1, '2024-11-30 11:31:46'),
+(3, 5, 'Nueva Notificacion', 'Hola Muy buenas señor', 1, '2024-11-30 13:54:18'),
+(4, 5, 'Nuevo Futbol', 'Hay más futbol!', 1, '2024-11-30 15:07:16'),
+(6, 5, 'Nuevo Baloncesto', 'Cada vez más', 1, '2024-11-30 15:11:36'),
+(7, 5, 'Notificacion', 'lnvuebviupbrbai', 1, '2024-11-30 15:24:55'),
+(8, 5, 'A ver si Ahora', 'hbuoyvo', 1, '2024-11-30 15:28:30');
 
 -- --------------------------------------------------------
 
@@ -117,7 +145,7 @@ INSERT INTO `usuarios` (`ID`, `nombre`, `correo`, `telefono`, `facultad`, `contr
 (8, 'Charlie Brown', 'charlie.brown@ucm.es', 1234567892, 'informatica', 'password3', 0),
 (9, 'Diana Prince', 'diana.prince@ucm.es', 1234567893, 'matematicas', 'password4', 0),
 (10, 'Eve Adams', 'eve.adams@ucm.es', 1234567894, 'matematicas', 'password5', 0),
-(11, 'Frank White', 'frank.white@ucm.es', 1234567895, 'matematicas', 'password6', 0),
+(11, 'Frank White', 'frank.white@ucm.es', 1234567895, 'fisica', 'password6', 0),
 (12, 'Grace Hopper', 'grace.hopper@ucm.es', 1234567896, 'matematicas', 'password7', 0),
 (13, 'Hank Green', 'hank.green@ucm.es', 1234567897, 'informatica', 'password8', 0),
 (14, 'Isla Fisher', 'isla.fisher@ucm.es', 1234567898, 'informatica', 'password9', 0),
@@ -147,6 +175,13 @@ ALTER TABLE `inscripciones`
   ADD KEY `relacion_evento` (`evento_id`);
 
 --
+-- Indexes for table `notificaciones`
+--
+ALTER TABLE `notificaciones`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_notificacion_usuario` (`id_usuario`);
+
+--
 -- Indexes for table `usuarios`
 --
 ALTER TABLE `usuarios`
@@ -160,7 +195,13 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT for table `eventos`
 --
 ALTER TABLE `eventos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+
+--
+-- AUTO_INCREMENT for table `notificaciones`
+--
+ALTER TABLE `notificaciones`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `usuarios`
@@ -184,6 +225,12 @@ ALTER TABLE `eventos`
 ALTER TABLE `inscripciones`
   ADD CONSTRAINT `relacion_evento` FOREIGN KEY (`evento_id`) REFERENCES `eventos` (`id`),
   ADD CONSTRAINT `relacion_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`ID`);
+
+--
+-- Constraints for table `notificaciones`
+--
+ALTER TABLE `notificaciones`
+  ADD CONSTRAINT `fk_notificacion_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`ID`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

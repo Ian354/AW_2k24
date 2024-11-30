@@ -28,13 +28,14 @@ router.get('/', (req, res) => {
 
 router.get('/fetch-notifications', (req, res) => {
     // Obtener las notificaciones que no se han mostrado
+    const user_id = req.session.userId;
     const query = 'SELECT * FROM notificaciones WHERE id_usuario = ? AND mostrado = 0 ORDER BY id ASC';
-    pool.query(query, [req.session.userId], (err, results) => {
+    pool.query(query, [user_id], (err, results) => {
         if(err) throw err;
 
-        pool.query('SELECT id FROM notificaciones WHERE id_usuario = ? AND mostrado = 1', [req.session.userId], (err, mostrados) => {
+        pool.query('SELECT id FROM notificaciones WHERE id_usuario = ? AND mostrado = 1', [user_id], (err, mostrados) => {
             // Actualizar mostrado a 1 para todas las notificaciones
-            pool.query('UPDATE notificaciones SET mostrado = 1 WHERE id_usuario = ?', [req.session.userId], (err) => {
+            pool.query('UPDATE notificaciones SET mostrado = 1 WHERE id_usuario = ?', [user_id], (err) => {
                 if(err) throw err;
 
                 res.json({

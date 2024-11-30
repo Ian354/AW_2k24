@@ -29,7 +29,6 @@ $(document).ready(function() {
 });
 
 setInterval(function() {
-    //get the value of the variable notificaciones declared in the inbox.ejs file
     $.ajax({
         url: '/inbox/fetch-notifications',
         method: 'GET',
@@ -43,7 +42,7 @@ setInterval(function() {
                 var notificacion = notifications[i - notificationCount];
                 if (!$('#titulo-' + i).length) {
                     emailListHtml += `
-                        <li class="list-group-item shadow-sm rounded notif-item" id="titulo-${i}" data-email-id="${i}">
+                        <li class="list-group-item active shadow-sm rounded notif-item" id="titulo-${i}">
                             <div class="row">
                                 <div class="col-sm-2">
                                     <div class="initial-avatar bg-success bg-gradient">EU</div>
@@ -56,7 +55,7 @@ setInterval(function() {
                                 </div>
                                 <div class="col-sm-2">
                                     <div>
-                                        <p class="mb-1 text-muted">${new Date(notificacion.hora).toLocaleTimeString('es-ES', { hour: 'numeric', minute: 'numeric'})}</p>
+                                        <p class="mb-1 text-muted">${(notificacion.hora).toLocaleTimeString('es-ES', { hour: 'numeric', minute: 'numeric'})}</p>
                                     </div>
                                 </div>
                             </div>
@@ -74,10 +73,10 @@ setInterval(function() {
                                         <button type="button" class="btn text-muted"><i class="fa-solid fa-trash-can"></i></button>
                                     </div>
                                 </div>
-
-                                <p class="text-muted mb-1">Fecha: ${new Date(notificacion.hora).getDate()}/${new Date(notificacion.hora).getMonth()} ${new Date(notificacion.hora).toLocaleTimeString('es-ES', { hour: 'numeric', minute: 'numeric'})}</p>
+        
+                                <p class="text-muted mb-1">${`Fecha: ${notificacion.hora.getDate()}/${notificacion.hora.getMonth()} ${(notificacion.hora).toLocaleTimeString('es-ES', { hour: 'numeric', minute: 'numeric'})}` }</p>
                                 <h5 class="mb-3">${notificacion.titulo}</h5>
-
+        
                                 <div style="font-family: Arial, sans-serif;">
                                     <p class="mb-3">${notificacion.contenido}</p>
                                 </div>
@@ -86,8 +85,8 @@ setInterval(function() {
                     `;
                 }
             }
-            $(`#titulo-${notificationCount - 1}`).prepend(emailListHtml);
-            $(`#contenido-${notificationCount - 1}`).prepend(emailContentHtml);
+            $(`.list-group`).prepend(emailListHtml);
+            $(`#contenido-notifs`).prepend(emailContentHtml);
         }
     });
-}, 1000);
+}, 5000);
