@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
     const userId = req.session.userId;
 
     // Verificar si el usuario es organizador
-    const queryUser = `SELECT organizador FROM usuarios WHERE id = ?`;
+    const queryUser = `SELECT rol FROM usuarios WHERE id = ?`;
 
     pool.query(queryUser, [userId], (err, userResults) => {
         if (err) {
@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
             return res.status(404).send('Usuario no encontrado');
         }
 
-        const isOrganizador = Number(userResults[0].organizador)  === 1;
+        const isOrganizador = userResults[0].rol  === 'organizador';
 
         // Consultar eventos
         const queryEventos = `

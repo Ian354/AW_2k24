@@ -33,7 +33,8 @@ router.get('/', (req, res) => {
 
         // Renderizar la vista de perfil pasando los datos del usuario
         res.render('perfilUsuario', {
-            users: results
+            users: results,
+            isOrganizador: results[0].rol === 'organizador'
         });
     });
 });

@@ -17,6 +17,7 @@
             <a class="dropdown-item" href="/usuario/inscritos">Eventos Futuros</a>
             </div>
         </div>
+        <% if (typeof isOrganizador === 'undefined' || isOrganizador) { %>
         <div class="nav-item dropdown col-4"><!--Dropdown Mis eventos-->
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <b>Mis Eventos</b>
@@ -26,6 +27,7 @@
             <a class="dropdown-item" href="/usuario/eventos">Eventos Futuros</a>
             </div>
         </div>
+        <% } %>
     </div>
     <!--OPCIONES Y LINK MOV-->
     <div class="row col-1 text-center">

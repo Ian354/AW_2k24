@@ -50,7 +50,7 @@ router.get('/:event_id', (req, res) => {
             // elimina todas las entradas vacias
             const finalinscripcionesApuntados = resolvedApuntado.filter(event => event !== null);
             const finalinscripcionesListaEspera = resolvedOther.filter(event => event !== null);
-    
+            
             res.render("cola", {
                 inscripciones: finalinscripcionesApuntados,
                 listaEspera: finalinscripcionesListaEspera,

@@ -18,9 +18,13 @@ router.get('/', (req, res) => {
         const updateQuery = 'UPDATE notificaciones SET mostrado = 1 WHERE id_usuario = ?';
         pool.query(updateQuery, [req.session.userId], (err) => {
             if(err) throw err;
+            pool.query('SELECT rol FROM usuarios WHERE id = ?', [req.session.userId], (err, rol) => {
+                if(err) throw err;
 
-            res.render('inbox', {
-                notificaciones: results
+                res.render('inbox', {
+                    notificaciones: results,
+                    isOrganizador: rol[0].rol === 'organizador'
+                });
             });
         });
     })

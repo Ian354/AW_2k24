@@ -14,6 +14,8 @@ const pool= mysql.createPool({
     database: "AW_24"
 });
 
+router.use(bloquearAcceso);
+
 router.get('/', (req, res) => {
     const user_id = req.session.userId;
     const query = "SELECT * FROM eventos WHERE organizador = ? AND (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())) ORDER BY fecha ASC, hora ASC";
@@ -108,7 +110,7 @@ router.post('/modificar/:event_id', (req, res) => {
     });
 })
 
-router.post('/eliminar/:event_id/:user_id', (req, res) => {
+router.post('/eliminar/:event_id/:user_id', sendEliminatedNotification, actualizarPosicionesNotificacion, (req, res) => {
     const event_id = Number(req.params.event_id);
     const user_id = Number(req.params.user_id);
 
@@ -126,38 +128,6 @@ router.post('/eliminar/:event_id/:user_id', (req, res) => {
         res.redirect(`/usuario/eventos/cola/${event_id}`);
     });
 });
-
-/*router.post('/incorporar/:event_id/:user_id', (req, res) => {
-    const event_id = Number(req.params.event_id);
-    const user_id = Number(req.params.user_id);
-
-    const query = `SELECT capacidad FROM eventos WHERE id = ?`;
-    pool.query(query, [event_id], (err, results) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).send("Error fetching event capacity");
-        }
-
-        const query2 = `UPDATE inscripciones SET estado = ? WHERE evento_id = ? AND usuario_id = ?`;
-        pool.query(query2, [`apuntado_${(results[0].capacidad + 1)}`, event_id, user_id], (err, results2) => {
-            if (err) {
-                console.error(err);
-                return res.status(500).send("Error updating user status");
-            }
-
-            pool.query("UPDATE eventos SET capacidad = capacidad + 1 WHERE id = ?", [event_id], (err) => {
-                if (err) {
-                    console.error(err);
-                    return res.status(500).send("Error updating event capacity");
-                }
-                // Actualiza las inscripciones después de incorporar al usuario
-                actualizarInscripciones(req, res);
-
-                res.redirect(`/usuario/eventos/cola/${event_id}`);
-            });
-        });
-    });
-})*/
 
 function actualizarInscripciones(req, res) {
     const event_id = Number(req.params.event_id);
@@ -224,4 +194,88 @@ function actualizarInscripciones(req, res) {
     });
 }
 
+function bloquearAcceso(req, res, next) {
+    const query = 'SELECT rol FROM usuarios WHERE id = ?';
+    pool.query(query, [req.session.userId], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Error fetching user role");
+        }
+
+        if (results[0].rol === 'organizador') {
+            return next();
+        }
+        else{
+            res.status(403).send("No tienes permiso para acceder a esta página");
+        }
+    });
+}
+
+function sendEliminatedNotification(req, res, next) {
+    const event_id = Number(req.params.event_id);
+    const user_id = Number(req.params.user_id);
+
+    const query = 'SELECT * FROM eventos WHERE id = ?';
+    pool.query(query, [event_id], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Error fetching event data");
+        }
+
+        const event = results[0];
+        const notificationQuery = 'INSERT INTO notificaciones (id_usuario, titulo, contenido, hora) VALUES (?, ?, ?, NOW())';
+        pool.query(notificationQuery, [user_id, `Has sido eliminado del evento ${results[0].titulo}`, `Lamentamos informarle que el organizador del evento le ha eliminado del evento`], (err, result) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send("Error sending notification");
+            }
+
+            next();
+        });
+    });
+
+}
+
+function actualizarPosicionesNotificacion(req, res, next) {
+    const user_id = req.params.user_id;
+    const event_id = req.params.event_id;
+
+    const query = `SELECT estado FROM inscripciones WHERE usuario_id = ? AND evento_id = ?`;
+    pool.query(query, [user_id, event_id], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Error fetching notification data");
+        }
+
+        if(results.length > 0 && results[0].estado.includes('apuntado')){
+            const query2 = 'SELECT usuario_id FROM inscripciones WHERE evento_id = ? AND estado = ?';
+            pool.query(query2, [event_id, 'listaEspera_1'], (err, results2) => {
+                pool.query('SELECT titulo FROM eventos WHERE id = ?', [event_id], (err, results3) => {
+                    if (err) {
+                        console.error(err);
+                        return res.status(500).send("Error fetching notification data");
+                    }
+                    const titulo = results3[0].titulo;
+                    if(results2.length > 0){
+                        const query3 = 'INSERT INTO notificaciones (id_usuario, titulo, contenido, hora) VALUES (?, ?, ?, NOW())';
+                        pool.query(query3, [results2[0].usuario_id, `¡Enhorabuena! Has sido movido a la lista de apuntados del evento ${titulo}`, `El organizador del evento te ha movido a la lista de apuntados`], (err, results4) => {
+                            if (err) {
+                                console.error(err);
+                                return res.status(500).send("Error fetching notification data");
+                            }
+
+                            next();
+                        });
+                    }
+                    else{
+                        next();
+                    }
+                });
+            });
+        }
+        else{
+            next();
+        }
+    });
+}
 module.exports = router;
