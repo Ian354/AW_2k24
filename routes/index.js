@@ -35,6 +35,55 @@ router.get('/', (req, res) => {//Cuando accede al index
     })
 })
 
+router.post('/busqueda', (req, res) => {
+    const { fechaInicio, fechaFinal, ubicacion, tipo, capacidad } = req.body;
+
+    let query = `
+        SELECT * FROM eventos 
+        WHERE (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME()))`;
+    const params = [];
+
+    // Agregar condiciones dinámicamente según los filtros seleccionados
+    if (fechaInicio) {
+        query += " AND fecha >= ?";
+        params.push(fechaInicio);
+    }
+    if (fechaFinal) {
+        query += " AND fecha <= ?";
+        params.push(fechaFinal);
+    }
+    if (ubicacion) {
+        query += " AND ubicacion LIKE ?";
+        params.push(`%${ubicacion}%`);
+    }
+    if (tipo && tipo !== 'cualquiera') {
+        query += " AND tipo = ?";
+        params.push(tipo);
+    }
+    if (capacidad) {
+        query += " AND capacidad >= ?";
+        params.push(capacidad);
+    }
+
+    // Ordenar los resultados
+    query += " ORDER BY fecha ASC, hora ASC";
+
+    // Ejecutar la consulta
+    pool.query(query, params, (err, results) => {
+        if (err) {
+            throw err;
+        }
+
+        // Renderizar la vista index con los resultados filtrados
+        res.render('index', {
+            eventos: results,
+            info: req.flash('info'),
+            msgEvento: req.flash('msgEvento'),
+        });
+    });
+});
+
+
 router.post('/apuntar/:evento', async (req, res) => {
     const user_id = req.session.userId;
     const event_id = Number(req.params.evento);

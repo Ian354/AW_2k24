@@ -12,6 +12,43 @@
     <div class="container" id="general-horizontal">
         <%- include('../partials/headerIndex.ejs') %>
 
+        <div class="border-bottom mb-3">
+            <form action="/busqueda" class="row text-center align-items-end" id="busqueda" method="post">
+                <div class="col-md-2 mb-3">
+                    <b>Fecha Inicio</b>
+                    <input type="date" class="form-control" name="fechaInicio" placeholder="Inicio">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <b>Fecha Final</b>
+                    <input type="date" class="form-control" name="fechaFinal" placeholder="Inicio">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <b>Ubicación</b>
+                    <input type="text" class="form-control" name="ubicacion" placeholder="Ubicación">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <b>Tipo evento</b>
+                    <select class="form-select" name="tipo" required>
+                        <option value="cualquiera">Cualquiera</option>
+                        <option value="taller">Taller</option>
+                        <option value="conferencia">Conferencia</option>
+                        <option value="seminario">Seminario</option>
+                    </select>
+                </div>
+                <div class="col-md-2 mb-3">
+                    <b>Capacidad</b>
+                    <input type="text" class="form-control" name="capacidad" placeholder="Capacidad">
+                </div>
+            
+                <!-- Botón de lupa -->
+                <div class="col-md-2 mb-3 text-center">
+                    <button type="submit" class="btn p-0 border-0">
+                        <img src="/img/search.png" alt="Buscar" style="width:40px; cursor: pointer;">
+                    </button>
+                </div>
+            </form>
+        </div>
+
         <!-- Acordeon de opciones-->
         <div class="accordion mb-3">
             <% for(let i = 0; i < eventos.length; i++) { %>
