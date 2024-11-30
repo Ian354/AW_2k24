@@ -8,9 +8,11 @@
             <a class="col-3 nav-link" href="/inbox">
                 <img src="/img/notificaciones.png" style="width:75%;">
             </a>
-            <a class="col-3 nav-link" href="#">
-                <img src="/img/add.png" style="width:75%;" data-bs-toggle="modal" data-bs-target="#nuevoEvento">
-            </a>
+            <% if (isOrganizador) { %>
+                <a class="col-3 nav-link" href="#">
+                    <img src="/img/add.png" style="width:75%;" data-bs-toggle="modal" data-bs-target="#nuevoEvento">
+                </a>
+            <% } %>
             <a class="col-3 nav-link" href="/usuario">
                 <img src="/img/usuario.png" style="width:75%;">
             </a>

@@ -9,31 +9,51 @@ const pool= mysql.createPool({
     database: "AW_24"
 });
 
-router.get('/', (req, res) => {//Cuando accede al index
-    if(typeof req.cookies.sesionIniciada === 'undefined' || req.cookies.sesionIniciada === 'false'){
-        res.redirect('/login');
+router.get('/', (req, res) => {
+    if (typeof req.cookies.sesionIniciada === 'undefined' || req.cookies.sesionIniciada === 'false') {
+        return res.redirect('/login');
     }
 
-    /*pool.query("SELECT id FROM usuarios WHERE correo = ?", [req.cookies.correo], (err, results) => {
-        const id = results[0].id;
-        req.session.userId = id;
-    })*/
+    const userId = req.session.userId;
 
-    const query = `SELECT * FROM eventos 
-    WHERE fecha > CURDATE()
-    OR (fecha = CURDATE() AND hora > CURTIME())
-    ORDER BY fecha ASC, hora ASC`;
+    // Verificar si el usuario es organizador
+    const queryUser = `SELECT organizador FROM usuarios WHERE id = ?`;
 
-    pool.query(query, (err, results) => {
-        if (err) throw err;//mandar error si falla la pagina
+    pool.query(queryUser, [userId], (err, userResults) => {
+        if (err) {
+            console.error('Error al obtener el estado de organizador:', err);
+            return res.status(500).send('Error al verificar organizador');
+        }
 
-        res.render("index", { 
-            eventos: results,
-            info: req.flash('info'),
-            msgEvento: req.flash('msgEvento')
-         });//renderiza index y pasale el objeto eventos
-    })
-})
+        if (userResults.length === 0) {
+            return res.status(404).send('Usuario no encontrado');
+        }
+
+        const isOrganizador = Number(userResults[0].organizador)  === 1;
+
+        // Consultar eventos
+        const queryEventos = `
+            SELECT * FROM eventos 
+            WHERE fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())
+            ORDER BY fecha ASC, hora ASC
+        `;
+
+        pool.query(queryEventos, (err, eventosResults) => {
+            if (err) {
+                console.error('Error al obtener eventos:', err);
+                return res.status(500).send('Error al obtener eventos');
+            }
+
+            // Renderizar la vista con los eventos y el estado de organizador
+            res.render('index', {
+                eventos: eventosResults,
+                isOrganizador: isOrganizador, // Pasamos el estado de organizador al EJS
+                info: req.flash('info'),
+                msgEvento: req.flash('msgEvento'),
+            });
+        });
+    });
+});
 
 router.post('/busqueda', (req, res) => {
     const { fechaInicio, fechaFinal, ubicacion, tipo, capacidad } = req.body;
