@@ -55,6 +55,12 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/calendario', (req, res) => {
+    res.render('calendario', {
+        isOrganizador: req.session.rol === 'organizador'
+    });
+});
+
 router.post('/busqueda', (req, res) => {
     const { fechaInicio, fechaFinal, ubicacion, tipo, capacidad } = req.body;
 
@@ -133,7 +139,7 @@ router.post('/apuntar/:evento', async (req, res) => {
                 const insertQuery = "INSERT INTO inscripciones (usuario_id, evento_id, estado, fecha) VALUES (?, ?, ?, CURDATE())";
                 pool.query(insertQuery, [user_id, event_id, estado]);
                 const notificationQuery = "INSERT INTO notificaciones (id_usuario, titulo, contenido, hora) VALUES (?, ?, ?, NOW())";
-                
+
                 if (results3.length > 0) {
                     yaApuntado = true;
                     return res.json({ success: true, message: "Ya estás apuntado en este evento", title: "Ya estás apuntado" });

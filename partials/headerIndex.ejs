@@ -4,19 +4,23 @@
             <img src="/img/escudoUCM.png" alt="Logo de la Universidad Complutense de Madrid" title="Logo UCM" style="width:60%;">
         </a>
         <span class="col-4 align-middle text-center"><h1>Eventos UCM</h1></span>
-        <div class="row col-2">
-            <a class="col-3 nav-link" href="/inbox">
+        <div class="row col-<%= (isOrganizador) ? 3 : 2 %>">
+            <% var proporcion = (isOrganizador) ? 2 : 3 %>
+            <a class="col-<%= proporcion %> nav-link" href="/calendario">
+                <img src="/img/calendario.png" style="width:75%;">
+            </a>
+            <a class="col-<%= proporcion %> nav-link" href="/inbox">
                 <img src="/img/notificaciones.png" style="width:75%;">
             </a>
             <% if (isOrganizador) { %>
-                <a class="col-3 nav-link" href="#">
+                <a class="col-<%= proporcion %>  nav-link" href="#">
                     <img src="/img/add.png" style="width:75%;" data-bs-toggle="modal" data-bs-target="#nuevoEvento">
                 </a>
             <% } %>
-            <a class="col-3 nav-link" href="/usuario">
+            <a class="col-<%= proporcion %>  nav-link" href="/usuario">
                 <img src="/img/usuario.png" style="width:75%;">
             </a>
-            <a class="col-3 nav-link" href="#">
+            <a class="col-<%= proporcion %>  nav-link" href="#">
                 <img src="/img/ajustes.png" style="width:75%;" data-bs-toggle="modal" data-bs-target="#botonOpciones">
             </a>
         </div>
