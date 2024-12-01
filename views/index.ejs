@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/scripts/jquery-3.7.1.min.js"></script>
     <title>Eventos UCM</title>
     <link rel="icon" sizes="192x192" href="/img/icon.png">
 </head>
@@ -39,9 +40,14 @@
                     <b>Capacidad</b>
                     <input type="text" class="form-control" name="capacidad" placeholder="Capacidad">
                 </div>
+
+                <!--Botón refrescar busqueda-->
+                <div class="col-md-1 mb-4 text-center">
+                    <a href="/"><img src="/img/recargar.png" alt="Refrescar" style="width:40px;"></a>
+                </div>
             
                 <!-- Botón de lupa -->
-                <div class="col-md-2 mb-3 text-center">
+                <div class="col-md-1 mb-4 text-center">
                     <button type="submit" class="btn p-0 border-0">
                         <img src="/img/search.png" alt="Buscar" style="width:40px; cursor: pointer;">
                     </button>
@@ -72,9 +78,7 @@
                                 <div class="">
                                     <h4><strong>Fecha: </strong><%= (evento.fecha).toLocaleDateString('es-ES') %> a las <%= evento.hora %></h4>
                                 </div>
-                                <form action="/apuntar/<%= evento.id %>" method="post">
-                                    <button class="btn btn-dark" id="botonEvento<%= i %>">Registrarme</button>
-                                </form>
+                                <button class="btn btn-dark registrarme-btn" id="<%= evento.id %>">Registrarme</button>
                             </div>
                             <img class="img-fluid col-3" src="/img/<%= evento.tipo %>.png">
                         </div>
@@ -82,10 +86,10 @@
                 </div>
             </div>
             <% } %>
-        </div>        
+            <script src="/js/apuntarEvento.js"></script>
+        </div>       
     </div>
-
     <!--Modales-->
-    <%- include('../partials/modalesIndex.ejs') %>
+    <%- include('../partials/modalesIndex.ejs') %> 
 </body>
 </html>

@@ -8,7 +8,7 @@
             <a class="col-3 nav-link" href="/inbox">
                 <img src="/img/notificaciones.png" style="width:75%;">
             </a>
-            <% if (isOrganizador) { %>
+            <% if (typeof isOrganizador !== 'undefined') { %>
                 <a class="col-3 nav-link" href="#">
                     <img src="/img/add.png" style="width:75%;" data-bs-toggle="modal" data-bs-target="#nuevoEvento">
                 </a>

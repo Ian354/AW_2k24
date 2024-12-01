@@ -97,8 +97,6 @@ router.post('/busqueda', (req, res) => {
         // Renderizar la vista index con los resultados filtrados
         res.render('index', {
             eventos: results,
-            info: req.flash('info'),
-            msgEvento: req.flash('msgEvento'),
         });
     });
 });
@@ -127,19 +125,34 @@ router.post('/apuntar/:evento', async (req, res) => {
                 estado = "listaEspera_" + puesto;
             }
 
+            pool.query("SELECT * FROM inscripciones WHERE usuario_id = ? AND evento_id = ?", [user_id, event_id], (err, results) => {
+                if (results.length > 0) {
+                    return res.json({ success: true, message: "Ya estás apuntado en este evento", title: "Ya estás apuntado" });
+                }
+            });
+            
             const insertQuery = "INSERT INTO inscripciones (usuario_id, evento_id, estado, fecha) VALUES (?, ?, ?, CURDATE())";
             pool.query(insertQuery, [user_id, event_id, estado]);
 
+            const notificationQuery = "INSERT INTO notificaciones (id_usuario, titulo, contenido, hora) VALUES (?, ?, ?, NOW())";
+
             req.flash('msgEvento', `Apuntado al evento ${results[0].titulo}`)
             if(estado.includes("apuntado")){
-                console.log(`Usuario ${user_id} apuntado en evento ${event_id}`);
-                req.flash('info', `Enhorabuena! Estás apuntado en el evento!`)
+                pool.query(notificationQuery, [user_id, "Estás apuntado!", `Estás apuntado en el evento ${results[0].titulo}`], (err) => {
+                    if (err) throw err;
+
+                    console.log(`Usuario ${user_id} apuntado en evento ${event_id}`);
+                    res.json({ success: true, message: `Enhorabuena! Estás apuntado en el evento ${results[0].titulo}!`, title: "Estás apuntado!" });
+                });
             }
             else {
-                console.log(`Usuario ${user_id} en lista de espera para el evento ${event_id} en el puesto ${puesto}`);
-                req.flash('info', `Aviso: Estás en la lista de espera en el puesto ${puesto}`);
+                pool.query(notificationQuery, [user_id, "Estás en la lista de espera", `Aviso: Estás en la lista de espera en el puesto ${puesto} en el evento ${results[0].titulo}`], (err) => {
+                    if (err) throw err;
+
+                    console.log(`Usuario ${user_id} en lista de espera para el evento ${event_id} en el puesto ${puesto}`);
+                    res.json({ success: true, message: `Aviso: Estás en la lista de espera en el puesto ${puesto} para el evento ${results[0].titulo}`, title: "Estás en la lista de espera" });
+                });
             }
-            res.redirect('/');
         });
     });
 })

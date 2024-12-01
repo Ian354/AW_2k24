@@ -22,82 +22,7 @@
         </div>
     </div>
 
-    <% if(info && info.length > 0) { %>
-    <div class="modal fade show" id="modalRegistro" tabindex="-1" role="dialog" aria-labelledby="modalRegistro" aria-hidden="false">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header justify-content-between">
-                    <h5 class="modal-title" id="tituloRegistro"><%= msgEvento %></h5>
-                </div>
-                <div class="modal-body"><!--Cuerpo Modal-->
-                    <%= info %>
-                </div> 
-                <div class="modal-footer"><!--Footer Modal-->
-                    <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
-                        Cerrar
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script>
-        $(document).ready(function () {
-            $("#modalRegistro").modal('show');
-        });
-    </script>
-    <% } %>
-
     <script src="/scripts/jquery-3.7.1.min.js"></script>
-    <% for(let i = 0; i < eventos.length; i++) { %>
-    <% const evento = eventos[i] %>
-
-     <!--Modal de Modificar-->
-     <div class="modal fade" id="modalInfo<%= i %>" tabindex="-1" role="dialog" aria-labelledby="tituloModal<%= i %>" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header justify-content-between">
-                    <h5 class="modal-title" id="tituloEvento<%= i %>"><%= evento.titulo %></h5>
-                </div>
-                <div class="modal-body"><!--Cuerpo Modal-->
-                    <form action="modificarEvento" class="text-center" id="registroSesion">
-                        <div id="margin-bottom">
-                            <b>Titulo</b>
-                            <input type="text" class="form-control" name="titulo" value="<%= evento.titulo %>" required>
-                        </div>
-                        <div id="margin-bottom">
-                            <b>Descripcion</b>
-                            <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3"><%= evento.descripcion %></textarea>
-                        </div>
-                        <div id="margin-bottom">
-                            <b>Fecha</b>
-                            <input type="date" class="form-control" name="facultad" value="<%= evento.fecha %>" required>
-                        </div>
-                        <div id="margin-bottom">
-                            <b>Hora</b>
-                            <input type="time" class="form-control" name="correo" value="<%= evento.hora %>" required>
-                        </div>
-                        <div id="margin-bottom">
-                            <b>Ubicacion</b>
-                            <input type="text" class="form-control" name="ubicacion" value="<%= evento.ubicacion %>" required>
-                        </div>
-                        <div id="margin-bottom">
-                            <b>Capacidad Maxima</b>
-                            <input type="text" class="form-control" name="capacidad" placeholder="<%= evento.capacidad %>" required>
-                        </div>
-                        <div>
-                            <input type="submit" value="Editar Evento" class="btn btn-dark mt-3 mb-3 col-12">
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer"><!--Footer Modal-->
-                    <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
-                        Cerrar
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <% } %>
 
     <!--------------------------AÑADIR EVENTO----------------------------->
      <!--Modal de añadir evento-->
@@ -157,6 +82,25 @@
             </div>
         </div>
     </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Confirmación de Registro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Te has registrado correctamente al evento.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
     <!--------------------------------LIBRERIAS--------------------------->
 
     <!--Librería con popper incluida, necesaria para los modales-->
