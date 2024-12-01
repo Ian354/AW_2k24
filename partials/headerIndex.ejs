@@ -4,7 +4,7 @@
             <img src="/img/escudoUCM.png" alt="Logo de la Universidad Complutense de Madrid" title="Logo UCM" style="width:60%;">
         </a>
         <span class="col-4 align-middle text-center"><h1>Eventos UCM</h1></span>
-        <div class="row col-<%= (isOrganizador) ? 3 : 2 %>">
+        <div class="row col-<%= (isOrganizador) ? 3 : 2 %> justify-content-between">
             <% var proporcion = (isOrganizador) ? 2 : 3 %>
             <a class="col-<%= proporcion %> nav-link" href="/calendario">
                 <img src="/img/calendario.png" style="width:75%;">
