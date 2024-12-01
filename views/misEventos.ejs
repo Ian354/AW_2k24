@@ -32,8 +32,11 @@
                             <h4><strong>Hora: </strong><%= evento.hora %></h4>
                         </div>
                         <div class="row justify-content-center mb-3">
-                            <button class="btn btn-dark col-4 mz-2" id="botonModificar<%= i %>" data-bs-toggle="modal" data-bs-target="#modalModificar<%= i %>">Modificar</button>
-                            <a href="/usuario/eventos/cola/<%= evento.id %>" class="btn btn-dark col-4 mx-2" id="botonCola<%= i %>" h>Gestión Cola</a>
+                            <button class="btn btn-dark col-3 mz-2" id="botonModificar<%= i %>" data-bs-toggle="modal" data-bs-target="#modalModificar<%= i %>">Modificar</button>
+                            <a href="/usuario/eventos/cola/<%= evento.id %>" class="btn btn-dark col-3 mx-2" id="botonCola<%= i %>" h>Cola</a>
+                            <form action="/usuario/eventos/eliminar/<%= evento.id %>" class="col-3 p-0" method="post">
+                                <button type="submit" class="btn btn-danger w-100">Eliminar</button>
+                            </form>
                         </div>
                     </div>
                     <img class="img-fluid col-5" src="/img/<%= evento.tipo %>.png" style="width:40%;">
@@ -56,8 +59,11 @@
                                 <h4><strong>Hora: </strong><%= evento.hora %></h4>
                             </div>
                             <div class="row justify-content-center mb-3">
-                                <button class="btn btn-dark col-4 mz-2" id="botonModificar<%= i %>" data-bs-toggle="modal" data-bs-target="#modalModificar<%= i %>">Modificar</button>
-                                <a href="/usuario/eventos/cola/<%= evento.id %>" class="btn btn-dark col-4 mx-2" id="botonCola<%= i %>" h>Gestión Cola</a>
+                                <button class="btn btn-dark col-3 mz-2" id="botonModificar<%= i %>" data-bs-toggle="modal" data-bs-target="#modalModificar<%= i %>">Modificar</button>
+                                <a href="/usuario/eventos/cola/<%= evento.id %>" class="btn btn-dark col-3 mx-2" id="botonCola<%= i %>" h>Cola</a>
+                                <form action="/usuario/eventos/eliminar/<%= evento.id %>" class="col-4 p-0" method="post">
+                                    <button type="button" class="btn btn-danger w-100 eliminar-btn" data-id="<%= evento.id %>">Eliminar</button>
+                                </form>
                             </div>
                         </div>
                         <img class="img-fluid col-5" src="/img/<%= evento.tipo %>.png" style="width:40%;">
@@ -154,6 +160,24 @@
     </div>
     <% } %>
 
+    <!-- Eliminación Modal -->
+
+    <div class="modal fade" id="eliminarEvento" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confirmationModalLabel">Evento Eliminado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Has eliminado el evento correctamente.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!--------------------------------LIBRERIAS--------------------------->
 
     <!--Librería con popper incluida, necesaria para los modales-->

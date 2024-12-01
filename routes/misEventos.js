@@ -110,6 +110,102 @@ router.post('/modificar/:event_id', (req, res) => {
     });
 })
 
+router.post('/eliminar/:event_id', (req, res) => {
+    console.log("Solicitud POST recibida para eliminar evento:", req.params.event_id);
+
+    const event_id = Number(req.params.event_id);
+
+    try {
+        // Obtener todos los usuarios inscritos en el evento
+        const getUsersQuery = `SELECT usuario_id FROM inscripciones WHERE evento_id = ?`;
+        pool.query(getUsersQuery, [event_id], (err, results) => {
+            if (err) {
+                console.error("Error al obtener usuarios inscritos:", err);
+                return res.status(500).send("Error al obtener usuarios inscritos");
+            }
+
+            const usuarios = results.map(row => row.usuario_id);
+
+            // Eliminar todas las inscripciones del evento, si existen
+            const deleteInscripcionesQuery = `DELETE FROM inscripciones WHERE evento_id = ?`;
+            pool.query(deleteInscripcionesQuery, [event_id], (err, result) => {
+                if (err) {
+                    console.error("Error al eliminar inscripciones:", err);
+                    return res.status(500).send("Error al eliminar inscripciones");
+                }
+
+                console.log(`Inscripciones del evento ${event_id} eliminadas (si había).`);
+
+                // Si no hay usuarios, proceder directamente a eliminar el evento
+                if (usuarios.length === 0) {
+                    console.log("No hay usuarios inscritos. Procediendo a eliminar el evento.");
+
+                    const deleteEventQuery = `DELETE FROM eventos WHERE id = ?`;
+                    pool.query(deleteEventQuery, [event_id], (err, result) => {
+                        if (err) {
+                            console.error("Error al eliminar el evento:", err);
+                            return res.status(500).send("Error al eliminar el evento");
+                        }
+
+                        console.log(`Evento ${event_id} eliminado correctamente.`);
+                        return res.redirect('/usuario/eventos');
+                    });
+
+                    return; // Salir de la ejecución aquí
+                }
+
+                // Enviar notificaciones a los usuarios eliminados
+                const notificationQuery = `
+                    INSERT INTO notificaciones (id_usuario, titulo, contenido, hora)
+                    VALUES (?, ?, ?, NOW())`;
+
+                const notificationPromises = usuarios.map(usuario_id => {
+                    return new Promise((resolve, reject) => {
+                        pool.query(notificationQuery, [
+                            usuario_id,
+                            `Has sido eliminado del evento`,
+                            `Lamentamos informarte que el organizador ha eliminado el evento.`,
+                        ], (err, result) => {
+                            if (err) {
+                                console.error("Error al enviar notificación:", err);
+                                return reject(err);
+                            }
+                            resolve(result);
+                        });
+                    });
+                });
+
+                // Esperar a que se envíen todas las notificaciones
+                Promise.all(notificationPromises)
+                    .then(() => {
+                        console.log("Notificaciones enviadas a todos los usuarios eliminados.");
+
+                        // Ahora eliminar el evento
+                        const deleteEventQuery = `DELETE FROM eventos WHERE id = ?`;
+                        pool.query(deleteEventQuery, [event_id], (err, result) => {
+                            if (err) {
+                                console.error("Error al eliminar el evento:", err);
+                                return res.status(500).send("Error al eliminar el evento");
+                            }
+
+                            console.log(`Evento ${event_id} eliminado correctamente.`);
+                            res.redirect('/usuario/eventos');
+                        });
+                    })
+                    .catch(err => {
+                        console.error("Error al enviar notificaciones:", err);
+                        res.status(500).send("Error al enviar notificaciones");
+                    });
+            });
+        });
+    } catch (error) {
+        console.error("Error general:", error);
+        res.status(500).send("Error general");
+    }
+});
+
+
+
 router.post('/eliminar/:event_id/:user_id', sendEliminatedNotification, actualizarPosicionesNotificacion, (req, res) => {
     const event_id = Number(req.params.event_id);
     const user_id = Number(req.params.user_id);
