@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/scripts/jquery-3.7.1.min.js"></script>
     <title>Mis Eventos</title>
     <link rel="icon" sizes="192x192" href="/img/icon.png">
 </head>
@@ -15,7 +16,7 @@
         </div>
         <div class=""><!--container de los eventos-->
             <% for(let i = 0; i < eventos.length; i++) { %>
-                <% evento = eventos[i] %>
+            <% evento = eventos[i] %>
             <div class="row justify-content-between mb-3" id="display-flex-margin-bottom">
                 <div class="col-6 row rounded-3 border border-black border-3">
                     <div class="col-7 text-center">
@@ -34,9 +35,7 @@
                         <div class="row justify-content-center mb-3">
                             <button class="btn btn-dark col-3 mz-2" id="botonModificar<%= i %>" data-bs-toggle="modal" data-bs-target="#modalModificar<%= i %>">Modificar</button>
                             <a href="/usuario/eventos/cola/<%= evento.id %>" class="btn btn-dark col-3 mx-2" id="botonCola<%= i %>" h>Cola</a>
-                            <form action="/usuario/eventos/eliminar/<%= evento.id %>" class="col-3 p-0" method="post">
-                                <button type="submit" class="btn btn-danger w-100">Eliminar</button>
-                            </form>
+                            <button class="btn btn-danger col-3 eliminar-btn" id="<%= evento.id %>">Eliminar</button>
                         </div>
                     </div>
                     <img class="img-fluid col-5" src="/img/<%= evento.tipo %>.png" style="width:40%;">
@@ -61,9 +60,7 @@
                             <div class="row justify-content-center mb-3">
                                 <button class="btn btn-dark col-3 mz-2" id="botonModificar<%= i %>" data-bs-toggle="modal" data-bs-target="#modalModificar<%= i %>">Modificar</button>
                                 <a href="/usuario/eventos/cola/<%= evento.id %>" class="btn btn-dark col-3 mx-2" id="botonCola<%= i %>" h>Cola</a>
-                                <form action="/usuario/eventos/eliminar/<%= evento.id %>" class="col-4 p-0" method="post">
-                                    <button type="button" class="btn btn-danger w-100 eliminar-btn" data-id="<%= evento.id %>">Eliminar</button>
-                                </form>
+                                <button class="btn btn-danger col-3 eliminar-btn" id="<%= evento.id %>">Eliminar</button>
                             </div>
                         </div>
                         <img class="img-fluid col-5" src="/img/<%= evento.tipo %>.png" style="width:40%;">
@@ -162,7 +159,7 @@
 
     <!-- Eliminación Modal -->
 
-    <div class="modal fade" id="eliminarEvento" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+    <div class="modal fade" id="eliminarEventoModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -173,11 +170,12 @@
                     Has eliminado el evento correctamente.
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <a href="/usuario/eventos" id="cerrarModalEliminar" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</a>
                 </div>
             </div>
         </div>
     </div>
+    <script src="/js/eliminarEvento.js"></script>
     <!--------------------------------LIBRERIAS--------------------------->
 
     <!--Librería con popper incluida, necesaria para los modales-->

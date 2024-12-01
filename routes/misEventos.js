@@ -21,7 +21,8 @@ router.get('/', (req, res) => {
     const query = "SELECT * FROM eventos WHERE organizador = ? AND (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())) ORDER BY fecha ASC, hora ASC";
     pool.query(query, [user_id], (err, results) => {
         res.render('misEventos', {
-            eventos: results
+            eventos: results,
+            isOrganizador: req.session.rol === 'organizador'
         });
     })
 })
@@ -31,7 +32,8 @@ router.get('/historial', (req, res) => {
     const query = "SELECT * FROM eventos WHERE organizador = ? AND (fecha < CURDATE() OR (fecha = CURDATE() AND hora < CURTIME())) ORDER BY fecha DESC, hora DESC";
     pool.query(query, [user_id], (err, results) => {
         res.render('historialMisEventos', {
-            eventos: results
+            eventos: results,
+            isOrganizador: req.session.rol === 'organizador'
         });
     })
 })
@@ -189,7 +191,9 @@ router.post('/eliminar/:event_id', (req, res) => {
                             }
 
                             console.log(`Evento ${event_id} eliminado correctamente.`);
-                            res.redirect('/usuario/eventos');
+                            pool.query('SELECT titulo FROM eventos WHERE id = ?', [event_id], (err, event_name) => {
+                                res.json({ success: true, title: `${event_name[0].titulo}`, message: "Evento eliminado correctamente" });
+                            });
                         });
                     })
                     .catch(err => {

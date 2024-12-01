@@ -35,6 +35,7 @@ router.post('/', (req, res) => {
 
         // Guardar el ID del usuario en la sesión
         req.session.userId = user.ID; 
+        req.session.rol = user.rol;
         console.log('ID del usuario guardado en la sesión:', req.session.userId);
 
 
