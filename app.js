@@ -33,9 +33,10 @@ const pool= mysql.createPool({
 
 const sesionMiddleware = function activarSesion(req, res, next) {
     if(typeof req.cookies.sesionIniciada !== 'undefined' && req.cookies.sesionIniciada === 'true') {
-        pool.query("SELECT id FROM usuarios WHERE correo = ?", [req.cookies.correo], (err, results) => {
+        pool.query("SELECT * FROM usuarios WHERE correo = ?", [req.cookies.correo], (err, results) => {
             if(results.length > 0 && typeof req.session.userId === 'undefined') {
-                req.session.userId = results[0].id;
+                req.session.userId = results[0].ID;
+                req.session.rol = results[0].rol;
             }
             else if (results.length === 0) {
                 res.clearCookie('sesionIniciada');

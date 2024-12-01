@@ -51,7 +51,8 @@ router.get('/', (req, res) => {
         // Render the view
         res.render('eventosInscritos', {
             eventos: eventos,
-            info: req.flash('info')
+            info: req.flash('info'),
+            isOrganizador: req.session.rol === 'organizador'
         });
     });
 })
@@ -105,7 +106,8 @@ router.get('/historial', (req, res) => {
 
         // Render the view
         res.render('historialEventosInscritos', {
-            eventos: eventos
+            eventos: eventos,
+            isOrganizador: req.session.rol === 'organizador'
         });
     });
 })

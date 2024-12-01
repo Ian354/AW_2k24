@@ -40,7 +40,7 @@ $(document).ready(function() {
                 $('#contenido-' + emailId).remove();
                 // Pasar a la siguiente notificación
                 $('.notif-content').hide();
-                $('#contenido-' + (emailId + 1)).show();
+                $('#contenido-' + (emailId)).show();
                 // Actualizar los id de las notificaciones que estan por encima de la eliminada
                 var nextEmailId = emailId + 1;
                 for (var i = nextEmailId; i < $('.notif-item').length + 1; i++) {
