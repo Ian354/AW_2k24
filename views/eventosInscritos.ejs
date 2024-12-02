@@ -17,7 +17,7 @@
         <div class=""><!--container de los eventos-->
             <% for(let i = 0; i < eventos.length; i++) { %>
             <div class="row justify-content-between mb-3" id="display-flex-margin-bottom"><!--Fila 1 de 2 eventos-->
-                <div class="col-6 row rounded-3 border border-black border-3">
+                <div class="col-lg-6 col-12 row rounded-3 border border-black border-3">
                     <div class="col-7 text-center">
                         <div class="mt-2">
                             <h1><strong><u><%= eventos[i].titulo %></u></strong></h3>
@@ -39,7 +39,7 @@
                 </div>
                 <% i++; %>
                 <% if(i !== eventos.length){ %>
-                <div class="col-6 row rounded-3 border border-black border-3">
+                <div class="col-lg-6 col-12 row rounded-3 border border-black border-3">
                     <div class="col-7 text-center">
                         <div class="mt-2">
                             <h1><strong><u><%= eventos[i].titulo %></u></strong></h3>

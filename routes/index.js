@@ -56,9 +56,10 @@ router.get('/', (req, res) => {
 });
 
 router.get('/calendario', (req, res) => {
-    res.render('calendario', {
-        isOrganizador: req.session.rol === 'organizador'
-    });
+
+        res.render('calendario', {
+            isOrganizador: req.session.rol === 'organizador'
+        });
 });
 
 router.post('/busqueda', (req, res) => {
