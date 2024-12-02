@@ -10,6 +10,7 @@
     <link rel="icon" sizes="192x192" href="/img/icon.png">
 </head>
 <body>
+   
     <div class="container" id="general-horizontal">
         <%- include('../partials/headerIndex.ejs') %>
 
@@ -61,12 +62,12 @@
             <% const evento = eventos[i] %>
             <div class="accordion-item">
                 <h2 class="accordion-header"> 
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse<%= i %>" aria-expanded="false" aria-controls="panelsStayOpen-collapse<%= i %>">
+                    <button class="accordion-button acordeon-text" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse<%= i %>" aria-expanded="false" aria-controls="panelsStayOpen-collapse<%= i %>">
                         <%= evento.titulo %>
                     </button>
                 </h2>
                 <div id="panelsStayOpen-collapse<%= i %>" class="accordion-collapse collapse">
-                    <div class="accordion-body">
+                    <div class="accordion-body panel-text">
                         <div class="row">
                             <div class="col-6 text-center">
                                 <div>
@@ -91,6 +92,7 @@
     </div>
     <!--Modales-->
     <%- include('../partials/modalesIndex.ejs') %> 
+    <%- include('../partials/accesibilidadModal.ejs') %> 
     <script src="/js/accesibilidadScript.js"></script>
     
 </body>

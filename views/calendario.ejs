@@ -9,13 +9,25 @@
     <title>Eventos UCM</title>
     <link rel="icon" sizes="192x192" href="/img/icon.png">
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
-    
   </head>
   <body>
     <div class="container">
         <%- include('../partials/headerIndex.ejs') %>
+
+        <!-- Calendario -->
         <div id='calendar'></div>
+
+        <!-- Modal de accesibilidad -->
+        <%- include('../partials/accesibilidadModal.ejs') %> 
     </div>
+<<<<<<< Updated upstream
 <script src="/js/cargarCalendario.js"></script>
+=======
+
+    <!-- Librerías JS -->
+    <script src="/js/bootstrap.bundle.min.js"></script> <!-- Asegúrate de incluir Bootstrap.bundle.js -->
+    <script src="/js/accesibilidadScript.js"></script>
+    <script src="/js/cargarCalendario.js"></script> <!-- Este debe ir después de Bootstrap -->
+>>>>>>> Stashed changes
   </body>
 </html>

@@ -171,3 +171,40 @@ body.dark-mode img {
 body.dark-mode #logo-original {
     filter: none !important;
 }
+/* Tamaño de letra grande */
+body.large-text .acordeon-text,
+body.large-text .panel-text {
+    font-size: 1.5rem; /* Tamaño de letra aumentado */
+}
+
+/* Tamaño de letra pequeño */
+body.small-text .acordeon-text,
+body.small-text .panel-text {
+    font-size: 0.875rem; /* Tamaño de letra reducido */
+}
+
+#perfilUsuario h4 {
+    font-size: inherit; /* Permite que el tamaño de fuente sea dinámico */
+}
+
+#perfilUsuario h5 {
+    font-size: inherit;
+}
+#titulo-principal {
+    font-size: 3rem; /* Tamaño grande por defecto */
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 20px; /* Espaciado para separar del resto */
+}
+
+body.dark-mode #titulo-principal {
+    color: white; /* Asegurar contraste en modo oscuro */
+}
+
+/* Opcional: Ajustar el tamaño del título dinámicamente con el tamaño de letra */
+body.grande #titulo-principal {
+    font-size: 3.5rem; /* Tamaño proporcional en modo "grande" */
+}
+body.pequena #titulo-principal {
+    font-size: 2.5rem; /* Tamaño proporcional en modo "pequeño" */
+}
