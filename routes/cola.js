@@ -9,7 +9,7 @@ const pool= mysql.createPool({
     database: "AW_24"
 });
 
-// Ruta para mostrar el perfil del usuario
+// Mostrar el perfil del usuario
 router.get('/:event_id', (req, res) => {
     const userId = req.session.userId;
     const id = req.params.event_id;
@@ -25,7 +25,8 @@ router.get('/:event_id', (req, res) => {
             const inscripcionesListaEspera = results.filter(inscripcion => !inscripcion.estado.includes('apuntado'));
     
             const query2 = `SELECT * FROM usuarios WHERE id = ?`;
-    
+
+            // Recoge los datos de todos los usuarios inscritos
             const getUserDetails = (inscripciones) => {
                 return Promise.all(inscripciones.map(result => {
                     return new Promise((resolve, reject) => {
@@ -61,6 +62,7 @@ router.get('/:event_id', (req, res) => {
 
 });
 
+// Eliminar a un usuario de un evento
 router.post('/eliminar/:user_id/:event_id', (req, res) => {
     const userId = req.session.userId;
     const event_id = req.params.event_id;

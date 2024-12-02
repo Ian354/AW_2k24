@@ -9,6 +9,7 @@ const pool= mysql.createPool({
     database: "AW_24"
 });
 
+// Mostrar eventos
 router.get('/', (req, res) => {
     if (typeof req.cookies.sesionIniciada === 'undefined' || req.cookies.sesionIniciada === 'false') {
         return res.redirect('/login');
@@ -55,6 +56,7 @@ router.get('/', (req, res) => {
     });
 });
 
+// Mostrar calendario
 router.get('/calendario', (req, res) => {
 
         res.render('calendario', {
@@ -62,6 +64,7 @@ router.get('/calendario', (req, res) => {
         });
 });
 
+// Mostrar eventos aplicando la búsqueda personalizada
 router.post('/busqueda', (req, res) => {
     const { fechaInicio, fechaFinal, ubicacion, tipo, capacidad } = req.body;
 
@@ -111,7 +114,7 @@ router.post('/busqueda', (req, res) => {
     });
 });
 
-
+// Apuntar a un usuario a un evento
 router.post('/apuntar/:evento', async (req, res) => {
     const user_id = req.session.userId;
     const event_id = Number(req.params.evento);
@@ -135,7 +138,7 @@ router.post('/apuntar/:evento', async (req, res) => {
                 estado = "listaEspera_" + puesto;
             }
 
-
+            // Se debe comprobar que el usuario no esta ya apuntado en el evento
             pool.query("SELECT * FROM inscripciones WHERE usuario_id = ? AND evento_id = ?", [user_id, event_id], (err, results3) => {
                 const insertQuery = "INSERT INTO inscripciones (usuario_id, evento_id, estado, fecha) VALUES (?, ?, ?, CURDATE())";
                 pool.query(insertQuery, [user_id, event_id, estado]);
@@ -145,7 +148,7 @@ router.post('/apuntar/:evento', async (req, res) => {
                     yaApuntado = true;
                     return res.json({ success: true, message: "Ya estás apuntado en este evento", title: "Ya estás apuntado" });
                 }
-                else if(estado.includes("apuntado")){
+                else if(estado.includes("apuntado")){ // si entra al evento
                     pool.query(notificationQuery, [user_id, "Estás apuntado!", `Estás apuntado en el evento ${results[0].titulo}`], (err) => {
                         if (err) throw err;
 
@@ -153,7 +156,7 @@ router.post('/apuntar/:evento', async (req, res) => {
                         return res.json({ success: true, message: `Enhorabuena! Estás apuntado en el evento ${results[0].titulo}!`, title: "Estás apuntado!" });
                     });
                 }
-                else {
+                else { // si entra en lista de espera
                     pool.query(notificationQuery, [user_id, "Estás en la lista de espera", `Aviso: Estás en la lista de espera en el puesto ${puesto} en el evento ${results[0].titulo}`], (err) => {
                         if (err) throw err;
 
@@ -166,6 +169,7 @@ router.post('/apuntar/:evento', async (req, res) => {
     });
 })
 
+// Publicar un nuevo evento
 router.post("/nuevoEvento", (req, res) => {
     const user_id = req.session.userId;
     console.log('User ID en la sesión:', req.session.userId);
@@ -179,7 +183,6 @@ router.post("/nuevoEvento", (req, res) => {
     pool.query(query, [user_id, titulo, descripcion, fecha, hora, tipo, ubicacion, capacidad], (err) => {
         if (err) throw err;
 
-        //console.log(evento con ID ${eventId} creado correctamente.);
         res.redirect('/');
     });
 });

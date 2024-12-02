@@ -9,6 +9,7 @@ const pool= mysql.createPool({
     database: "AW_24"
 });
 
+// Mostrar buzon de notificaciones
 router.get('/', (req, res) => {
     const query = 'SELECT * FROM notificaciones WHERE id_usuario = ? ORDER BY id ASC';
     pool.query(query, [req.session.userId], (err, results) => {
@@ -30,6 +31,7 @@ router.get('/', (req, res) => {
     })
 })
 
+// Obtener notificaciones que aún no se han mostrado al usuario
 router.get('/fetch-notifications', (req, res) => {
     // Obtener las notificaciones que no se han mostrado
     const user_id = req.session.userId;
@@ -60,6 +62,7 @@ router.get('/fetch-notifications', (req, res) => {
     }); 
 })
 
+// Eliminar notificacion
 router.post('/delete-notification', (req, res) => {
     const pos = req.body.id;
     const query = "SELECT id FROM notificaciones WHERE id_usuario = ?";

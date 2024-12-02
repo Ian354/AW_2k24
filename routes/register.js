@@ -9,11 +9,13 @@ const pool= mysql.createPool({
     database: "AW_24"
 });
 
+// Pantalla de registro
 router.get('/', (req, res) => {
     console.log(req.cookies.sesionIniciada);
     res.render('registro'); //acceder al formulario de registro
 })
 
+// Registro de usuario
 router.post("/", validacionCorreo, validacionTelefono, usuarioExiste, (req, res) => {
     let {nombre, telefono, facultad, correo, contraseña} = req.body;
     if(!telefono) {telefono = 0;} //si no hay telefono definido se pone a 0
@@ -29,6 +31,7 @@ router.post("/", validacionCorreo, validacionTelefono, usuarioExiste, (req, res)
     });
 });
 
+// Validacione detelefono
 function validacionTelefono(req, res, next) {
     let { telefono } = req.body;
 
@@ -49,6 +52,7 @@ function validacionTelefono(req, res, next) {
     next();
 }
 
+// Validacion de correo
 function validacionCorreo(req, res, next) {
     const { correo } = req.body;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@ucm\.es$/;
@@ -62,6 +66,7 @@ function validacionCorreo(req, res, next) {
     next();
 }
 
+// Comprobar si el usuario ya existe
 function usuarioExiste(req, res, next) {
     const { correo } = req.body;
     const query = "SELECT * FROM usuarios WHERE correo = ?";

@@ -9,6 +9,7 @@ const pool= mysql.createPool({
     database: "AW_24"
 });
 
+// Mostrar eventos a los que el usuario esta inscrito que estan en el futuro
 router.get('/', (req, res) => {
     const user_id = req.session.userId;
 
@@ -57,6 +58,7 @@ router.get('/', (req, res) => {
     });
 })
 
+// Desapuntar a un usuario de un evento
 router.post('/desapuntar/:event_id', (req, res) => {
     const user_id = req.session.userId;
     const event_id = req.params.event_id;
@@ -70,6 +72,7 @@ router.post('/desapuntar/:event_id', (req, res) => {
     res.redirect('/usuario/inscritos');
 })
 
+// Mostrar eventos a los que el usuario esta inscrito que estan en el pasado
 router.get('/historial', (req, res) => {
     const user_id = req.session.userId;
 

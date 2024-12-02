@@ -39,6 +39,7 @@ router.get('/', (req, res) => {
     });
 });
 
+// Ruta para actualizar el perfil del usuario
 router.post("/", (req, res) => {
     const userId = req.session.userId;
     const {nombre, correo, telefono, facultad} = req.body;
@@ -56,6 +57,7 @@ router.post("/", (req, res) => {
     });
 });
 
+// Ruta para cerrar la sesion
 router.post("/cerrar", (req, res) => {
     const user_id = req.session.userId;
     req.session.userId = -1;

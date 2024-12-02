@@ -16,6 +16,7 @@ const pool= mysql.createPool({
 
 router.use(bloquearAcceso);
 
+// Mostrar eventos creados por el usuario que estan en el futuro
 router.get('/', (req, res) => {
     const user_id = req.session.userId;
     const query = "SELECT * FROM eventos WHERE organizador = ? AND (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())) ORDER BY fecha ASC, hora ASC";
@@ -27,6 +28,7 @@ router.get('/', (req, res) => {
     })
 })
 
+// Mostrar eventos creados por el usuario que estan en el pasado
 router.get('/historial', (req, res) => {
     const user_id = req.session.userId;
     const query = "SELECT * FROM eventos WHERE organizador = ? AND (fecha < CURDATE() OR (fecha = CURDATE() AND hora < CURTIME())) ORDER BY fecha DESC, hora DESC";
@@ -38,6 +40,7 @@ router.get('/historial', (req, res) => {
     })
 })
 
+// Mostrar el historial de asistentes a un evento
 router.get('/historial/:event_id', async (req, res) => {
     const event_id = Number(req.params.event_id);
     console.log("Iniciando solicitud para el evento:", event_id);
@@ -97,7 +100,7 @@ router.get('/historial/:event_id', async (req, res) => {
     });
 });
 
-
+// Modificar evento
 router.post('/modificar/:event_id', (req, res) => {
     const { titulo, descripcion, fecha, hora, ubicacion, capacidad, tipo } = req.body;
     const event_id = Number(req.params.event_id);
@@ -112,6 +115,7 @@ router.post('/modificar/:event_id', (req, res) => {
     });
 })
 
+// Eliminar evento
 router.post('/eliminar/:event_id', (req, res) => {
     console.log("Solicitud POST recibida para eliminar evento:", req.params.event_id);
 
@@ -209,7 +213,7 @@ router.post('/eliminar/:event_id', (req, res) => {
 });
 
 
-
+// Eliminar usuario de evento
 router.post('/eliminar/:event_id/:user_id', sendEliminatedNotification, actualizarPosicionesNotificacion, (req, res) => {
     const event_id = Number(req.params.event_id);
     const user_id = Number(req.params.user_id);
@@ -229,6 +233,7 @@ router.post('/eliminar/:event_id/:user_id', sendEliminatedNotification, actualiz
     });
 });
 
+// funcion para actualizar las inscripciones, actualizando la lista de espera
 function actualizarInscripciones(req, res) {
     const event_id = Number(req.params.event_id);
 
@@ -294,6 +299,7 @@ function actualizarInscripciones(req, res) {
     });
 }
 
+// Bloquear acceso a usuarios que no sean organizadores
 function bloquearAcceso(req, res, next) {
     const query = 'SELECT rol FROM usuarios WHERE id = ?';
     pool.query(query, [req.session.userId], (err, results) => {
@@ -311,6 +317,7 @@ function bloquearAcceso(req, res, next) {
     });
 }
 
+// Enviar notificación al usuario eliminado
 function sendEliminatedNotification(req, res, next) {
     const event_id = Number(req.params.event_id);
     const user_id = Number(req.params.user_id);
@@ -336,6 +343,7 @@ function sendEliminatedNotification(req, res, next) {
 
 }
 
+// Actualizar posiciones de la lista de espera
 function actualizarPosicionesNotificacion(req, res, next) {
     const user_id = req.params.user_id;
     const event_id = req.params.event_id;
