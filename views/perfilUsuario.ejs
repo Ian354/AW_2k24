@@ -39,27 +39,7 @@
    
    <!--------------------------------MODALES--------------------------->
    
-    <!--Modal de opciones-->
-    <div class="modal fade" id="botonOpciones" tabindex="-1" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
-        <div class="modal-dialog"> <!--Estructura de modal-->
-            <div class="modal-content"><!--Contenido para el header-body-footer del modal-->
-                <div class="modal-header justify-content-between"><!--Header Modal-->
-                    <h5 id="tituloModal">Menú de Accesibilidad</h5>
-                    <button class="close" data-bs-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body"><!--Cuerpo Modal-->
-                    <div class="alert alert-success"></div>
-                </div>
-                <div class="modal-footer"><!--Footer Modal-->
-                    <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
-                        Cerrar
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+   
 
     <!--Modal de Modificar-->
     <div class="modal fade" id="modalModificar" tabindex="-2" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
@@ -133,5 +113,7 @@
 
     <!--Librería con popper incluida, necesaria para los modales-->
     <script src="/js/bootstrap.bundle.min.js"></script>
+    <%- include('../partials/accesibilidadModal.ejs') %> 
+    <script src="/js/accesibilidadScript.js"></script>
 </body>
 

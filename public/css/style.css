@@ -1,35 +1,173 @@
-*{
+/* General */
+* {
     margin: 0px;
     padding: 0px;
 }
 
-/*ids para los margenes necesarios*/
-#general{
+/* Margenes necesarios */
+#general {
     margin: 0px;
 }
-#general-centered{
+#general-centered {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
-#general-horizontal{
+#general-horizontal {
     position: absolute;
     left: 50%;
     transform: translate(-50%, 0%);
 }
-#registroSesion{
+#registroSesion {
     padding: 5px;
     margin: 5px;
 }
 
-#display-flex-margin-bottom{
+#display-flex-margin-bottom {
     display: flex;
     margin-bottom: 10px;
 }
-#display-flex{
+#display-flex {
     display: flex;
 }
-#margin-bottom{
+#margin-bottom {
     margin-bottom: 10px;
+}
+
+/* Modo Oscuro */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+}
+
+body.dark-mode,
+body.dark-mode h1,
+body.dark-mode h2,
+body.dark-mode h3,
+body.dark-mode h4,
+body.dark-mode h5,
+body.dark-mode h6,
+body.dark-mode p,
+body.dark-mode a {
+    color: #ffffff;
+}
+
+body.dark-mode .btn {
+    background-color: #333;
+    color: #ffffff;
+}
+
+body.dark-mode .accordion-header {
+    background-color: #333;
+    color: #ffffff;
+}
+
+body.dark-mode a {
+    color: #ffffff; /* Color blanco */
+}
+
+body.dark-mode #informacionPerfil {
+    color: white !important;
+}
+
+/* Dropdown (Desplegable) */
+body.dark-mode .dropdown-menu {
+    background-color: #333333; /* Fondo oscuro */
+    color: #ffffff; /* Texto blanco */
+}
+
+body.dark-mode .dropdown-menu .dropdown-item {
+    color: #ffffff; /* Texto blanco */
+}
+
+body.dark-mode .dropdown-menu .dropdown-item:hover {
+    background-color: #444444; /* Fondo más claro al pasar el mouse */
+    color: #ffffff; /* Texto blanco */
+}
+
+/* Acordeón */
+body.dark-mode .accordion-button {
+    background-color: #333333; /* Fondo oscuro */
+    color: #ffffff; /* Texto blanco */
+}
+
+body.dark-mode .accordion-button:not(.collapsed) {
+    background-color: #444444; /* Fondo más claro para el desplegado */
+    color: #ffffff; /* Texto blanco */
+}
+
+body.dark-mode .accordion-body {
+    background-color: #222222; /* Fondo del contenido desplegado */
+    color: #ffffff; /* Texto blanco */
+}
+
+/* Modal */
+body.dark-mode .modal-content {
+    background-color: #333333; /* Fondo oscuro del modal */
+    color: #ffffff; /* Texto blanco */
+    border: 1px solid #444444; /* Borde oscuro */
+}
+
+body.dark-mode .modal-header,
+body.dark-mode .modal-footer {
+    background-color: #444444; /* Fondo más claro para encabezado y pie */
+    color: #ffffff; /* Texto blanco */
+}
+
+body.dark-mode .modal-body {
+    background-color: #333333; /* Fondo del cuerpo del modal */
+    color: #ffffff; /* Texto blanco */
+}
+
+/* Botón de cierre del modal */
+body.dark-mode .btn-close {
+    filter: invert(1); /* Cambia el color del botón de cierre al modo oscuro */
+    background-color: transparent; /* Fondo transparente */
+    border: none; /* Sin borde */
+}
+
+/* Botones en el modal */
+body.dark-mode .btn-light {
+    background-color: #444444; /* Fondo gris oscuro */
+    color: #ffffff; /* Texto blanco */
+}
+
+body.dark-mode .btn-light:hover {
+    background-color: #555555; /* Fondo más oscuro */
+    color: #ffffff; /* Texto blanco */
+}
+
+body.dark-mode .btn-dark {
+    background-color: #222222; /* Fondo negro */
+    color: #ffffff; /* Texto blanco */
+    border: 1px solid #555555; /* Borde gris oscuro */
+}
+
+body.dark-mode .btn-dark:hover {
+    background-color: #111111; /* Fondo más oscuro */
+    color: #ffffff; /* Texto blanco */
+}
+
+/* Mantener el color rojo del botón "Eliminar" en modo oscuro */
+body.dark-mode .btn-danger {
+    background-color: #dc3545; /* Rojo Bootstrap */
+    color: #ffffff; /* Texto blanco */
+    border-color: #dc3545; /* Borde rojo */
+}
+
+body.dark-mode .btn-danger:hover {
+    background-color: #bb2d3b; /* Rojo más oscuro al pasar el mouse */
+    color: #ffffff; /* Texto blanco */
+    border-color: #bb2d3b; /* Borde más oscuro */
+}
+
+/* Cambiar color de las imágenes en modo oscuro */
+body.dark-mode img {
+    filter: invert(1) brightness(2);
+}
+
+/* Excluir el logo del cambio de color */
+body.dark-mode #logo-original {
+    filter: none !important;
 }

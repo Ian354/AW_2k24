@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/style.css">
-    <script src="/scripts/jquery-3.7.1.min.js"></script>
     <title>Mis Eventos</title>
     <link rel="icon" sizes="192x192" href="/img/icon.png">
 </head>
@@ -21,7 +20,7 @@
                 <div class="col-lg-6 col-12 row rounded-3 border border-black border-3">
                     <div class="col-7 text-center">
                         <div class="mt-2">
-                            <h1><strong><u><%= evento.titulo %></u></strong></h3>
+                            <h1><strong><u><%= evento.titulo %></u></strong></h1>
                         </div>
                         <div class="">
                             <h3><b>Lugar: </b><%= evento.ubicacion %></h3>
@@ -34,66 +33,47 @@
                         </div>
                         <div class="row justify-content-center mb-3">
                             <button class="btn btn-dark col-3 mz-2" id="botonModificar<%= i %>" data-bs-toggle="modal" data-bs-target="#modalModificar<%= i %>">Modificar</button>
-                            <a href="/usuario/eventos/cola/<%= evento.id %>" class="btn btn-dark col-3 mx-2" id="botonCola<%= i %>" h>Cola</a>
+                            <a href="/usuario/eventos/cola/<%= evento.id %>" class="btn btn-dark col-3 mx-2" id="botonCola<%= i %>">Cola</a>
                             <button class="btn btn-danger col-3 eliminar-btn" id="<%= evento.id %>">Eliminar</button>
                         </div>
                     </div>
                     <img class="img-fluid col-5" src="/img/<%= evento.tipo %>.png" style="width:40%;">
                 </div>
                 <% i++; %>
-                <% if(i !== eventos.length){ %>
-                    <% evento = eventos[i] %>
-                    <div class="col-lg-6 col-12 row rounded-3 border border-black border-3">
-                        <div class="col-7 text-center">
-                            <div class="mt-2">
-                                <h1><strong><u><%= evento.titulo %></u></strong></h3>
-                            </div>
-                            <div class="">
-                                <h3><b>Lugar: </b><%= evento.ubicacion %></h3>
-                            </div>
-                            <div class="">
-                                <h4><strong>Fecha: </strong><%= (evento.fecha).toLocaleDateString('es-ES') %></h4>
-                            </div>
-                            <div class="">
-                                <h4><strong>Hora: </strong><%= evento.hora %></h4>
-                            </div>
-                            <div class="row justify-content-center mb-3">
-                                <button class="btn btn-dark col-3 mz-2" id="botonModificar<%= i %>" data-bs-toggle="modal" data-bs-target="#modalModificar<%= i %>">Modificar</button>
-                                <a href="/usuario/eventos/cola/<%= evento.id %>" class="btn btn-dark col-3 mx-2" id="botonCola<%= i %>" h>Cola</a>
-                                <button class="btn btn-danger col-3 eliminar-btn" id="<%= evento.id %>">Eliminar</button>
-                            </div>
+                <% if(i !== eventos.length) { %>
+                <% evento = eventos[i] %>
+                <div class="col-lg-6 col-12 row rounded-3 border border-black border-3">
+                    <div class="col-7 text-center">
+                        <div class="mt-2">
+                            <h1><strong><u><%= evento.titulo %></u></strong></h1>
                         </div>
-                        <img class="img-fluid col-5" src="/img/<%= evento.tipo %>.png" style="width:40%;">
+                        <div class="">
+                            <h3><b>Lugar: </b><%= evento.ubicacion %></h3>
+                        </div>
+                        <div class="">
+                            <h4><strong>Fecha: </strong><%= (evento.fecha).toLocaleDateString('es-ES') %></h4>
+                        </div>
+                        <div class="">
+                            <h4><strong>Hora: </strong><%= evento.hora %></h4>
+                        </div>
+                        <div class="row justify-content-center mb-3">
+                            <button class="btn btn-dark col-3 mz-2" id="botonModificar<%= i %>" data-bs-toggle="modal" data-bs-target="#modalModificar<%= i %>">Modificar</button>
+                            <a href="/usuario/eventos/cola/<%= evento.id %>" class="btn btn-dark col-3 mx-2" id="botonCola<%= i %>">Cola</a>
+                            <button class="btn btn-danger col-3 eliminar-btn" id="<%= evento.id %>">Eliminar</button>
+                        </div>
                     </div>
+                    <img class="img-fluid col-5" src="/img/<%= evento.tipo %>.png" style="width:40%;">
+                </div>
                 <% } %>
             </div>
             <% } %>
         </div>
     </div>
    
-   <!--------------------------------MODALES--------------------------->
-   
+    <!--------------------------------MODALES--------------------------->
+
     <!--Modal de opciones-->
-    <div class="modal fade" id="botonOpciones" tabindex="-1" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
-        <div class="modal-dialog"> <!--Estructura de modal-->
-            <div class="modal-content"><!--Contenido para el header-body-footer del modal-->
-                <div class="modal-header justify-content-between"><!--Header Modal-->
-                    <h5 id="tituloModal">Menú de Accesibilidad</h5>
-                    <button class="close" data-bs-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body"><!--Cuerpo Modal-->
-                    <div class="alert alert-success"></div>
-                </div>
-                <div class="modal-footer"><!--Footer Modal-->
-                    <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
-                        Cerrar
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <%- include('../partials/accesibilidadModal.ejs') %> 
 
     <!--Modal de Modificar-->
     <% for(let i = 0; i < eventos.length; i++) { %>
@@ -102,82 +82,75 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header justify-content-between">
-                    <h5 id="tituloEvento<%= i %>">Evento 1</h5>
-                    <button class="close" data-bs-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+                    <h5 id="tituloEvento<%= i %>">Modificar Evento</h5>
+                    <button class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
-                <div class="modal-body"><!--Cuerpo Modal-->
-                        <form action="/usuario/eventos/modificar/<%= evento.id %>" class="text-center" id="registroSesion" method="post">
-                            <div id="margin-bottom">
-                                <b>Titulo</b>
-                                <input type="text" class="form-control" name="titulo" value="<%= evento.titulo %>" required>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Descripcion</b>
-                                <textarea class="form-control" name="descripcion" id="exampleFormControlTextarea1" rows="3"><%= evento.descripcion %></textarea>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Fecha</b>
-                                <input type="date" class="form-control" name="fecha" value="<%= evento.fecha %>" required>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Hora</b>
-                                <input type="time" class="form-control" name="hora" value="<%= evento.hora %>" required>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Ubicacion</b>
-                                <input type="text" class="form-control" name="ubicacion" value="<%= evento.ubicacion %>" required>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Capacidad Maxima</b>
-                                <input type="text" class="form-control" name="capacidad" value="<%= evento.capacidad %>" required>
-                            </div>
-                            <div id="margin-bottom">
-                                <b>Tipo de evento</b>
-                                <select type="text" name="tipo" class="form-control" required>
-                                    <option>Seminario</option>
-                                    <option>Taller</option>
-                                    <option>Conferencia</option>
-                                </select>
-                            </div>
-                            <div>
-                                <input type="submit" value="Editar Evento" class="btn btn-dark mt-3 mb-3 col-12">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer"><!--Footer Modal-->
-                        <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
-                            Cerrar
+                <div class="modal-body">
+                    <form action="/usuario/eventos/modificar/<%= evento.id %>" class="text-center" id="registroSesion" method="post">
+                        <div id="margin-bottom">
+                            <b>Titulo</b>
+                            <input type="text" class="form-control" name="titulo" value="<%= evento.titulo %>" required>
                         </div>
-                    </div>
+                        <div id="margin-bottom">
+                            <b>Descripcion</b>
+                            <textarea class="form-control" name="descripcion" rows="3"><%= evento.descripcion %></textarea>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Fecha</b>
+                            <input type="date" class="form-control" name="fecha" value="<%= evento.fecha %>" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Hora</b>
+                            <input type="time" class="form-control" name="hora" value="<%= evento.hora %>" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Ubicacion</b>
+                            <input type="text" class="form-control" name="ubicacion" value="<%= evento.ubicacion %>" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Capacidad Maxima</b>
+                            <input type="text" class="form-control" name="capacidad" value="<%= evento.capacidad %>" required>
+                        </div>
+                        <div id="margin-bottom">
+                            <b>Tipo de evento</b>
+                            <select name="tipo" class="form-control" required>
+                                <option>Seminario</option>
+                                <option>Taller</option>
+                                <option>Conferencia</option>
+                            </select>
+                        </div>
+                        <div>
+                            <input type="submit" value="Editar Evento" class="btn btn-dark mt-3 col-12">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-dark" type="button" data-bs-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
     </div>
     <% } %>
 
-    <!-- Eliminación Modal -->
-
-    <div class="modal fade" id="eliminarEventoModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confirmationModalLabel">Evento Eliminado</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    Has eliminado el evento correctamente.
-                </div>
-                <div class="modal-footer">
-                    <a href="/usuario/eventos" id="cerrarModalEliminar" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="/js/eliminarEvento.js"></script>
     <!--------------------------------LIBRERIAS--------------------------->
 
-    <!--Librería con popper incluida, necesaria para los modales-->
+    <!--Librería con popper incluida-->
     <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/accesibilidadScript.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Prevención de conflictos entre modales
+            $('#botonOpciones').on('show.bs.modal', function () {
+                $('.modal.show').not(this).modal('hide');
+            });
+
+            // Reparar bloqueo del scroll al cerrar el modal
+            $(document).on('hidden.bs.modal', function () {
+                if ($('.modal.show').length > 0) {
+                    $('body').addClass('modal-open');
+                }
+            });
+        });
+    </script>
 </body>
+</html>

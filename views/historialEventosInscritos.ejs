@@ -19,7 +19,7 @@
                 <div class="col-6 row rounded-3 border border-black border-3">
                     <div class="col-7 text-center">
                         <div class="mt-2">
-                            <h1><strong><u><%= eventos[i].titulo %></u></strong></h3>
+                            <h1><strong><u><%= eventos[i].titulo %></u></strong></h1>
                         </div>
                         <div class="">
                             <h3><b>Lugar: </b><%= eventos[i].ubicacion %></h3>
@@ -38,7 +38,7 @@
                 <div class="col-6 row rounded-3 border border-black border-3">
                     <div class="col-7 text-center">
                         <div class="mt-2">
-                            <h1><strong><u><%= eventos[i].titulo %></u></strong></h3>
+                            <h1><strong><u><%= eventos[i].titulo %></u></strong></h1>
                         </div>
                         <div class="">
                             <h3><b>Lugar: </b><%= eventos[i].ubicacion %></h3>
@@ -52,36 +52,39 @@
                     </div>
                     <img class="img-fluid col-5" src="/img/<%= eventos[i].tipo %>.png" style="width:40%;">
                 </div>
-            <% } %>
+                <% } %>
             </div>
             <% } %>
+        </div>
     </div>
    
    <!--------------------------------MODALES--------------------------->
-   
-    <!--Modal de opciones-->
-    <div class="modal fade" id="botonOpciones" tabindex="-1" role="dialog" aria-labelledby="tituloModal" aria-hidden="true">
-        <div class="modal-dialog"> <!--Estructura de modal-->
-            <div class="modal-content"><!--Contenido para el header-body-footer del modal-->
-                <div class="modal-header justify-content-between"><!--Header Modal-->
-                    <h5 id="tituloModal">Menú de Accesibilidad</h5>
-                    <button class="close" data-bs-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body"><!--Cuerpo Modal-->
-                    <div class="alert alert-success"></div>
-                </div>
-                <div class="modal-footer"><!--Footer Modal-->
-                    <div class="btn btn-dark" type="button" data-bs-dismiss="modal">
-                        Cerrar
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--------------------------------LIBRERIAS--------------------------->
 
-    <!--Librería con popper incluida, necesaria para los modales-->
+    <!-- Incluir modal de accesibilidad -->
+    <%- include('../partials/accesibilidadModal.ejs') %> 
+
+    <!--------------------------------LIBRERIAS--------------------------->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/accesibilidadScript.js"></script>
+
+    <!-- Scripts para manejar problemas de modal -->
+    <script>
+        $(document).ready(function () {
+            // Forzar que el scroll del body no se bloquee al cerrar un modal
+            $(document).on('hidden.bs.modal', function () {
+                if ($('.modal.show').length > 0) {
+                    $('body').addClass('modal-open');
+                } else {
+                    $('body').removeClass('modal-open');
+                }
+            });
+
+            // Asegurarse de que el modal de accesibilidad no interfiera con otros modales
+            $('#botonOpciones').on('show.bs.modal', function () {
+                $('.modal.show').not(this).modal('hide'); // Cierra otros modales si están abiertos
+            });
+        });
+    </script>
 </body>
+</html>
