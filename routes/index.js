@@ -64,6 +64,55 @@ router.get('/calendario', (req, res) => {
         });
 });
 
+router.get('/get-eventos', (req, res) => {
+    const query = "SELECT * FROM eventos where activo = 1";
+    pool.query(query, (err, results) => {
+        if (err) {
+            throw err;
+        }
+
+        var eventos = [];
+        for (let i = 0; i < results.length; i++) {
+            const evento = results[i];
+            eventos.push({
+                id: evento.id,
+                title: evento.titulo,
+                start: evento.fecha,
+                description: evento.descripcion
+            });
+        }
+        res.json(eventos);
+    });
+});
+
+// Pantalla de recuperación de contraseña
+router.get('/recuperarPassword', (req, res) => {
+    res.render('recuperarPassword'); 
+});
+
+router.post('/set-password', (req, res) => {
+    const { correo, password1, password2 } = req.body;
+    const query = "SELECT * FROM usuarios WHERE correo = ?";
+    pool.query(query, [correo], (err, results) => {
+        if (err) throw err;
+
+        if(results.length == 0) { // no existe ese usuario
+            return res.render('recuperarPassword', { error: `Usuario con correo ${correo} no existe` })
+        }
+
+        if(password1 !== password2) { // contraseñas no coinciden
+            return res.render('recuperarPassword', { error: `Las contraseñas no coinciden` })
+        }
+
+        const updateQuery = "UPDATE usuarios SET contraseña = ? WHERE correo = ?";
+        pool.query(updateQuery, [password1, correo], (err) => {
+            if (err) throw err;
+
+            res.redirect('/login');
+        });
+    });
+});
+
 // Mostrar eventos aplicando la búsqueda personalizada
 router.post('/busqueda', (req, res) => {
     const { fechaInicio, fechaFinal, ubicacion, tipo, capacidad } = req.body;
