@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 
-const pool= mysql.createPool({
+const pool = mysql.createPool({
     host: "localhost",
     user: "root",
     host: "",
@@ -30,12 +30,13 @@ router.get('/', (req, res) => {
             return res.status(404).send('Usuario no encontrado');
         }
 
-        const isOrganizador = userResults[0].rol  === 'organizador';
+        const isOrganizador = userResults[0].rol === 'organizador';
 
         // Consultar eventos
         const queryEventos = `
             SELECT * FROM eventos 
-            WHERE fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())
+            WHERE (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())) 
+            AND activo = 1
             ORDER BY fecha ASC, hora ASC
         `;
 
@@ -48,7 +49,7 @@ router.get('/', (req, res) => {
             // Renderizar la vista con los eventos y el estado de organizador
             res.render('index', {
                 eventos: eventosResults,
-                isOrganizador: isOrganizador, // Pasamos el estado de organizador al EJS
+                isOrganizador: isOrganizador,
                 info: req.flash('info'),
                 msgEvento: req.flash('msgEvento'),
             });
@@ -58,14 +59,13 @@ router.get('/', (req, res) => {
 
 // Mostrar calendario
 router.get('/calendario', (req, res) => {
-
-        res.render('calendario', {
-            isOrganizador: req.session.rol === 'organizador'
-        });
+    res.render('calendario', {
+        isOrganizador: req.session.rol === 'organizador'
+    });
 });
 
 router.get('/get-eventos', (req, res) => {
-    const query = "SELECT * FROM eventos where activo = 1";
+    const query = "SELECT * FROM eventos WHERE activo = 1";
     pool.query(query, (err, results) => {
         if (err) {
             throw err;
@@ -96,11 +96,11 @@ router.post('/set-password', (req, res) => {
     pool.query(query, [correo], (err, results) => {
         if (err) throw err;
 
-        if(results.length == 0) { // no existe ese usuario
+        if (results.length == 0) {
             return res.render('recuperarPassword', { error: `Usuario con correo ${correo} no existe` })
         }
 
-        if(password1 !== password2) { // contraseñas no coinciden
+        if (password1 !== password2) {
             return res.render('recuperarPassword', { error: `Las contraseñas no coinciden` })
         }
 
@@ -119,10 +119,11 @@ router.post('/busqueda', (req, res) => {
 
     let query = `
         SELECT * FROM eventos 
-        WHERE (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME()))`;
+        WHERE (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())) 
+        AND activo = 1
+    `;
     const params = [];
 
-    // Agregar condiciones dinámicamente según los filtros seleccionados
     if (fechaInicio) {
         query += " AND fecha >= ?";
         params.push(fechaInicio);
@@ -144,17 +145,18 @@ router.post('/busqueda', (req, res) => {
         params.push(capacidad);
     }
 
-    // Ordenar los resultados
     query += " ORDER BY fecha ASC, hora ASC";
 
-    // Ejecutar la consulta
     pool.query(query, params, (err, results) => {
         if (err) {
             throw err;
         }
 
         pool.query("SELECT rol FROM usuarios WHERE id = ?", [req.session.userId], (err, results2) => {
-            // Renderizar la vista index con los resultados filtrados
+            if (err) {
+                throw err;
+            }
+
             res.render('index', {
                 eventos: results,
                 isOrganizador: results2[0].rol === 'organizador',
@@ -164,71 +166,67 @@ router.post('/busqueda', (req, res) => {
 });
 
 // Apuntar a un usuario a un evento
-router.post('/apuntar/:evento', async (req, res) => {
+router.post('/apuntar/:evento', (req, res) => {
     const user_id = req.session.userId;
     const event_id = Number(req.params.evento);
 
-    let capacidad;
-    const query1 = "SELECT * FROM eventos WHERE id = ?";
+    const query1 = "SELECT * FROM eventos WHERE id = ? AND activo = 1";
     pool.query(query1, [event_id], (err, results) => {
-        capacidad = results[0].capacidad;
-        let estado;
-        let puesto = null;
-        let inscripciones;
+        if (err || results.length === 0) {
+            return res.status(404).json({ success: false, message: "Evento no disponible" });
+        }
+
+        const evento = results[0];
+        const capacidad = evento.capacidad;
 
         const query2 = "SELECT usuario_id FROM inscripciones WHERE evento_id = ?";
         pool.query(query2, [event_id], (err, results2) => {
-            inscripciones = results2.length;
-            if(inscripciones < capacidad) {
-                estado = "apuntado_" + (inscripciones + 1);
-            }
-            else { 
+            const inscripciones = results2.length;
+            let estado;
+            let puesto = null;
+
+            if (inscripciones < capacidad) {
+                estado = `apuntado_${inscripciones + 1}`;
+            } else {
                 puesto = inscripciones + 1 - capacidad;
-                estado = "listaEspera_" + puesto;
+                estado = `listaEspera_${puesto}`;
             }
 
-            // Se debe comprobar que el usuario no esta ya apuntado en el evento
             pool.query("SELECT * FROM inscripciones WHERE usuario_id = ? AND evento_id = ?", [user_id, event_id], (err, results3) => {
-                const insertQuery = "INSERT INTO inscripciones (usuario_id, evento_id, estado, fecha) VALUES (?, ?, ?, CURDATE())";
-                pool.query(insertQuery, [user_id, event_id, estado]);
-                const notificationQuery = "INSERT INTO notificaciones (id_usuario, titulo, contenido, hora) VALUES (?, ?, ?, NOW())";
-
                 if (results3.length > 0) {
-                    yaApuntado = true;
                     return res.json({ success: true, message: "Ya estás apuntado en este evento", title: "Ya estás apuntado" });
                 }
-                else if(estado.includes("apuntado")){ // si entra al evento
-                    pool.query(notificationQuery, [user_id, "Estás apuntado!", `Estás apuntado en el evento ${results[0].titulo}`], (err) => {
-                        if (err) throw err;
 
-                        console.log(`Usuario ${user_id} apuntado en evento ${event_id}`);
-                        return res.json({ success: true, message: `Enhorabuena! Estás apuntado en el evento ${results[0].titulo}!`, title: "Estás apuntado!" });
-                    });
-                }
-                else { // si entra en lista de espera
-                    pool.query(notificationQuery, [user_id, "Estás en la lista de espera", `Aviso: Estás en la lista de espera en el puesto ${puesto} en el evento ${results[0].titulo}`], (err) => {
-                        if (err) throw err;
+                const insertQuery = "INSERT INTO inscripciones (usuario_id, evento_id, estado, fecha) VALUES (?, ?, ?, CURDATE())";
+                pool.query(insertQuery, [user_id, event_id, estado], (err) => {
+                    if (err) throw err;
 
-                        console.log(`Usuario ${user_id} en lista de espera para el evento ${event_id} en el puesto ${puesto}`);
-                        return res.json({ success: true, message: `Aviso: Estás en la lista de espera en el puesto ${puesto} para el evento ${results[0].titulo}`, title: "Estás en la lista de espera" });
-                    });
-                } 
+                    const notificationQuery = "INSERT INTO notificaciones (id_usuario, titulo, contenido, hora) VALUES (?, ?, ?, NOW())";
+
+                    if (estado.includes("apuntado")) {
+                        pool.query(notificationQuery, [user_id, "Estás apuntado!", `Estás apuntado en el evento ${evento.titulo}`]);
+                        res.json({ success: true, message: `Enhorabuena! Estás apuntado en el evento ${evento.titulo}!`, title: "Estás apuntado!" });
+                    } else {
+                        pool.query(notificationQuery, [user_id, "Estás en la lista de espera", `Estás en la lista de espera en el puesto ${puesto} para el evento ${evento.titulo}`]);
+                        res.json({ success: true, message: `Estás en la lista de espera en el puesto ${puesto} para el evento ${evento.titulo}`, title: "Estás en la lista de espera" });
+                    }
+                });
             });
         });
     });
-})
+});
 
 // Publicar un nuevo evento
 router.post("/nuevoEvento", (req, res) => {
     const user_id = req.session.userId;
-    console.log('User ID en la sesión:', req.session.userId);
+    const { titulo, descripcion, fecha, hora, tipo, ubicacion, capacidad } = req.body;
 
-    const {titulo, descripcion, fecha, hora, tipo, ubicacion, capacidad} = req.body;
-    console.log(req.body);
-    const query = 
-    `INSERT INTO eventos
-    (organizador, titulo, descripcion, fecha, hora, tipo, ubicacion, capacidad) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;    
-    
+    const query = `
+        INSERT INTO eventos 
+        (organizador, titulo, descripcion, fecha, hora, tipo, ubicacion, capacidad, activo) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, 1)
+    `;
+
     pool.query(query, [user_id, titulo, descripcion, fecha, hora, tipo, ubicacion, capacidad], (err) => {
         if (err) throw err;
 
