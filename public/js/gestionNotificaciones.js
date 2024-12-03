@@ -38,11 +38,11 @@ $(document).ready(function() {
             success: function(response) {
                 $('#titulo-' + emailId).remove();
                 $('#contenido-' + emailId).remove();
-                // Pasar a la siguiente notificación
-                $('.notif-content').hide();
-                $('#contenido-' + (emailId)).show();
+                $('#contenido-' + $('.notif-item').length).show();
+
                 // Actualizar los id de las notificaciones que estan por encima de la eliminada
                 var nextEmailId = emailId + 1;
+                var length = º('.notif-item').length;
                 for (var i = nextEmailId; i < $('.notif-item').length + 1; i++) {
                     console.log(i);
                     $('#titulo-' + i).attr('id', 'titulo-' + (i - 1));
@@ -51,7 +51,6 @@ $(document).ready(function() {
                     $('#contenido-' + (i - 1)).find('.prev-notif').attr('data-email-id', i - 1);
                     $('#contenido-' + (i - 1)).find('.delete-notif').attr('data-email-id', i - 1);
                 }
-
 
             }
         });
