@@ -36,9 +36,9 @@ En el perfil de usuario encontramos la información básica del usuario, junto c
     
 ## Base de datos
 
-En este proyecto contamos con una base de datos relacional implementada con MySQL. Esta base de datos costa de 4 tablas: usuarios, eventos, inscripciones y notificaciones. La definición de la base de datos se encuentra [aquí](AW_24.sql). 
+En este proyecto contamos con una base de datos relacional implementada con MySQL. Esta base de datos costa de 4 tablas: usuarios, eventos, inscripciones y notificaciones. La definición de la base de datos se encuentra [aquí](resources/AW_24.sql). 
 
 Aquí muestro un esquema para que se puedan ver las relaciones entre las tablas y que filas contienen que se ha obtenido usando PHPMyAdmin:
 
-![esquemaBBDD](esquemaBBDD.png)
+![esquemaBBDD](resources/esquemaBBDD.png)
 
