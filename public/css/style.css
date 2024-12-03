@@ -208,3 +208,32 @@ body.grande #titulo-principal {
 body.pequena #titulo-principal {
     font-size: 2.5rem; /* Tamaño proporcional en modo "pequeño" */
 }
+/* Texto de la lista de notificaciones en modo oscuro */
+body.dark-mode .notif-item .text-singleline {
+    color: #ffffff !important; /* Cambia el texto del título a blanco */
+}
+
+body.dark-mode .notif-item .text-muted {
+    color: #b0b0b0 !important; /* Cambia el texto secundario a un gris claro */
+}
+
+body.dark-mode .notif-item {
+    background-color: #333333; /* Fondo oscuro para las notificaciones */
+    border-color: #444444; /* Borde más oscuro */
+}
+
+/* Botones en modo oscuro */
+body.dark-mode .btn {
+    color: #ffffff;
+    background-color: #444444;
+    border-color: #555555;
+}
+
+body.dark-mode .btn:hover {
+    background-color: #555555;
+    border-color: #666666;
+}
+/* Fecha en modo oscuro */
+body.dark-mode .notif-content .text-muted {
+    color: #ffffff !important; /* Cambia la fecha a color blanco */
+}
