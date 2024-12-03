@@ -13,7 +13,7 @@ const pool= mysql.createPool({
 router.get('/', (req, res) => {
     const user_id = req.session.userId;
 
-    const query = "SELECT evento_id FROM inscripciones WHERE usuario_id = ?";
+    const query = "SELECT evento_id FROM inscripciones WHERE usuario_id = ? AND activo = 1";
     pool.query(query, [user_id], async (err, results) => {
         if (err) {
             console.error(err);
@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
         }
 
         let eventos = [];
-        const query2 = "SELECT * FROM eventos WHERE id = ? AND (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME()))";
+        const query2 = "SELECT * FROM eventos WHERE activo = 1 AND id = ? AND (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME()))";
 
         // Promise.all para que espere a que se completen todos los queries
         const promises = results.map(result => {
@@ -63,7 +63,7 @@ router.post('/desapuntar/:event_id', (req, res) => {
     const user_id = req.session.userId;
     const event_id = req.params.event_id;
 
-    const query = "DELETE FROM inscripciones WHERE usuario_id = ? AND evento_id = ?";
+    const query = "UPDATE inscripciones SET activo = 0 WHERE usuario_id = ? AND evento_id = ?";
     pool.query(query, [user_id, event_id], (err, results) => {
         console.log(`usuario ${user_id} desapuntado del evento ${event_id}`);
     })
@@ -76,10 +76,10 @@ router.post('/desapuntar/:event_id', (req, res) => {
 router.get('/historial', (req, res) => {
     const user_id = req.session.userId;
 
-    const query = "SELECT evento_id FROM inscripciones WHERE usuario_id = ? AND estado = ?";
+    const query = "SELECT evento_id FROM inscripciones WHERE usuario_id = ? AND estado = ? AND activo = 1";
     pool.query(query, [user_id, "apuntado"], async (err, results) => {
         let eventos = [];
-        const query2 = "SELECT * FROM eventos WHERE id = ? AND (fecha < CURDATE() OR (fecha = CURDATE() AND hora < CURTIME()))";
+        const query2 = "SELECT * FROM eventos WHERE id = ? AND activo = 1 AND (fecha < CURDATE() OR (fecha = CURDATE() AND hora < CURTIME()))";
 
         // Promise.all para que espere a que se completen todos los queries
         const promises = results.map(result => {

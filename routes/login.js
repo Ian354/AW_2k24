@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const {correo, contraseña, recordar } = req.body;
-    const query = "SELECT * FROM usuarios WHERE correo = ?";
+    const query = "SELECT * FROM usuarios WHERE correo = ? AND activo = 1";
 
     pool.query(query, [correo], (err, results) => {
         if (err) throw err;

@@ -11,7 +11,7 @@ const pool= mysql.createPool({
 
 // Mostrar buzon de notificaciones
 router.get('/', (req, res) => {
-    const query = 'SELECT * FROM notificaciones WHERE id_usuario = ? ORDER BY id ASC';
+    const query = 'SELECT * FROM notificaciones WHERE activo = 1 AND id_usuario = ? ORDER BY id ASC';
     pool.query(query, [req.session.userId], (err, results) => {
         if(err) throw err;
 
@@ -35,11 +35,11 @@ router.get('/', (req, res) => {
 router.get('/fetch-notifications', (req, res) => {
     // Obtener las notificaciones que no se han mostrado
     const user_id = req.session.userId;
-    const query = 'SELECT * FROM notificaciones WHERE id_usuario = ? AND mostrado = 0 ORDER BY id ASC';
+    const query = 'SELECT * FROM notificaciones WHERE activo = 1 AND id_usuario = ? AND mostrado = 0 ORDER BY id ASC';
     pool.query(query, [user_id], (err, results) => {
         if(err) throw err;
 
-        pool.query('SELECT id FROM notificaciones WHERE id_usuario = ? AND mostrado = 1', [user_id], (err, mostrados) => {
+        pool.query('SELECT id FROM notificaciones WHERE activo = 1 AND id_usuario = ? AND mostrado = 1', [user_id], (err, mostrados) => {
             // Actualizar mostrado a 1 para todas las notificaciones
             pool.query('UPDATE notificaciones SET mostrado = 1 WHERE id_usuario = ?', [user_id], (err) => {
                 if(err) throw err;
@@ -69,7 +69,7 @@ router.post('/delete-notification', (req, res) => {
     pool.query(query, [req.session.userId], (err, results) => {
         if(err) throw err;
 
-        pool.query('DELETE FROM notificaciones WHERE id = ?', [results[pos].id], (err) => {
+        pool.query('UPDATE notificaciones SET activo = 1 WHERE id = ?', [results[pos].id], (err) => {
             if(err) throw err;
 
             res.json({

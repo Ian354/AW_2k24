@@ -13,7 +13,7 @@ const pool= mysql.createPool({
 router.get('/:event_id', (req, res) => {
     const userId = req.session.userId;
     const id = req.params.event_id;
-    const query = `SELECT * FROM inscripciones WHERE evento_id = ? ORDER BY estado ASC`;
+    const query = `SELECT * FROM inscripciones WHERE evento_id = ? AND activo = 1 ORDER BY estado ASC`;
   
     pool.query(query, [id], async (err, results) => {
         if (err) {
@@ -24,7 +24,7 @@ router.get('/:event_id', (req, res) => {
             const inscripcionesApuntados = results.filter(inscripcion => inscripcion.estado.includes('apuntado'));
             const inscripcionesListaEspera = results.filter(inscripcion => !inscripcion.estado.includes('apuntado'));
     
-            const query2 = `SELECT * FROM usuarios WHERE id = ?`;
+            const query2 = `SELECT * FROM usuarios WHERE id = ? AND activo = 1`;
 
             // Recoge los datos de todos los usuarios inscritos
             const getUserDetails = (inscripciones) => {
@@ -68,7 +68,7 @@ router.post('/eliminar/:user_id/:event_id', (req, res) => {
     const event_id = req.params.event_id;
     const user_id = req.params.user_id;
 
-    const query = "DELETE * FROM inscripciones WHERE usuario_id = ? AND evento_id = ?";
+    const query = "UPDATE inscripciones SET activo = 0 WHERE usuario_id = ? AND evento_id = ?";
     pool.query(query, [user_id, event_id], (err, results) => {
         if (err) throw err;
 

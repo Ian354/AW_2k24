@@ -69,7 +69,7 @@ function validacionCorreo(req, res, next) {
 // Comprobar si el usuario ya existe
 function usuarioExiste(req, res, next) {
     const { correo } = req.body;
-    const query = "SELECT * FROM usuarios WHERE correo = ?";
+    const query = "SELECT * FROM usuarios WHERE correo = ? AND activo = 1";
 
     pool.query(query, [correo], (err, results) => {
         if (err) throw err;
