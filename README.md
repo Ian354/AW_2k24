@@ -49,8 +49,8 @@ En el perfil de usuario encontramos la información básica del usuario, junto c
 	/ : Perrmite logearse si los datos coinciden
 - **/registro**: formulario para registarse
 	/ : Actualiza la BD si todoss los datos están bien añadiendo un nuevo usuario
-- **/usuario**: muestra la informacion de perfil del usuario
-	/ : Ruta para actualizar el perfil del usuario
+- **/usuario**: muestra la informacion de perfil del usuario \n
+	/ : Ruta para actualizar el perfil del usuario\n
 	/cerrar : Permite cerrar la sesión del usuario
 	- **/eventos**: eventos que maneja el admin
 		/modificar/:event_id: Permite modificar uno de tus eventos
@@ -60,7 +60,7 @@ En el perfil de usuario encontramos la información básica del usuario, junto c
 			/eliminar/:user_id/:event_id: Permite eliminar a un usuario del evento
 	- **/inscritos**: eventos en los que esta inscrito el usuario
 		/desapuntar/:event_id: Permite a los usuarios desapuntarse de un evento específico
-
+    
 ## Base de datos
 
 En este proyecto contamos con una base de datos relacional implementada con MySQL. Esta base de datos costa de 4 tablas: usuarios, eventos, inscripciones y notificaciones. La definición de la base de datos se encuentra [aquí](resources/AW_24.sql). 
