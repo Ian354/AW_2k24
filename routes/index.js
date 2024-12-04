@@ -35,7 +35,7 @@ router.get('/', (req, res) => {
         // Consultar eventos
         const queryEventos = `
             SELECT * FROM eventos 
-            WHERE activo = 1 AND fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())
+            WHERE activo = 1 AND (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())) 
             ORDER BY fecha ASC, hora ASC
         `;
 
