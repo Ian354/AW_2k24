@@ -21,7 +21,7 @@ router.get('/', (req, res) => {
         }
 
         let eventos = [];
-        const query2 = "SELECT * FROM eventos WHERE id = ? AND (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())) AND activo = 1";
+        const query2 = "SELECT * FROM eventos WHERE activo = 1 AND id = ? AND (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME()))";
 
         const promises = results.map(result => {
             return new Promise((resolve, reject) => {
@@ -59,7 +59,6 @@ router.post('/desapuntar/:event_id', (req, res) => {
     const user_id = req.session.userId;
     const event_id = req.params.event_id;
 
-    // Cambiar `activo` a 0 en lugar de eliminar la fila
     const query = "UPDATE inscripciones SET activo = 0 WHERE usuario_id = ? AND evento_id = ?";
     pool.query(query, [user_id, event_id], (err, results) => {
         if (err) {
@@ -85,7 +84,7 @@ router.get('/historial', (req, res) => {
         }
 
         let eventos = [];
-        const query2 = "SELECT * FROM eventos WHERE id = ? AND (fecha < CURDATE() OR (fecha = CURDATE() AND hora < CURTIME())) AND activo = 1";
+        const query2 = "SELECT * FROM eventos WHERE id = ? AND activo = 1 AND (fecha < CURDATE() OR (fecha = CURDATE() AND hora < CURTIME()))";
 
         const promises = results.map(result => {
             return new Promise((resolve, reject) => {

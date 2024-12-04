@@ -20,7 +20,7 @@ router.use('/eventos', misEventosRouter);
 router.get('/', (req, res) => {
     const userId = req.session.userId;
 
-    const query = `SELECT * FROM usuarios WHERE id = ?`;
+    const query = `SELECT * FROM usuarios WHERE id = ? AND activo = 1`;
   
     pool.query(query, [userId], (err, results) => {
         if (err) {

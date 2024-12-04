@@ -19,7 +19,7 @@ router.use(bloquearAcceso);
 // Mostrar eventos creados por el usuario que estan en el futuro
 router.get('/', (req, res) => {
     const user_id = req.session.userId;
-    const query = "SELECT * FROM eventos WHERE organizador = ? AND (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())) ORDER BY fecha ASC, hora ASC";
+    const query = "SELECT * FROM eventos WHERE activo = 1 AND organizador = ? AND (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())) ORDER BY fecha ASC, hora ASC";
     pool.query(query, [user_id], (err, results) => {
         res.render('misEventos', {
             eventos: results,
@@ -31,7 +31,7 @@ router.get('/', (req, res) => {
 // Mostrar eventos creados por el usuario que estan en el pasado
 router.get('/historial', (req, res) => {
     const user_id = req.session.userId;
-    const query = "SELECT * FROM eventos WHERE organizador = ? AND (fecha < CURDATE() OR (fecha = CURDATE() AND hora < CURTIME())) ORDER BY fecha DESC, hora DESC";
+    const query = "SELECT * FROM eventos WHERE activo = 1 AND organizador = ? AND (fecha < CURDATE() OR (fecha = CURDATE() AND hora < CURTIME())) ORDER BY fecha DESC, hora DESC";
     pool.query(query, [user_id], (err, results) => {
         res.render('historialMisEventos', {
             eventos: results,
@@ -46,7 +46,7 @@ router.get('/historial/:event_id', async (req, res) => {
     console.log("Iniciando solicitud para el evento:", event_id);
 
     // Obtener todas las inscripciones para el evento
-    const query = `SELECT * FROM inscripciones WHERE evento_id = ? AND estado LIKE 'apuntado%' ORDER BY estado ASC`;
+    const query = `SELECT * FROM inscripciones WHERE activo = 1 AND evento_id = ? AND estado LIKE 'apuntado%' ORDER BY estado ASC`;
     pool.query(query, [event_id], async (err, results) => {
         if (err) {
             console.error("Error al obtener inscripciones:", err);
@@ -133,7 +133,7 @@ router.post('/eliminar/:event_id', (req, res) => {
             const usuarios = results.map(row => row.usuario_id);
 
             // Eliminar todas las inscripciones del evento, si existen
-            const deleteInscripcionesQuery = `DELETE FROM inscripciones WHERE evento_id = ?`;
+            const deleteInscripcionesQuery = `UPDATE inscripciones SET activo = 0 WHERE evento_id = ?`;
             pool.query(deleteInscripcionesQuery, [event_id], (err, result) => {
                 if (err) {
                     console.error("Error al eliminar inscripciones:", err);
@@ -146,7 +146,7 @@ router.post('/eliminar/:event_id', (req, res) => {
                 if (usuarios.length === 0) {
                     console.log("No hay usuarios inscritos. Procediendo a eliminar el evento.");
 
-                    const deleteEventQuery = `DELETE FROM eventos WHERE id = ?`;
+                    const deleteEventQuery = `UPDATE eventos SET activo = 0 WHERE id = ?`;
                     pool.query(deleteEventQuery, [event_id], (err, result) => {
                         if (err) {
                             console.error("Error al eliminar el evento:", err);
@@ -154,7 +154,7 @@ router.post('/eliminar/:event_id', (req, res) => {
                         }
 
                         console.log(`Evento ${event_id} eliminado correctamente.`);
-                        return res.redirect('/usuario/eventos');
+                        return res.json({ success: true, title: "Evento eliminado", message: "Evento eliminado correctamente" });
                     });
 
                     return; // Salir de la ejecución aquí
@@ -187,7 +187,7 @@ router.post('/eliminar/:event_id', (req, res) => {
                         console.log("Notificaciones enviadas a todos los usuarios eliminados.");
 
                         // Ahora eliminar el evento
-                        const deleteEventQuery = `DELETE FROM eventos WHERE id = ?`;
+                        const deleteEventQuery = `UPDATE eventos SET activo = 0 WHERE id = ?`;
                         pool.query(deleteEventQuery, [event_id], (err, result) => {
                             if (err) {
                                 console.error("Error al eliminar el evento:", err);
@@ -219,7 +219,7 @@ router.post('/eliminar/:event_id/:user_id', sendEliminatedNotification, actualiz
     const user_id = Number(req.params.user_id);
 
     // Elimina el usuario con id user_id del evento con id event_id, si existe
-    const deleteQuery = `DELETE FROM inscripciones WHERE evento_id = ? AND usuario_id = ?`;
+    const deleteQuery = `UPDATE inscripciones SET activo = 0 WHERE evento_id = ? AND usuario_id = ?`;
     pool.query(deleteQuery, [event_id, user_id], (err, result) => {
         if (err) {
             console.error(err);
@@ -238,7 +238,7 @@ function actualizarInscripciones(req, res) {
     const event_id = Number(req.params.event_id);
 
     // Recoge la capacidad del evento
-    const capacityQuery = `SELECT capacidad FROM eventos WHERE id = ?`;
+    const capacityQuery = `SELECT capacidad FROM eventos WHERE activo = 1 AND id = ?`;
     pool.query(capacityQuery, [event_id], (err, eventResults) => {
         if (err) {
             console.error(err);
@@ -248,7 +248,7 @@ function actualizarInscripciones(req, res) {
         const capacidad = eventResults[0].capacidad;
 
         // Recoge las inscripciones del evento
-        const inscripcionesQuery = `SELECT * FROM inscripciones WHERE evento_id = ? ORDER BY estado`;
+        const inscripcionesQuery = `SELECT * FROM inscripciones WHERE activo = 1 AND evento_id = ? ORDER BY estado`;
         pool.query(inscripcionesQuery, [event_id], (err, inscripcionesResults) => {
             if (err) {
                 console.error(err);

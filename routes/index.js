@@ -35,8 +35,7 @@ router.get('/', (req, res) => {
         // Consultar eventos
         const queryEventos = `
             SELECT * FROM eventos 
-            WHERE (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())) 
-            AND activo = 1
+            WHERE fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME()) AND activo = 1
             ORDER BY fecha ASC, hora ASC
         `;
 
@@ -92,7 +91,7 @@ router.get('/recuperarPassword', (req, res) => {
 
 router.post('/set-password', (req, res) => {
     const { correo, password1, password2 } = req.body;
-    const query = "SELECT * FROM usuarios WHERE correo = ?";
+    const query = "SELECT * FROM usuarios WHERE correo = ? AND activo = 1";
     pool.query(query, [correo], (err, results) => {
         if (err) throw err;
 
@@ -119,9 +118,7 @@ router.post('/busqueda', (req, res) => {
 
     let query = `
         SELECT * FROM eventos 
-        WHERE (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME())) 
-        AND activo = 1
-    `;
+        WHERE activo = 1 AND (fecha > CURDATE() OR (fecha = CURDATE() AND hora > CURTIME()))`;
     const params = [];
 
     if (fechaInicio) {
@@ -170,6 +167,7 @@ router.post('/apuntar/:evento', (req, res) => {
     const user_id = req.session.userId;
     const event_id = Number(req.params.evento);
 
+    let capacidad;
     const query1 = "SELECT * FROM eventos WHERE id = ? AND activo = 1";
     pool.query(query1, [event_id], (err, results) => {
         if (err || results.length === 0) {
@@ -179,7 +177,7 @@ router.post('/apuntar/:evento', (req, res) => {
         const evento = results[0];
         const capacidad = evento.capacidad;
 
-        const query2 = "SELECT usuario_id FROM inscripciones WHERE evento_id = ?";
+        const query2 = "SELECT usuario_id FROM inscripciones WHERE evento_id = ? AND activo = 1";
         pool.query(query2, [event_id], (err, results2) => {
             const inscripciones = results2.length;
             let estado;
@@ -192,12 +190,19 @@ router.post('/apuntar/:evento', (req, res) => {
                 estado = `listaEspera_${puesto}`;
             }
 
-            pool.query("SELECT * FROM inscripciones WHERE usuario_id = ? AND evento_id = ?", [user_id, event_id], (err, results3) => {
+            // Se debe comprobar que el usuario no esta ya apuntado en el evento
+            pool.query("SELECT * FROM inscripciones WHERE activo = 1 AND usuario_id = ? AND evento_id = ?", [user_id, event_id], (err, results3) => {
+                if (err) throw err;
+
+                pool.query("DELETE FROM inscripciones WHERE usuario_id = ? AND evento_id = ?", [user_id, event_id]); // Eliminar inscripción previa si se habia apuntado y borrado anteriormente 
+                const insertQuery = "INSERT INTO inscripciones (usuario_id, evento_id, estado, fecha) VALUES (?, ?, ?, CURDATE())";
+                pool.query(insertQuery, [user_id, event_id, estado]);
+                const notificationQuery = "INSERT INTO notificaciones (id_usuario, titulo, contenido, hora) VALUES (?, ?, ?, NOW())";
+
                 if (results3.length > 0) {
                     return res.json({ success: true, message: "Ya estás apuntado en este evento", title: "Ya estás apuntado" });
                 }
 
-                const insertQuery = "INSERT INTO inscripciones (usuario_id, evento_id, estado, fecha) VALUES (?, ?, ?, CURDATE())";
                 pool.query(insertQuery, [user_id, event_id, estado], (err) => {
                     if (err) throw err;
 
