@@ -33,32 +33,52 @@ En el perfil de usuario encontramos la información básica del usuario, junto c
 	- **/inscritos**: eventos en los que esta inscrito el usuario
 
 		- **/historial**: muestra el historial de eventos inscritos del usuario
+    
 
 ## Rutas post:
 
-**/**: 
-	- /set-password: Permite cambiar la contraseña del usuario
-	- /busqueda: Permite filtrar los resultados en función de distintos parámetros
-	- /apuntar/:evento: Permite apuntar a un usuario a algún evento
+- **/**: landing page, de aqui se accede a todo
+
+	/set-password: Permite cambiar la contraseña del usuario
+
+	/busqueda: Permite filtrar los resultados en función de distintos parámetros
+
+	/apuntar/:evento: Permite apuntar a un usuario a algún evento
+
 	/nuevoEvento: Permite crear un nuevo evento
-- **/calendario**: Muestra el calendario de actividades
 
 - **/inbox**: Muestra el buzón de notificaciones
+
 	/delete-notification: Eliminar notificacion
+
 - **/login**: formulario de login
+
 	/ : Perrmite logearse si los datos coinciden
+
 - **/registro**: formulario para registarse
+
 	/ : Actualiza la BD si todoss los datos están bien añadiendo un nuevo usuario
-- **/usuario**: muestra la informacion de perfil del usuario \n
-	/ : Ruta para actualizar el perfil del usuario\n
+
+- **/usuario**: muestra la informacion de perfil del usuario
+	
+	/ : Ruta para actualizar el perfil del usuario
+	
 	/cerrar : Permite cerrar la sesión del usuario
+
 	- **/eventos**: eventos que maneja el admin
+	
 		/modificar/:event_id: Permite modificar uno de tus eventos
+	
 		/eliminar/:event_id: Permite eliminar uno de tus eventos
+	
 		/eliminar/:event_id/:user_id: Elimina a un usuario específico de tu evento
+	
 		- **/cola**: Permite gestionar los usuarios apuntados a uno de tus eventos
+		
 			/eliminar/:user_id/:event_id: Permite eliminar a un usuario del evento
+	
 	- **/inscritos**: eventos en los que esta inscrito el usuario
+
 		/desapuntar/:event_id: Permite a los usuarios desapuntarse de un evento específico
     
 ## Base de datos
