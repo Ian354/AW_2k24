@@ -88,3 +88,9 @@ En este proyecto contamos con una base de datos relacional implementada con MySQ
 Aquí muestro un esquema para que se puedan ver las relaciones entre las tablas y que filas contienen que se ha obtenido usando PHPMyAdmin:
 
 ![esquemaBBDD](resources/esquemaBBDD.png)
+
+## Autores
+
+- Ian Álvarez de Francisco
+
+- Alejandro Relanzón Coello
