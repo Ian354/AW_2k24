@@ -37,9 +37,9 @@ En el perfil de usuario encontramos la información básica del usuario, junto c
 ## Rutas post:
 
 **/**: 
-	/set-password: Permite cambiar la contraseña del usuario
-	/busqueda: Permite filtrar los resultados en función de distintos parámetros
-	/apuntar/:evento: Permite apuntar a un usuario a algún evento
+	- /set-password: Permite cambiar la contraseña del usuario
+	- /busqueda: Permite filtrar los resultados en función de distintos parámetros
+	- /apuntar/:evento: Permite apuntar a un usuario a algún evento
 	/nuevoEvento: Permite crear un nuevo evento
 - **/calendario**: Muestra el calendario de actividades
 
