@@ -89,3 +89,4 @@ Aquí muestro un esquema para que se puedan ver las relaciones entre las tablas 
 
 ![esquemaBBDD](resources/esquemaBBDD.png)
 
+*Web desarrollada para la asignatura de Aplicaciones Web de la carrera de Ingeniería de Software de la Universidad Complutense de Madrid*
